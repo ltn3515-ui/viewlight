@@ -231,10 +231,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const searchTab = document.querySelector('a[href="#search"]');
-  if (searchTab) {
+  const searchModal = document.getElementById('search-modal');
+  if (searchTab && searchModal) {
     searchTab.addEventListener('click', (e) => {
       e.preventDefault();
-      alert('🔍 검색 기능은 현재 준비 중입니다.');
+      searchModal.classList.add('active');
+      const searchInput = document.getElementById('search-input');
+      if (searchInput) {
+        searchInput.value = '';
+        setTimeout(() => searchInput.focus(), 150);
+      }
+      if (window.renderRecentSearches) window.renderRecentSearches();
     });
   }
 
@@ -957,4 +964,140 @@ document.addEventListener('DOMContentLoaded', () => {
       alert(`💔 [${name}] 제품을 관심 목록에서 해제하였습니다.`);
     }
   };
+
+  // ==========================================
+  // 12. 검색 모달 및 스마트 라우팅 인터랙션
+  // ==========================================
+
+  let recentSearches = ['원목 무드등', '오로라', '스캔']; // 디폴트 최근 검색어 예시
+
+  // 12.1. 최근 검색어 리스트 그리기
+  window.renderRecentSearches = function() {
+    const container = document.getElementById('recent-search-container');
+    if (!container) return;
+    
+    if (recentSearches.length === 0) {
+      container.innerHTML = `<div class="search-empty-text" id="recent-search-empty">최근 검색한 내역이 없습니다.</div>`;
+      return;
+    }
+    
+    let html = '';
+    recentSearches.forEach((query, index) => {
+      html += `
+        <div class="recent-search-item">
+          <span class="recent-query-text" onclick="clickSearchKeyword('${query}')">${query}</span>
+          <button type="button" class="btn-remove-recent" onclick="removeRecentSearch(${index})">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  };
+
+  // 12.2. 최근 검색어 개별 삭제
+  window.removeRecentSearch = function(index) {
+    recentSearches.splice(index, 1);
+    window.renderRecentSearches();
+  };
+
+  // 12.3. 검색어 키워드 클릭 시 검색 실행
+  window.clickSearchKeyword = function(keyword) {
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+      searchInput.value = keyword;
+    }
+    performSearch(keyword);
+  };
+
+  // 12.4. 검색 실행 및 스마트 라우팅 핵심 로직
+  function performSearch(query) {
+    if (!query || query.trim() === '') return;
+    query = query.trim();
+
+    // 최근 검색어 기록 추가 (중복 방지 및 상위 이동)
+    const existingIndex = recentSearches.indexOf(query);
+    if (existingIndex > -1) {
+      recentSearches.splice(existingIndex, 1);
+    }
+    recentSearches.unshift(query);
+    if (recentSearches.length > 5) {
+      recentSearches.pop(); // 최대 5개까지만 노출
+    }
+
+    // 모달창 닫기
+    const searchModal = document.getElementById('search-modal');
+    if (searchModal) {
+      searchModal.classList.remove('active');
+    }
+
+    // 검색어 키워드별 스마트 매핑 라우팅 분기
+    const lowerQuery = query.toLowerCase();
+
+    // 1. 카테고리 둘러보기 매핑 (무드등, 둘러보기, 카테고리, 원목, 아크릴, 캐릭터, 세라믹)
+    if (lowerQuery.includes('무드등') || lowerQuery.includes('둘러보기') || lowerQuery.includes('카테고리') || lowerQuery.includes('원목') || lowerQuery.includes('아크릴') || lowerQuery.includes('세라믹') || lowerQuery.includes('공예') || lowerQuery.includes('캠핑') || lowerQuery.includes('종이')) {
+      showView('category-all');
+      return;
+    }
+
+    // 2. AI 스캔 및 공간분석 매핑 (분석, 스캔, 공간, 카메라, 촬영, 수평)
+    if (lowerQuery.includes('분석') || lowerQuery.includes('스캔') || lowerQuery.includes('공간') || lowerQuery.includes('카메라') || lowerQuery.includes('촬영') || lowerQuery.includes('수평') || lowerQuery.includes('센서') || lowerQuery.includes('가이드')) {
+      if (window.openGuideModal) {
+        window.openGuideModal();
+      } else {
+        showView('scan');
+      }
+      return;
+    }
+
+    // 3. 이달의 추천 및 오로라 펜던트 매핑 (추천, 이달, 오로라, 펜던트, 에디터, 브라스)
+    if (lowerQuery.includes('추천') || lowerQuery.includes('이달') || lowerQuery.includes('오로라') || lowerQuery.includes('펜던트') || lowerQuery.includes('에디터') || lowerQuery.includes('브라스') || lowerQuery.includes('아크')) {
+      showView('featured-more');
+      return;
+    }
+
+    // 4. 장바구니 및 구매 매핑 (장바구니, 구매, 결제, 카트, 주문)
+    if (lowerQuery.includes('장바구니') || lowerQuery.includes('구매') || lowerQuery.includes('결제') || lowerQuery.includes('카트') || lowerQuery.includes('주문') || lowerQuery.includes('checkout')) {
+      showView('cart');
+      return;
+    }
+
+    // 5. 마이페이지 및 설정 매핑 (마이, 프로필, 설정, 제어, 스마트, 기기, 가입)
+    if (lowerQuery.includes('마이') || lowerQuery.includes('프로필') || lowerQuery.includes('설정') || lowerQuery.includes('제어') || lowerQuery.includes('스마트') || lowerQuery.includes('기기') || lowerQuery.includes('가입') || lowerQuery.includes('smart')) {
+      showView('mypage');
+      return;
+    }
+
+    // 6. 그 외 키워드는 제품 둘러보기 페이지로 전체 검색 피드백 전달 후 라우팅
+    alert(`🔍 [${query}] 검색 결과를 찾기 위해 무드등 둘러보기(제품 둘러보기) 페이지로 이동합니다.`);
+    showView('category-all');
+  }
+
+  // 12.5. 모달 내 캔슬(취소) 및 백드롭 바인딩
+  const btnSearchCancel = document.getElementById('btn-search-cancel');
+  const searchBackdrop = document.getElementById('search-backdrop');
+
+  function closeSearchModal() {
+    const searchModal = document.getElementById('search-modal');
+    if (searchModal) {
+      searchModal.classList.remove('active');
+    }
+  }
+
+  if (btnSearchCancel) {
+    btnSearchCancel.addEventListener('click', closeSearchModal);
+  }
+  if (searchBackdrop) {
+    searchBackdrop.addEventListener('click', closeSearchModal);
+  }
+
+  // 12.6. 검색창에서 엔터 키 입력 시 검색 실행
+  const searchInputEl = document.getElementById('search-input');
+  if (searchInputEl) {
+    searchInputEl.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        performSearch(searchInputEl.value);
+      }
+    });
+  }
 });

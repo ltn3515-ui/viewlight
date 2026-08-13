@@ -3507,3 +3507,182 @@ img {
 .category-list-card:hover .cat-card-arrow {
   transform: translateX(4px);
 }
+
+/* ==========================================
+   1.9. 검색 모달창 스타일
+   ========================================== */
+.search-card {
+  background-color: #FDFBF7;
+  border-radius: 24px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 380px;
+  box-sizing: border-box;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.search-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.search-input-box {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #FAF6EE;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 0 16px;
+  height: 42px;
+  box-sizing: border-box;
+}
+
+.search-bar-icon {
+  font-size: 20px;
+  color: var(--color-text-sub);
+  margin-right: 8px;
+}
+
+#search-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 0.82rem;
+  color: var(--color-text-main);
+  font-weight: 600;
+  width: 100%;
+}
+
+#search-input::placeholder {
+  color: #A39E93;
+  font-weight: 500;
+}
+
+.btn-search-cancel-link {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text-sub);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.btn-search-cancel-link:hover {
+  color: var(--color-text-main);
+}
+
+.search-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-section-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--color-text-sub);
+  letter-spacing: -0.3px;
+  margin-bottom: 2px;
+}
+
+.trending-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.trend-tag {
+  background-color: #FAF6EE;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-main);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.trend-tag:hover {
+  background-color: #FFAB40;
+  color: #121826;
+  border-color: #FFAB40;
+  transform: translateY(-1px);
+}
+
+.recent-search-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.recent-search-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 4px;
+  border-bottom: 1px solid #FAF6EE;
+}
+
+.recent-search-item:last-child {
+  border-bottom: none;
+}
+
+.recent-query-text {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  cursor: pointer;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.recent-query-text::before {
+  content: "history";
+  font-family: 'Material Symbols Outlined';
+  font-size: 16px;
+  color: #A39E93;
+}
+
+.btn-remove-recent {
+  background: none;
+  border: none;
+  color: #A39E93;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.btn-remove-recent:hover {
+  color: #FF5252;
+}
+
+.btn-remove-recent span {
+  font-size: 16px;
+}
+
+.search-empty-text {
+  font-size: 0.72rem;
+  color: var(--color-text-sub);
+  text-align: center;
+  padding: 24px 0;
+}
