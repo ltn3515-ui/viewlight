@@ -3945,3 +3945,327 @@ img {
 .bna-float-scan-btn:active {
   transform: translateX(-50%) translateY(0);
 }
+
+/* ==========================================
+   1.11. 제품 상세 정보 화면 스타일
+   ========================================== */
+.pd-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 90px;
+}
+
+/* 1. 제품 대형 이미지 카드 */
+.pd-image-card {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  background-color: #FAF6EE;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pd-image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* 매칭률 뱃지 */
+.pd-match-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: linear-gradient(135deg, #FFAB40 0%, #FF9100 100%);
+  color: #121826;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 4px 12px rgba(255, 145, 0, 0.35);
+  animation: pulseGlow 2s infinite alternate;
+}
+
+.pd-sparkle-icon {
+  font-size: 14px;
+}
+
+/* 슬라이더 도트 */
+.pd-slider-dots {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+}
+
+.pd-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  transition: all 0.2s;
+}
+
+.pd-dot.active {
+  background-color: #FFAB40;
+  transform: scale(1.2);
+}
+
+/* 2. 메타 및 텍스트 정보 */
+.pd-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.pd-stars {
+  font-size: 0.85rem;
+}
+
+.pd-rating-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.pd-review-count {
+  font-size: 0.7rem;
+  color: var(--color-text-sub);
+  font-weight: 500;
+}
+
+.pd-product-title {
+  font-size: 1.38rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+  letter-spacing: -0.5px;
+  margin-top: -4px;
+}
+
+.pd-product-desc {
+  font-size: 0.8rem;
+  color: var(--color-text-sub);
+  line-height: 1.55;
+  word-break: keep-all;
+}
+
+.pd-price-row {
+  margin-top: 2px;
+}
+
+.pd-price-val {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+}
+
+/* 3. 스펙 태그 그룹 */
+.pd-specs-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.pd-spec-tag {
+  background-color: #FAF6EE;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-main);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pd-spec-tag span.material-symbols-outlined {
+  font-size: 15px;
+  color: #A39E93;
+}
+
+/* 4. AI 큐레이터 인사이트 */
+.pd-insight-card {
+  background-color: #FDFBF7;
+  border-left: 3px solid #FFAB40;
+  border-radius: 0 12px 12px 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow-card);
+  margin-top: 4px;
+}
+
+.pd-insight-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pd-insight-bulb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #FFF3E0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FF9100;
+}
+
+.pd-insight-bulb span {
+  font-size: 15px;
+}
+
+.pd-insight-title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #E68A00;
+  letter-spacing: -0.3px;
+}
+
+.pd-insight-desc {
+  font-size: 0.75rem;
+  color: var(--color-text-sub);
+  line-height: 1.5;
+  word-break: keep-all;
+  font-weight: 600;
+}
+
+/* 5. 색상 선택 */
+.pd-color-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.pd-section-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--color-text-sub);
+}
+
+.pd-color-palette {
+  display: flex;
+  gap: 12px;
+}
+
+.pd-color-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1), var(--shadow-card);
+  transition: transform 0.2s;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.pd-color-circle.active::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 2px solid var(--color-dark-navy);
+  border-radius: 50%;
+  animation: scaleIn 0.2s ease;
+}
+
+/* 6. 하단 고정 액션바 */
+.pd-footer-actions {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 72px;
+  background-color: #FFFFFF;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  box-sizing: border-box;
+  gap: 12px;
+  z-index: 100;
+}
+
+.pd-circle-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-sub);
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-card);
+}
+
+.pd-circle-btn span {
+  font-size: 20px;
+}
+
+.pd-circle-btn:hover {
+  background-color: #FAF6EE;
+  color: var(--color-text-main);
+  transform: scale(1.05);
+}
+
+.pd-circle-btn.highlight {
+  background-color: #FFF3E0;
+  color: #FF9100;
+  border-color: #FFE0B2;
+}
+
+.pd-circle-btn.highlight:hover {
+  background-color: #FFE0B2;
+}
+
+.pd-buy-btn {
+  flex: 1;
+  height: 44px;
+  background-color: #121826;
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  box-shadow: 0 4px 12px rgba(18, 24, 38, 0.2);
+}
+
+.pd-buy-btn:hover {
+  background-color: #1A2234;
+  transform: translateY(-1px);
+}
+
+.pd-buy-btn:active {
+  transform: translateY(0);
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewFeaturedMore = document.getElementById('view-featured-more');
   const viewCategoryAll = document.getElementById('view-category-all');
   const viewBnaAll = document.getElementById('view-bna-all');
+  const viewProductDetail = document.getElementById('view-product-detail');
 
   function showView(viewId) {
     // Hide all views
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (viewFeaturedMore) viewFeaturedMore.classList.remove('active');
     if (viewCategoryAll) viewCategoryAll.classList.remove('active');
     if (viewBnaAll) viewBnaAll.classList.remove('active');
+    if (viewProductDetail) viewProductDetail.classList.remove('active');
     
     // Show selected view
     if (viewId === 'home') {
@@ -77,13 +79,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const bnaAllScrollContent = document.querySelector('.bna-all-content');
       if (bnaAllScrollContent) bnaAllScrollContent.scrollTop = 0;
       if (window.initBnaSlider) window.initBnaSlider();
+    } else if (viewId === 'product-detail') {
+      if (viewProductDetail) viewProductDetail.classList.add('active');
+      const pdScrollContent = document.querySelector('.pd-content');
+      if (pdScrollContent) pdScrollContent.scrollTop = 0;
     }
     
     // Update bottom tab items active state
     tabItems.forEach(item => {
       item.classList.remove('active');
       const href = item.getAttribute('href');
-      if ((viewId === 'home' || viewId === 'featured-more' || viewId === 'category-all' || viewId === 'bna-all') && href === '#home') item.classList.add('active');
+      if ((viewId === 'home' || viewId === 'featured-more' || viewId === 'category-all' || viewId === 'bna-all' || viewId === 'product-detail') && href === '#home') item.classList.add('active');
       if (viewId === 'scan' && href === '#ai') item.classList.add('active');
       if (viewId === 'cart' && href === '#cart') item.classList.add('active');
       if (viewId === 'mypage' && href === '#mypage') item.classList.add('active');
@@ -594,7 +600,19 @@ document.addEventListener('DOMContentLoaded', () => {
     resultAddCartBtn.addEventListener('click', (e) => {
       e.preventDefault();
       const name = document.getElementById('rec-product-title').textContent;
-      alert(`🛒 [${name}]가 장바구니에 담겼습니다.`);
+      let price = 180000;
+      let img = "img/Stand03.png";
+      if (selectedRoomType === 'living') {
+        price = 180000;
+        img = "img/Stand03.png";
+      } else if (selectedRoomType === 'bed') {
+        price = 150000;
+        img = "img/Stand02.png";
+      } else if (selectedRoomType === 'custom') {
+        price = 165000;
+        img = "img/Stand05.jpg";
+      }
+      window.addProductToCart(name, price, img);
     });
   }
 
@@ -1215,4 +1233,349 @@ document.addEventListener('DOMContentLoaded', () => {
       isDragging = false;
     });
   };
+
+  // ==========================================
+  // 13. 제품 상세보기 & 장바구니 실시간 연동
+  // ==========================================
+
+  // 13.1. 제품 데이터 목록 정의
+  const productsData = {
+    "aurora-brass": {
+      name: "오로라 브라스 펜던트",
+      price: 90000,
+      img: "img/light009.jpg",
+      match: "98%",
+      desc: "부드럽고 따뜻한 빛을 선사하는 우아한 매트 피니시 펜던트 무드연출 조명입니다.",
+      specs: ["2700K~6500K", "1200 Lux", "스마트 App 연동"],
+      insight: "이 조명은 구석의 그림자를 부드럽게 만들어주어 기존의 '미드나잇 네이비' 소파와 완벽하게 어울립니다.",
+      colors: ["#E5C7B2", "#3E4C5E", "#1C1D1F"]
+    },
+    "wood-hexa": {
+      name: "리얼 우드 헥사 스탠드",
+      price: 75000,
+      img: "img/light001.jpg",
+      match: "92%",
+      desc: "천연 무늬목의 결을 그대로 살려 자연스럽고 아늑한 침실 분위기를 만드는 헥사 쉐이프 테이블 스탠드입니다.",
+      specs: ["3000K 단일", "800 Lux", "원터치 토글스위치"],
+      insight: "침대 머리맡에 배치하여 은은한 독서등으로 제격이며, 우드 톤의 프레임 가구와 조화롭게 매칭됩니다.",
+      colors: ["#8D5B4C", "#D2B48C", "#FFFFFF"]
+    },
+    "smart-cube": {
+      name: "스마트 미니 큐브 무드등",
+      price: 49000,
+      img: "img/light004.jpg",
+      match: "95%",
+      desc: "1600만 가지 RGB 컬러 표현과 스마트폰 App 스케줄링으로 나만의 테마 분위기를 커스텀하는 스마트 무드등입니다.",
+      specs: ["RGB Full Color", "500 Lux", "스마트 App 연동"],
+      insight: "이 조명은 다채로운 분위기를 원스톱으로 연출할 수 있어, 파티션 공간이나 게이밍 데스크 분위기 조성에 탁월합니다.",
+      colors: ["#FFFFFF", "#000000", "#CCCCCC"]
+    },
+    "aura-floor": {
+      name: "아우라 플로어 램프",
+      price: 180000,
+      img: "img/Stand03.png",
+      match: "98%",
+      desc: "내추럴한 거실 분위기에 은은하게 매칭되는 앰비언트 램프로, 5단계 조도 조절 기능이 어두운 야간 무드에 최적의 빛을 선사합니다.",
+      specs: ["2200K~4000K", "1500 Lux", "터치식 무단계 조절"],
+      insight: "거실 소파 옆이나 빈 벽면 구석 코너에 빛을 쏘아 올려 벽면 반사광을 통한 따뜻하고 깊은 입체감을 줍니다.",
+      colors: ["#3A3B3C", "#C0C0C0", "#EBEBEB"]
+    },
+    "luna-table": {
+      name: "Luna Table Lamp",
+      price: 150000,
+      img: "img/Stand02.png",
+      match: "97%",
+      desc: "수면에 가장 안락한 조도를 지원하는 원목 크래프트 탁상 무드등입니다. 2700K 색온도가 당신의 몸과 마음을 편안한 휴식 상태로 안내합니다.",
+      specs: ["2700K 단일", "600 Lux", "수면 타이머 모드"],
+      insight: "협탁 위에 아담하게 자리잡는 크기로, 편안한 우드결 베이스가 침실에 온화한 자연 질감을 더해 줍니다.",
+      colors: ["#D2B48C", "#8B5A2B", "#FFFFFF"]
+    },
+    "luna-designer": {
+      name: "Luna Designer Stand",
+      price: 165000,
+      img: "img/Stand05.jpg",
+      match: "97%",
+      desc: "독창적인 스플라인 우드 곡선이 돋보이는 오가닉 디자인 무드등입니다. 업로드한 공간에 아트적인 입체감을 더해줍니다.",
+      specs: ["3000K~5000K", "1000 Lux", "스마트 디밍 모드"],
+      insight: "어느 각도에서 보아도 수려한 원목 곡선 프레임이 공간의 조형미를 극대화하며, 은은하게 흩어지는 잔잔한 빛이 매력적입니다.",
+      colors: ["#8B4513", "#CD853F", "#FFF8DC"]
+    },
+    "lumina-floor": {
+      name: "루미나 플로어 아크",
+      price: 220000,
+      img: "img/Stand05.jpg",
+      match: "96%",
+      desc: "아치형 스틸 프레임으로 넓은 거실 공간을 우아하고 포근하게 덮어주는 북유럽 스타일 프리미엄 플로어 조명입니다.",
+      specs: ["2700K~4000K", "1400 Lux", "풋스위치 컨트롤"],
+      insight: "이 스탠드는 긴 아치 곡선으로 소파 위를 부드럽게 감싸안는 세련된 라인감을 선사합니다.",
+      colors: ["#C0C0C0", "#1C1D1F", "#FFFFFF"]
+    },
+    "neo-able": {
+      name: "네오 에블 라이트",
+      price: 180000,
+      img: "img/Stand03.png",
+      match: "94%",
+      desc: "컴팩트한 라인에 마그네틱 회전식 관절 헤드를 탑재하여 침실 벽면 간접 조명이나 집중 독서등으로 활용 가능한 신개념 램프입니다.",
+      specs: ["3000K 단일", "900 Lux", "3단계 터치디밍"],
+      insight: "자석 헤드가 360도 회전하여 눈부심을 방지하고 벽을 향해 비춤으로써 극도의 안락함을 도모합니다.",
+      colors: ["#1C1D1F", "#E5C7B2", "#FFFFFF"]
+    },
+    "ambient-strip": {
+      name: "엠비언트 스트립",
+      price: 62000,
+      img: "img/Stand04.png",
+      match: "97%",
+      desc: "TV 배후나 침대 헤드 뒤에 부착하여 미세한 색상 조절로 공간의 깊이감을 더해주는 부착형 스마트 LED 라이트 스트립입니다.",
+      specs: ["RGBIC 멀티컬러", "600 Lux", "스마트 App & 소리반응"],
+      insight: "음악이나 소리에 맞춰 반응하는 인터랙티브 모션 라이팅으로 홈시네마 분위기를 한 차원 업그레이드합니다.",
+      colors: ["#FFFFFF", "#000000"]
+    }
+  };
+
+  let activeProductKey = "aurora-brass"; // 현재 열려있는 상품의 키
+
+  // 13.2. 실시간 장바구니 추가 로직
+  window.addProductToCart = function(name, price, img) {
+    const newId = 'cart-item-' + Date.now();
+    const newCardHtml = `
+      <div class="cart-item-card" data-price="${price}" id="${newId}" style="opacity: 0; transform: scale(0.9); transition: all 0.25s;">
+        <button type="button" class="cart-item-remove" onclick="removeCartItem('${newId}')">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+        <div class="cart-item-thumb">
+          <img src="${img}" alt="${name}">
+        </div>
+        <div class="cart-item-info">
+          <h4 class="cart-item-name">${name}</h4>
+          <p class="cart-item-price-label">${price.toLocaleString()}원</p>
+          <div class="quantity-controller">
+            <button type="button" class="qty-btn qty-minus" onclick="changeQty('${newId}', -1)">-</button>
+            <span class="qty-val" id="qty-val-${newId}">1</span>
+            <button type="button" class="qty-btn qty-plus" onclick="changeQty('${newId}', 1)">+</button>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    const container = document.getElementById('cart-items-container');
+    if (container) {
+      container.insertAdjacentHTML('beforeend', newCardHtml);
+      
+      // 애니메이션 노출
+      setTimeout(() => {
+        const newCard = document.getElementById(newId);
+        if (newCard) {
+          newCard.style.opacity = '1';
+          newCard.style.transform = 'scale(1)';
+        }
+      }, 50);
+      
+      window.updateCartTotals();
+      alert(`🛒 [${name}]가 장바구니에 추가되었습니다!\n3개 품목 이상으로 세트 20% 할인 혜택이 적용됩니다.`);
+    }
+  };
+
+  // 13.3. 상세 정보 화면에 제품 바인딩 및 노출
+  window.openProductDetail = function(productKey) {
+    const data = productsData[productKey];
+    if (!data) return;
+    
+    activeProductKey = productKey;
+    
+    // 텍스트 및 속성 채우기
+    const pdHeaderTitle = document.getElementById('pd-header-title');
+    const pdTitle = document.getElementById('pd-title');
+    const pdDesc = document.getElementById('pd-desc');
+    const pdPrice = document.getElementById('pd-price');
+    const pdImg = document.getElementById('pd-img');
+    const pdMatchVal = document.getElementById('pd-match-val');
+    const pdSpec1 = document.getElementById('pd-spec-1');
+    const pdSpec2 = document.getElementById('pd-spec-2');
+    const pdSpec3 = document.getElementById('pd-spec-3');
+    const pdInsightDesc = document.getElementById('pd-insight-desc');
+    const pdColorContainer = document.getElementById('pd-color-container');
+
+    if (pdHeaderTitle) pdHeaderTitle.textContent = data.name;
+    if (pdTitle) pdTitle.textContent = data.name;
+    if (pdDesc) pdDesc.textContent = data.desc;
+    if (pdPrice) pdPrice.textContent = data.price.toLocaleString() + '원';
+    if (pdImg) pdImg.src = data.img;
+    if (pdMatchVal) pdMatchVal.textContent = data.match + ' 매칭';
+    if (pdSpec1) pdSpec1.textContent = data.specs[0];
+    if (pdSpec2) pdSpec2.textContent = data.specs[1];
+    if (pdSpec3) pdSpec3.textContent = data.specs[2];
+    if (pdInsightDesc) pdInsightDesc.textContent = data.insight;
+    
+    // 컬러 파레트 채우기
+    if (pdColorContainer) {
+      let colorHtml = '';
+      data.colors.forEach((color, idx) => {
+        const activeClass = (idx === 0) ? 'active' : '';
+        colorHtml += `<span class="pd-color-circle ${activeClass}" style="background-color: ${color};" onclick="selectPdColor(this)"></span>`;
+      });
+      pdColorContainer.innerHTML = colorHtml;
+    }
+    
+    // 하트 아이콘 초기화 (좋아요 해제 상태)
+    const pdLikeIcon = document.getElementById('pd-like-icon');
+    if (pdLikeIcon) {
+      pdLikeIcon.textContent = 'favorite_border';
+      pdLikeIcon.classList.remove('active');
+      pdLikeIcon.style.color = '';
+    }
+    
+    // 화면 이동
+    showView('product-detail');
+  };
+
+  // 13.4. 상세 정보 화면 색상 토글
+  window.selectPdColor = function(el) {
+    const siblings = el.parentElement.querySelectorAll('.pd-color-circle');
+    siblings.forEach(circle => circle.classList.remove('active'));
+    el.classList.add('active');
+  };
+
+  // 13.5. 상세 정보 화면 하트 좋아요 토글
+  window.togglePdLike = function() {
+    const pdLikeIcon = document.getElementById('pd-like-icon');
+    if (!pdLikeIcon) return;
+    
+    const isActive = pdLikeIcon.classList.toggle('active');
+    if (isActive) {
+      pdLikeIcon.textContent = 'favorite';
+      pdLikeIcon.style.color = '#FF5252';
+      alert('❤️ 관심 상품 목록에 등록되었습니다.');
+    } else {
+      pdLikeIcon.textContent = 'favorite_border';
+      pdLikeIcon.style.color = '';
+      alert('💔 관심 상품 목록에서 해제되었습니다.');
+    }
+  };
+
+  // 13.6. 상세 정보 뒤로가기 버튼
+  const btnPdBack = document.getElementById('btn-pd-back');
+  if (btnPdBack) {
+    btnPdBack.addEventListener('click', (e) => {
+      e.preventDefault();
+      showView('home');
+    });
+  }
+
+  // 13.7. 상세 정보 장바구니 담기 버튼 바인딩
+  const btnPdAddCart = document.getElementById('btn-pd-add-cart');
+  if (btnPdAddCart) {
+    btnPdAddCart.addEventListener('click', (e) => {
+      e.preventDefault();
+      const data = productsData[activeProductKey];
+      if (data) {
+        window.addProductToCart(data.name, data.price, data.img);
+      }
+    });
+  }
+
+  // 13.8. 상세 정보 AI 공간 분석 이동
+  const btnPdScan = document.getElementById('btn-pd-scan');
+  if (btnPdScan) {
+    btnPdScan.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (window.openGuideModal) {
+        window.openGuideModal();
+      } else {
+        showView('scan');
+      }
+    });
+  }
+
+  // 13.9. 상세 정보 바로 구매하기 버튼 바인딩
+  const btnPdBuy = document.getElementById('btn-pd-buy');
+  if (btnPdBuy) {
+    btnPdBuy.addEventListener('click', (e) => {
+      e.preventDefault();
+      const data = productsData[activeProductKey];
+      if (data) {
+        alert(`🛍️ [${data.name}] 바로 구매 페이지로 이동합니다.`);
+      }
+    });
+  }
+
+  // 13.10. 홈 화면 메인 조명 카드 장바구니 담기 바인딩
+  const btnCartHome = document.getElementById('btn-cart');
+  if (btnCartHome) {
+    btnCartHome.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation(); // 카드 자체 클릭 이벤트 전파 차단
+      window.addProductToCart("오로라 브라스 펜던트", 90000, "img/light009.jpg");
+    });
+  }
+
+  // 13.11. 제품 카드 클릭 시 상세 페이지로 이동 연동
+  const featProductMain = document.getElementById('feat-product-main');
+  if (featProductMain) {
+    featProductMain.addEventListener('click', (e) => {
+      if (e.target.closest('.like-toggle') || e.target.closest('.add-to-cart-btn')) return;
+      window.openProductDetail('aurora-brass');
+    });
+  }
+
+  const recProduct1 = document.getElementById('rec-product-1');
+  if (recProduct1) {
+    recProduct1.addEventListener('click', (e) => {
+      if (e.target.closest('.col-card-like-btn') || e.target.closest('.col-card-cart-btn')) return;
+      window.openProductDetail('aurora-brass');
+    });
+  }
+
+  const recProduct2 = document.getElementById('rec-product-2');
+  if (recProduct2) {
+    recProduct2.addEventListener('click', (e) => {
+      if (e.target.closest('.col-card-like-btn') || e.target.closest('.col-card-cart-btn')) return;
+      window.openProductDetail('wood-hexa');
+    });
+  }
+
+  const recProduct3 = document.getElementById('rec-product-3');
+  if (recProduct3) {
+    recProduct3.addEventListener('click', (e) => {
+      if (e.target.closest('.col-card-like-btn') || e.target.closest('.col-card-cart-btn')) return;
+      window.openProductDetail('smart-cube');
+    });
+  }
+
+  // AI 스캔 추천 램프 카드 클릭 연동
+  const recProductInner = document.querySelector('.recommended-product-inner');
+  if (recProductInner) {
+    recProductInner.addEventListener('click', () => {
+      let key = "aura-floor";
+      if (selectedRoomType === 'living') key = "aura-floor";
+      else if (selectedRoomType === 'bed') key = "luna-table";
+      else if (selectedRoomType === 'custom') key = "luna-designer";
+      window.openProductDetail(key);
+    });
+  }
+
+  // 이달의 추천 세 가지 서브 카드 클릭 연동
+  const colCard1 = document.getElementById('col-card-1');
+  if (colCard1) {
+    colCard1.addEventListener('click', (e) => {
+      if (e.target.closest('.col-card-like-btn')) return;
+      window.openProductDetail('lumina-floor');
+    });
+  }
+
+  const colCard2 = document.getElementById('col-card-2');
+  if (colCard2) {
+    colCard2.addEventListener('click', (e) => {
+      if (e.target.closest('.col-card-like-btn')) return;
+      window.openProductDetail('neo-able');
+    });
+  }
+
+  const colCard3 = document.getElementById('col-card-3');
+  if (colCard3) {
+    colCard3.addEventListener('click', (e) => {
+      if (e.target.closest('.col-card-like-btn')) return;
+      window.openProductDetail('ambient-strip');
+    });
+  }
+};
 });

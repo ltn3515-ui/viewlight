@@ -1111,7 +1111,96 @@
         <button type="button" class="bna-float-scan-btn" id="btn-bna-float-scan">
           <span class="material-symbols-outlined">auto_awesome</span> 내 방도 분석하기
         </button>
+      <!-- [뷰 9] 제품 상세 정보 화면 -->
+      <div id="view-product-detail" class="mobile-view">
+        <!-- 상단바 -->
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-pd-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo" style="margin-left: 20px;">
+            <span class="service-logo-text" id="pd-header-title">제품 상세 정보</span>
+          </div>
+          <button type="button" class="header-icon-btn" id="btn-pd-like" onclick="togglePdLike()"><span class="material-symbols-outlined" id="pd-like-icon">favorite_border</span></button>
+        </header>
+
+        <!-- 스크롤 콘텐츠 영역 -->
+        <div class="service-content pd-content">
+          <!-- 1. 제품 대형 이미지 카드 -->
+          <div class="pd-image-card">
+            <img src="img/light009.jpg" id="pd-img" alt="제품 이미지">
+            <!-- 매치 매칭 뱃지 -->
+            <span class="pd-match-badge" id="pd-match-badge">
+              <span class="material-symbols-outlined pd-sparkle-icon">auto_awesome</span>
+              <span id="pd-match-val">98% 매칭</span>
+            </span>
+            <!-- 페이지네이션 도트 -->
+            <div class="pd-slider-dots">
+              <span class="pd-dot active"></span>
+              <span class="pd-dot"></span>
+              <span class="pd-dot"></span>
+              <span class="pd-dot"></span>
+            </div>
+          </div>
+
+          <!-- 2. 리뷰 별점 및 제목 정보 -->
+          <div class="pd-meta-row">
+            <span class="pd-stars">⭐⭐⭐⭐⭐</span>
+            <span class="pd-rating-text">4.8 <span class="pd-review-count">(리뷰 245개)</span></span>
+          </div>
+          
+          <h2 class="pd-product-title" id="pd-title">램프 스웜</h2>
+          <p class="pd-product-desc" id="pd-desc">부드럽고 따뜻한 빛을 선사하는 우아한 매트 피니시 펜던트 무드연출 조명입니다.</p>
+
+          <div class="pd-price-row">
+            <span class="pd-price-val" id="pd-price">90,000원</span>
+          </div>
+
+          <!-- 3. 스펙 태그 그룹 -->
+          <div class="pd-specs-row">
+            <span class="pd-spec-tag"><span class="material-symbols-outlined">thermostat</span> <span id="pd-spec-1">2700K~6500K</span></span>
+            <span class="pd-spec-tag"><span class="material-symbols-outlined">light_mode</span> <span id="pd-spec-2">1200 Lux</span></span>
+            <span class="pd-spec-tag"><span class="material-symbols-outlined">settings_input_antenna</span> <span id="pd-spec-3">스마트 App 연동</span></span>
+          </div>
+
+          <!-- 4. AI 큐레이터 인사이트 -->
+          <div class="pd-insight-card">
+            <div class="pd-insight-header">
+              <div class="pd-insight-bulb">
+                <span class="material-symbols-outlined">lightbulb</span>
+              </div>
+              <span class="pd-insight-title">AI 큐레이터 인사이트</span>
+            </div>
+            <p class="pd-insight-desc" id="pd-insight-desc">
+              이 조명은 구석의 그림자를 부드럽게 만들어주어 기존의 '미드나잇 네이비' 소파와 완벽하게 어울립니다.
+            </p>
+          </div>
+
+          <!-- 5. 색상 선택 -->
+          <div class="pd-color-section">
+            <h4 class="pd-section-title">색상 선택</h4>
+            <div class="pd-color-palette" id="pd-color-container">
+              <span class="pd-color-circle active" style="background-color: #E5C7B2;" onclick="selectPdColor(this)"></span>
+              <span class="pd-color-circle" style="background-color: #3E4C5E;" onclick="selectPdColor(this)"></span>
+              <span class="pd-color-circle" style="background-color: #1C1D1F;" onclick="selectPdColor(this)"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. 하단 고정 액션바 -->
+        <div class="pd-footer-actions">
+          <button type="button" class="pd-circle-btn" id="btn-pd-add-cart">
+            <span class="material-symbols-outlined">shopping_bag</span>
+          </button>
+          <button type="button" class="pd-circle-btn highlight" id="btn-pd-scan">
+            <span class="material-symbols-outlined">center_focus_strong</span>
+          </button>
+          <button type="button" class="pd-buy-btn" id="btn-pd-buy">
+            바로 구매하기
+          </button>
+        </div>
       </div>
+
 
       <!-- [고정 하단 탭바] -->
       <nav class="mobile-bottom-tabbar">
