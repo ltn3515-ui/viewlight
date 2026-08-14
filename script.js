@@ -1287,7 +1287,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "aura-floor": {
       name: "아우라 플로어 램프",
       price: 180000,
-      img: "img/Stand03.png",
+      img: "img/img002.png",
       match: "98%",
       desc: "내추럴한 거실 분위기에 은은하게 매칭되는 앰비언트 램프로, 5단계 조도 조절 기능이 어두운 야간 무드에 최적의 빛을 선사합니다.",
       specs: ["2200K~4000K", "1500 Lux", "터치식 무단계 조절"],
@@ -1772,6 +1772,25 @@ document.addEventListener('DOMContentLoaded', () => {
       // 장바구니 갱신 및 홈으로 이동
       if (window.updateCartTotals) window.updateCartTotals();
       showView('home');
+    });
+  }
+
+  // 14.6. 홈 화면 대표 아우라 플로어 램프 카드 클릭 및 장바구니 연동
+  const mainLampCard = document.querySelector('.main-lamp-card');
+  if (mainLampCard) {
+    mainLampCard.addEventListener('click', (e) => {
+      // + 버튼을 누른 경우 상세페이지로 이동하지 않음
+      if (e.target.closest('.arrow-btn')) return;
+      window.openProductDetail('aura-floor');
+    });
+  }
+
+  const mainLampAddBtn = document.querySelector('.main-lamp-card .arrow-btn');
+  if (mainLampAddBtn) {
+    mainLampAddBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      window.addProductToCart("아우라 플로어 램프", 180000, "img/img002.png");
     });
   }
 });
