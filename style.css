@@ -1916,6 +1916,23 @@ img {
   justify-content: center;
 }
 
+/* 검색·알림 모달: 뷰포트 전체를 덮는 fixed 레이어 */
+.fixed-modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.fixed-modal-wrapper.active {
+  display: flex;
+}
+
 /* 딤드 백드롭 */
 .modal-backdrop {
   position: absolute;
