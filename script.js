@@ -1577,5 +1577,4 @@ document.addEventListener('DOMContentLoaded', () => {
       window.openProductDetail('ambient-strip');
     });
   }
-};
 });
