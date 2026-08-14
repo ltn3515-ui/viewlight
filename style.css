@@ -4277,7 +4277,7 @@ img {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding-bottom: 340px; /* 대형 하단 다크 시트 공간 확보 */
+  padding-bottom: 30px; /* 자연스러운 스크롤 마진 매칭 */
 }
 
 /* 1. 상단 단품 가격 뱃지 */
@@ -4455,20 +4455,19 @@ img {
 
 /* 5. 결제 정보 검은색 하단 시트 */
 .checkout-dark-sheet {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  position: relative;
+  margin-top: 12px;
   width: 100%;
   background-color: #2E3340;
-  border-top-left-radius: 28px;
-  border-top-right-radius: 28px;
+  border-radius: 24px; /* 모서리 전체 라운드 카드로 처리해 시안 레이아웃 완벽 구현 */
   padding: 24px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 18px;
-  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 32px rgba(18, 24, 38, 0.25);
   z-index: 40;
+  margin-bottom: 20px; /* 아래 탭바와 겹치지 않고 스크롤 여유 공간 보장 */
 }
 
 .sheet-drag-handle {
