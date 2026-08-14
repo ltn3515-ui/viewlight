@@ -42,17 +42,35 @@
         </div>
 
         <div class="brand-thumbs-grid">
-          <div class="thumb-card">
+          <!-- 카드 1: Luna 원목 탁상 -->
+          <div class="thumb-card" onclick="openProductDetail('luna-table')">
             <img src="img/Stand02.png" alt="Luna 원목 탁상" class="thumb-img">
-            <span class="thumb-label">Best 판매 1위</span>
+            <div class="thumb-info-row">
+              <span class="thumb-label">Best 판매 1위</span>
+              <button type="button" class="thumb-add-btn" onclick="event.stopPropagation(); window.addProductToCart('Luna Table Lamp', 150000, 'img/Stand02.png');">
+                <span class="material-symbols-outlined">add</span>
+              </button>
+            </div>
           </div>
-          <div class="thumb-card">
+          <!-- 카드 2: 아우라 플로어 램프 -->
+          <div class="thumb-card" onclick="openProductDetail('aura-floor')">
             <img src="img/Stand03.png" alt="아우라 플로어 램프" class="thumb-img">
-            <span class="thumb-label">조도 5단계 조절</span>
+            <div class="thumb-info-row">
+              <span class="thumb-label">조도 5단계 조절</span>
+              <button type="button" class="thumb-add-btn" onclick="event.stopPropagation(); window.addProductToCart('아우라 플로어 램프', 180000, 'img/img002.png');">
+                <span class="material-symbols-outlined">add</span>
+              </button>
+            </div>
           </div>
-          <div class="thumb-card">
+          <!-- 카드 3: 스마트 App 연동 -->
+          <div class="thumb-card" onclick="openProductDetail('ambient-strip')">
             <img src="img/Stand04.png" alt="스마트 App 연동" class="thumb-img">
-            <span class="thumb-label">Smart App 연동</span>
+            <div class="thumb-info-row">
+              <span class="thumb-label">Smart App 연동</span>
+              <button type="button" class="thumb-add-btn" onclick="event.stopPropagation(); window.addProductToCart('엠비언트 스트립', 62000, 'img/Stand04.png');">
+                <span class="material-symbols-outlined">add</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
