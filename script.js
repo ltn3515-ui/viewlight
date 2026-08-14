@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewCategoryAll = document.getElementById('view-category-all');
   const viewBnaAll = document.getElementById('view-bna-all');
   const viewProductDetail = document.getElementById('view-product-detail');
+  const viewCheckout = document.getElementById('view-checkout');
 
   function showView(viewId) {
     // Hide all views
@@ -45,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (viewCategoryAll) viewCategoryAll.classList.remove('active');
     if (viewBnaAll) viewBnaAll.classList.remove('active');
     if (viewProductDetail) viewProductDetail.classList.remove('active');
+    if (viewCheckout) viewCheckout.classList.remove('active');
     
     // Show selected view
     if (viewId === 'home') {
@@ -83,13 +85,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (viewProductDetail) viewProductDetail.classList.add('active');
       const pdScrollContent = document.querySelector('.pd-content');
       if (pdScrollContent) pdScrollContent.scrollTop = 0;
+    } else if (viewId === 'checkout') {
+      if (viewCheckout) viewCheckout.classList.add('active');
+      const checkoutScrollContent = document.querySelector('.checkout-content');
+      if (checkoutScrollContent) checkoutScrollContent.scrollTop = 0;
+      if (window.initCheckoutView) window.initCheckoutView();
     }
     
     // Update bottom tab items active state
     tabItems.forEach(item => {
       item.classList.remove('active');
       const href = item.getAttribute('href');
-      if ((viewId === 'home' || viewId === 'featured-more' || viewId === 'category-all' || viewId === 'bna-all' || viewId === 'product-detail') && href === '#home') item.classList.add('active');
+      if ((viewId === 'home' || viewId === 'featured-more' || viewId === 'category-all' || viewId === 'bna-all' || viewId === 'product-detail' || viewId === 'checkout') && href === '#home') item.classList.add('active');
       if (viewId === 'scan' && href === '#ai') item.classList.add('active');
       if (viewId === 'cart' && href === '#cart') item.classList.add('active');
       if (viewId === 'mypage' && href === '#mypage') item.classList.add('active');
@@ -263,6 +270,19 @@ document.addEventListener('DOMContentLoaded', () => {
     cartBackBtn.addEventListener('click', (e) => {
       e.preventDefault();
       showView('home');
+    });
+  }
+
+  const cartCheckoutBtn = document.getElementById('btn-cart-checkout');
+  if (cartCheckoutBtn) {
+    cartCheckoutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const itemCards = document.querySelectorAll('.cart-item-card');
+      if (itemCards.length === 0) {
+        alert('🛒 장바구니가 비어 있습니다. 제품을 담은 후 주문해 주세요!');
+        return;
+      }
+      showView('checkout');
     });
   }
 
@@ -1575,6 +1595,189 @@ document.addEventListener('DOMContentLoaded', () => {
     colCard3.addEventListener('click', (e) => {
       if (e.target.closest('.col-card-like-btn')) return;
       window.openProductDetail('ambient-strip');
+    });
+  }
+
+  // ==========================================
+  // 14. 결제하기 페이지 연동 로직
+  // ==========================================
+
+  // 14.1. 결제 수단 선택 제어
+  let selectedPayMethodType = 'card';
+  window.selectPayMethod = function(method) {
+    selectedPayMethodType = method;
+    const cardBtn = document.getElementById('pay-method-card');
+    const checkBtn = document.getElementById('pay-method-check');
+    if (cardBtn && checkBtn) {
+      cardBtn.classList.remove('active');
+      checkBtn.classList.remove('active');
+      if (method === 'card') {
+        cardBtn.classList.add('active');
+      } else {
+        checkBtn.classList.add('active');
+      }
+    }
+  };
+
+  // 14.2. 공간 연출 드롭다운 제어
+  window.toggleCheckoutDropdown = function() {
+    const box = document.getElementById('checkout-dropdown-options-box');
+    const btn = document.getElementById('checkout-dropdown-btn');
+    if (box && btn) {
+      const isOpen = btn.classList.toggle('open');
+      if (isOpen) {
+        box.classList.add('show');
+      } else {
+        box.classList.remove('show');
+      }
+    }
+  };
+
+  // 드롭다운 바깥 클릭 시 닫기
+  document.addEventListener('click', (e) => {
+    const dropdownBtn = document.getElementById('checkout-dropdown-btn');
+    const dropdownBox = document.getElementById('checkout-dropdown-options-box');
+    if (dropdownBtn && dropdownBox) {
+      if (!dropdownBtn.contains(e.target) && !dropdownBox.contains(e.target)) {
+        dropdownBtn.classList.remove('open');
+        dropdownBox.classList.remove('show');
+      }
+    }
+  });
+
+  // 드롭다운 버튼 클릭 리스너 연결
+  const checkoutDropdownBtn = document.getElementById('checkout-dropdown-btn');
+  if (checkoutDropdownBtn) {
+    checkoutDropdownBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      window.toggleCheckoutDropdown();
+    });
+  }
+
+  // 드롭다운 옵션 선택
+  window.selectCheckoutDropdownOption = function(optionText) {
+    const textEl = document.getElementById('checkout-selected-dropdown-text');
+    const btn = document.getElementById('checkout-dropdown-btn');
+    const box = document.getElementById('checkout-dropdown-options-box');
+    
+    if (textEl) textEl.textContent = optionText;
+    if (btn) btn.classList.remove('open');
+    if (box) box.classList.remove('show');
+    
+    // 연출 공간 입력 필드에도 힌트 동기화
+    const spaceInput = document.getElementById('checkout-space-input');
+    if (spaceInput) {
+      spaceInput.value = optionText;
+    }
+  };
+
+  // 14.3. 결제 화면 초기 진입 및 장바구니 매핑
+  let currentCheckoutTotalPrice = "280,000원";
+  
+  window.initCheckoutView = function() {
+    // 장바구니 아이템들을 검사하여 대표 이미지 및 가격 등을 로드
+    const itemCards = document.querySelectorAll('.cart-item-card');
+    const totalQtyVal = document.getElementById('cart-total-count') ? parseInt(document.getElementById('cart-total-count').textContent) : 0;
+    const totalPriceVal = document.getElementById('cart-total-price') ? document.getElementById('cart-total-price').textContent : "0원";
+    
+    // 대표 상품 로드
+    if (itemCards.length > 0) {
+      const firstCard = itemCards[0];
+      const imgTag = firstCard.querySelector('.cart-item-thumb img');
+      const nameTag = firstCard.querySelector('.cart-item-name');
+      const priceLabel = firstCard.querySelector('.cart-item-price-label');
+      
+      if (imgTag && nameTag && priceLabel) {
+        // 대표 뷰 세팅
+        const mainImg = document.getElementById('checkout-main-img');
+        const mainTitle = document.getElementById('checkout-main-title');
+        const mainPriceBadge = document.getElementById('checkout-main-price-badge');
+        
+        if (mainImg) mainImg.src = imgTag.src;
+        if (mainTitle) mainTitle.textContent = nameTag.textContent;
+        if (mainPriceBadge) mainPriceBadge.textContent = priceLabel.textContent;
+      }
+      
+      // 양 옆 플랭크 이미지 썸네일 세팅
+      const sideLeftImg = document.getElementById('checkout-side-img-left');
+      const sideRightImg = document.getElementById('checkout-side-img-right');
+      
+      if (itemCards.length > 1) {
+        const secondCard = itemCards[1];
+        const secondImg = secondCard.querySelector('.cart-item-thumb img');
+        if (sideLeftImg && secondImg) sideLeftImg.src = secondImg.src;
+      } else {
+        if (sideLeftImg) sideLeftImg.src = "img/light005.jpg";
+      }
+      
+      if (itemCards.length > 2) {
+        const thirdCard = itemCards[2];
+        const thirdImg = thirdCard.querySelector('.cart-item-thumb img');
+        if (sideRightImg && thirdImg) sideRightImg.src = thirdImg.src;
+      } else {
+        if (sideRightImg) sideRightImg.src = "img/light006.jpg";
+      }
+    } else {
+      // 장바구니가 비어 있을 시 기본 셋업 복귀
+      const mainImg = document.getElementById('checkout-main-img');
+      const mainTitle = document.getElementById('checkout-main-title');
+      const mainPriceBadge = document.getElementById('checkout-main-price-badge');
+      if (mainImg) mainImg.src = "img/light009.jpg";
+      if (mainTitle) mainTitle.textContent = "램프 스웜";
+      if (mainPriceBadge) mainPriceBadge.textContent = "90,000원";
+    }
+
+    // 총 금액 및 총 개수 동기화
+    const checkoutTotalPrice = document.getElementById('checkout-total-price');
+    const checkoutTotalQty = document.getElementById('checkout-total-qty');
+    const btnSubmitText = document.getElementById('btn-checkout-submit-text');
+    
+    if (checkoutTotalPrice) checkoutTotalPrice.textContent = totalPriceVal;
+    if (checkoutTotalQty) checkoutTotalQty.textContent = totalQtyVal;
+    if (btnSubmitText) btnSubmitText.textContent = `${totalPriceVal} 결제하기`;
+    
+    currentCheckoutTotalPrice = totalPriceVal;
+    
+    // 입력 필드 및 드롭다운 초기화
+    const spaceInput = document.getElementById('checkout-space-input');
+    if (spaceInput) spaceInput.value = '내방 책상';
+    
+    const dropdownText = document.getElementById('checkout-selected-dropdown-text');
+    if (dropdownText) dropdownText.textContent = '내방 책상';
+    
+    window.selectPayMethod('card');
+  };
+
+  // 14.4. 결제하기 뒤로가기 버튼
+  const btnCheckoutBack = document.getElementById('btn-checkout-back');
+  if (btnCheckoutBack) {
+    btnCheckoutBack.addEventListener('click', (e) => {
+      e.preventDefault();
+      showView('cart');
+    });
+  }
+
+  // 14.5. 결제하기 최종 승인 버튼 클릭
+  const btnCheckoutSubmit = document.getElementById('btn-checkout-submit');
+  if (btnCheckoutSubmit) {
+    btnCheckoutSubmit.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      const spaceVal = document.getElementById('checkout-space-input') ? document.getElementById('checkout-space-input').value.trim() : "";
+      const spaceDisplayName = spaceVal ? spaceVal : "내방 책상";
+      const methodText = selectedPayMethodType === 'card' ? '신용카드' : '체크카드';
+      
+      alert(`🎉 [${currentCheckoutTotalPrice}] 결제가 성공적으로 완료되었습니다!\n\n📍 배송 장소: ${spaceDisplayName}\n💳 결제 수단: ${methodText}\n\n감사합니다! 주문하신 조명과 함께 최적의 AI 스페이스 셋업 가이드가 배송 차량을 통해 전달됩니다.`);
+      
+      // 장바구니 비우기
+      const container = document.getElementById('cart-items-container');
+      if (container) {
+        container.innerHTML = '';
+      }
+      
+      // 장바구니 갱신 및 홈으로 이동
+      if (window.updateCartTotals) window.updateCartTotals();
+      showView('home');
     });
   }
 });

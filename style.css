@@ -4269,3 +4269,391 @@ img {
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+/* ==========================================
+   1.12. 결제하기 화면 스타일
+   ========================================== */
+.checkout-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 340px; /* 대형 하단 다크 시트 공간 확보 */
+}
+
+/* 1. 상단 단품 가격 뱃지 */
+.checkout-price-badge-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.checkout-item-price-badge {
+  background-color: var(--color-dark-navy);
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-card);
+}
+
+/* 2. 조명 이미지 플랭크 캐러셀 */
+.checkout-gallery-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  height: 140px;
+  margin: 8px 0;
+  overflow: hidden;
+}
+
+.checkout-thumb-main {
+  width: 140px;
+  height: 140px;
+  border-radius: var(--radius-md);
+  background-color: #FAF6EE;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.checkout-thumb-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.checkout-thumb-side {
+  width: 70px;
+  height: 70px;
+  border-radius: 8px;
+  background-color: #FAF6EE;
+  border: 1px solid var(--color-border);
+  opacity: 0.35;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.checkout-thumb-side img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 3. 대표 상품 타이틀 */
+.checkout-product-info {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.checkout-product-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+  letter-spacing: -0.4px;
+}
+
+.checkout-product-sub {
+  font-size: 0.78rem;
+  color: var(--color-text-sub);
+  font-weight: 600;
+}
+
+/* 4. 조명 연출 공간 드롭다운 */
+.checkout-space-select-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  position: relative;
+}
+
+.checkout-space-label {
+  font-size: 0.72rem;
+  color: var(--color-text-sub);
+  font-weight: 600;
+}
+
+.checkout-dropdown {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #FAF6EE;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 0 16px;
+  width: 130px;
+  height: 34px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.checkout-dropdown:hover {
+  background-color: #F6F0E4;
+}
+
+.dropdown-arrow {
+  font-size: 16px;
+  color: var(--color-text-sub);
+  transition: transform 0.2s;
+}
+
+.checkout-dropdown.open .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.checkout-dropdown-options {
+  position: absolute;
+  top: 60px;
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  width: 130px;
+  z-index: 50;
+  display: none;
+  overflow: hidden;
+  animation: scaleIn 0.2s ease;
+}
+
+.checkout-dropdown-options.show {
+  display: block;
+}
+
+.option-item {
+  padding: 8px 16px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text-main);
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s;
+}
+
+.option-item:hover {
+  background-color: #FFF3E0;
+  color: #E68A00;
+}
+
+/* 5. 결제 정보 검은색 하단 시트 */
+.checkout-dark-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #2E3340;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  padding: 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.2);
+  z-index: 40;
+}
+
+.sheet-drag-handle {
+  width: 36px;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  align-self: center;
+  margin-top: -6px;
+  margin-bottom: 2px;
+}
+
+.sheet-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sheet-price-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.sheet-total-price {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #FFAB40;
+  letter-spacing: -0.5px;
+}
+
+.sheet-price-label {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+  margin-top: 1px;
+}
+
+.sheet-qty-badge {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  color: #FFFFFF;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+
+.sheet-qty-badge strong {
+  color: #FFAB40;
+  font-size: 0.72rem;
+  background-color: rgba(255, 171, 64, 0.15);
+  padding: 1px 6px;
+  border-radius: 50%;
+  margin: 0 4px;
+}
+
+/* 공간 입력 필드 */
+.sheet-input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sheet-input-label {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.sheet-text-input {
+  width: 100%;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 600;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.sheet-text-input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+  font-weight: 500;
+}
+
+.sheet-text-input:focus {
+  border-color: #FFAB40;
+  background-color: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 0 8px rgba(255, 171, 64, 0.2);
+}
+
+/* 결제 수단 카드 */
+.sheet-pay-methods-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.pay-method-card {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 12px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.pay-method-card.active {
+  background-color: #FAF6EE;
+  border-color: #FAF6EE;
+  color: var(--color-dark-navy);
+}
+
+.method-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 800;
+  font-size: 0.78rem;
+}
+
+.pay-method-card.active .method-header {
+  color: var(--color-dark-navy);
+}
+
+.pay-method-card:not(.active) .method-header {
+  color: #FFFFFF;
+}
+
+.add-icon {
+  font-size: 16px;
+}
+
+.method-desc {
+  font-size: 0.62rem;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.pay-method-card.active .method-desc {
+  color: var(--color-text-sub);
+}
+
+.pay-method-card:not(.active) .method-desc {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* 결제 제출 버튼 */
+.sheet-submit-pay-btn {
+  width: 100%;
+  height: 48px;
+  background-color: #FFAB40;
+  color: #121826;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(255, 171, 64, 0.3);
+  transition: all 0.2s;
+  margin-top: 2px;
+}
+
+.sheet-submit-pay-btn span.material-symbols-outlined {
+  font-size: 20px;
+}
+
+.sheet-submit-pay-btn:hover {
+  background-color: #FF9100;
+  transform: translateY(-1px);
+}
+
+.sheet-submit-pay-btn:active {
+  transform: translateY(0);
+}

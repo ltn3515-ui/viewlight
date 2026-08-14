@@ -1204,6 +1204,111 @@
       </div>
 
 
+      <!-- [뷰 10] 결제하기 화면 -->
+      <div id="view-checkout" class="mobile-view">
+        <!-- 상단바 -->
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-checkout-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo" style="margin-left: 20px;">
+            <span class="service-logo-text">결제하기</span>
+          </div>
+          <div style="width: 40px;"></div> <!-- 공백 정렬용 -->
+        </header>
+
+        <!-- 스크롤 콘텐츠 영역 -->
+        <div class="service-content checkout-content">
+          <!-- 1. 단품 가격 뱃지 (대표 상품) -->
+          <div class="checkout-price-badge-row">
+            <span class="checkout-item-price-badge" id="checkout-main-price-badge">90,000원</span>
+          </div>
+
+          <!-- 2. 대표 조명 이미지 및 플랭크 썸네일 -->
+          <div class="checkout-gallery-row">
+            <div class="checkout-thumb-side left">
+              <img src="img/light001.jpg" id="checkout-side-img-left" alt="조명 썸네일">
+            </div>
+            <div class="checkout-thumb-main">
+              <img src="img/light009.jpg" id="checkout-main-img" alt="대표 조명">
+            </div>
+            <div class="checkout-thumb-side right">
+              <img src="img/light002.jpg" id="checkout-side-img-right" alt="조명 썸네일">
+            </div>
+          </div>
+
+          <!-- 3. 대표 상품 타이틀 및 서브 설명 -->
+          <div class="checkout-product-info">
+            <h3 class="checkout-product-title" id="checkout-main-title">램프 스웜</h3>
+            <p class="checkout-product-sub" id="checkout-main-sub">우아한 액세서리</p>
+          </div>
+
+          <!-- 4. 조명 연출 공간 드롭다운 -->
+          <div class="checkout-space-select-row">
+            <span class="checkout-space-label">이 조명을 연출할 공간:</span>
+            <div class="checkout-dropdown" id="checkout-dropdown-btn">
+              <span id="checkout-selected-dropdown-text">내방 책상</span>
+              <span class="material-symbols-outlined dropdown-arrow">expand_more</span>
+            </div>
+            <!-- 드롭다운 리스트 옵션 -->
+            <div class="checkout-dropdown-options" id="checkout-dropdown-options-box">
+              <div class="option-item" onclick="selectCheckoutDropdownOption('내방 책상')">내방 책상</div>
+              <div class="option-item" onclick="selectCheckoutDropdownOption('침실 협탁')">침실 협탁</div>
+              <div class="option-item" onclick="selectCheckoutDropdownOption('거실 거실장')">거실 거실장</div>
+              <div class="option-item" onclick="selectCheckoutDropdownOption('다이닝 식탁')">다이닝 식탁</div>
+            </div>
+          </div>
+
+          <!-- 5. 결제 정보 검은색 하단 시트 (통합 레이아웃) -->
+          <div class="checkout-dark-sheet">
+            <div class="sheet-drag-handle"></div>
+
+            <!-- 총 결제 금액 및 수량 -->
+            <div class="sheet-summary-row">
+              <div class="sheet-price-box">
+                <h2 class="sheet-total-price" id="checkout-total-price">280,000원</h2>
+                <span class="sheet-price-label">총 결제 금액</span>
+              </div>
+              <div class="sheet-qty-badge">
+                <span>총 <strong id="checkout-total-qty">5</strong>개 제품</span>
+              </div>
+            </div>
+
+            <!-- 공간 선택 텍스트 필드 -->
+            <div class="sheet-input-section">
+              <label class="sheet-input-label">조명 연출 공간 선택 (예: 내 방 책상, 침실 협탁)</label>
+              <input type="text" class="sheet-text-input" id="checkout-space-input" placeholder="공간을 입력해주세요" autocomplete="off">
+            </div>
+
+            <!-- 결제 수단 선택 -->
+            <div class="sheet-pay-methods-row">
+              <div class="pay-method-card active" id="pay-method-card" onclick="selectPayMethod('card')">
+                <div class="method-header">
+                  <span class="method-name">신용카드</span>
+                  <span class="material-symbols-outlined add-icon">add</span>
+                </div>
+                <p class="method-desc">카드 등록</p>
+              </div>
+              
+              <div class="pay-method-card" id="pay-method-check" onclick="selectPayMethod('check')">
+                <div class="method-header">
+                  <span class="method-name">체크카드</span>
+                </div>
+                <p class="method-desc">등록 카드 없음</p>
+              </div>
+            </div>
+
+            <!-- 결제 승인 버튼 -->
+            <button type="button" class="sheet-submit-pay-btn" id="btn-checkout-submit">
+              <span class="material-symbols-outlined">payment</span>
+              <span id="btn-checkout-submit-text">280,000원 결제하기</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+
       <!-- [고정 하단 탭바] -->
       <nav class="mobile-bottom-tabbar">
         <a href="#home" class="tab-item active">
