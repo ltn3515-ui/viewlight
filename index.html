@@ -1371,7 +1371,7 @@
           <div class="report-rec-section">
             <div class="report-rec-header">
               <h4 class="report-rec-title">추천 무드등</h4>
-              <span class="material-symbols-outlined report-more-icon">more_horiz</span>
+              <span class="material-symbols-outlined report-more-icon" id="btn-report-more-curation" style="cursor: pointer;">more_horiz</span>
             </div>
 
             <!-- 가로 스크롤 카드 리스트 -->
@@ -1401,12 +1401,38 @@
                   <span class="report-card-price">200,000원</span>
                 </div>
               </div>
+
+              <!-- 카드 3: 자연광 시너지 -->
+              <div class="report-rec-card" onclick="openProductDetail('wood-hexa')">
+                <div class="report-card-img-box">
+                  <img src="img/light001.jpg" alt="자연광 시너지">
+                  <span class="scene-badge">SCENE 03</span>
+                </div>
+                <div class="report-card-body">
+                  <h5 class="report-card-title">자연광 시너지</h5>
+                  <p class="report-card-desc">천연 우드 결이 부드러운 자연광 반사 무드와 극치로 융합</p>
+                  <span class="report-card-price">75,000원</span>
+                </div>
+              </div>
+
+              <!-- 카드 4: 스마트 큐브 셋업 -->
+              <div class="report-rec-card" onclick="openProductDetail('smart-cube')">
+                <div class="report-card-img-box">
+                  <img src="img/light004.jpg" alt="스마트 큐브 셋업">
+                  <span class="scene-badge">SCENE 04</span>
+                </div>
+                <div class="report-card-body">
+                  <h5 class="report-card-title">스마트 큐브 셋업</h5>
+                  <p class="report-card-desc">다채로운 색조 조합을 모바일 큐레이션으로 실시간 컨트롤</p>
+                  <span class="report-card-price">49,000원</span>
+                </div>
+              </div>
             </div>
 
             <!-- 추천 무드등 일괄 담기 대형 오렌지색 버튼 -->
             <button type="button" class="btn-report-bulk-cart" id="btn-report-bulk-cart">
               <span class="material-symbols-outlined">shopping_bag</span>
-              추천 무드등 일괄 담기 (690,000원)
+              추천 무드등 일괄 담기 (814,000원)
             </button>
           </div>
 

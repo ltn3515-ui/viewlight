@@ -1827,7 +1827,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 15.3. 추천 무드등 일괄 담기 버튼 연동
+  // 15.3. 추천 무드등 일괄 담기 버튼 연동 (4개 품목 일괄 추가)
   const btnReportBulkCart = document.getElementById('btn-report-bulk-cart');
   if (btnReportBulkCart) {
     btnReportBulkCart.addEventListener('click', (e) => {
@@ -1837,10 +1837,28 @@ document.addEventListener('DOMContentLoaded', () => {
       window.addProductToCart("집중된 안락함", 490000, "img/light009.jpg");
       
       // 두 번째 제품 추가: 앰비언트 모드 (200,000원)
-      // alert 창 겹침 방지 및 부드러운 시각적 적재 연출을 위해 500ms 간격을 두고 추가
       setTimeout(() => {
         window.addProductToCart("앰비언트 모드", 200000, "img/Stand03.png");
-      }, 500);
+      }, 400);
+
+      // 세 번째 제품 추가: 자연광 시너지 (75,000원)
+      setTimeout(() => {
+        window.addProductToCart("자연광 시너지", 75000, "img/light001.jpg");
+      }, 800);
+
+      // 네 번째 제품 추가: 스마트 큐브 셋업 (49,000원)
+      setTimeout(() => {
+        window.addProductToCart("스마트 큐브 셋업", 49000, "img/light004.jpg");
+      }, 1200);
+    });
+  }
+
+  // 15.4. 추천 무드등 더보기 버튼(점 세 개) 클릭 시 무드등 둘러보기(category-all) 이동
+  const btnReportMoreCuration = document.getElementById('btn-report-more-curation');
+  if (btnReportMoreCuration) {
+    btnReportMoreCuration.addEventListener('click', (e) => {
+      e.preventDefault();
+      showView('category-all');
     });
   }
 });
