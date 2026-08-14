@@ -188,7 +188,7 @@
               <h3>AI Before & After Gallery</h3>
               <p class="sub-text">AI 큐레이션이 제안하는 놀라운 공간의 변화를 확인해보세요.</p>
             </div>
-            <a href="#bna-all" class="more-link">전체보기 ➔</a>
+            <a href="#bna-all" id="btn-bna-all" class="more-link">전체보기 ➔</a>
           </div>
 
           <div class="bna-list">
@@ -1017,6 +1017,100 @@
 
           </div>
         </div>
+      </div>
+
+      <!-- [뷰 8] AI Before & After 갤러리 전체 화면 -->
+      <div id="view-bna-all" class="mobile-view">
+        <!-- 상단바 -->
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-bna-all-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo">
+            <img src="img/logo2.png" alt="ViewLight Logo" class="service-logo-img">
+            <span class="service-logo-text">ViewLight</span>
+          </div>
+          <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+        </header>
+
+        <!-- 스크롤 콘텐츠 영역 -->
+        <div class="service-content bna-all-content">
+          <!-- 타이틀 -->
+          <div class="bna-all-header">
+            <h2 class="bna-all-title">AI가 제안하는 공간의 변화</h2>
+          </div>
+
+          <!-- 1. 인터랙티브 스플릿 슬라이더 (거실 공간 비교) -->
+          <div class="bna-slider-wrapper">
+            <div class="bna-comparison-slider" id="main-bna-slider">
+              <!-- Before 이미지 (어두운 기본 배경) -->
+              <div class="bna-image-before">
+                <img src="img/livingroom.jpg" alt="거실 비포">
+                <span class="bna-tag-badge before-badge">Before</span>
+              </div>
+              
+              <!-- After 이미지 (밝은 아프터 오버레이 - width 조절 가능) -->
+              <div class="bna-image-after" id="bna-after-overlay">
+                <img src="img/livingroom.jpg" alt="거실 애프터">
+                <span class="bna-tag-badge after-badge">After</span>
+              </div>
+              
+              <!-- 슬라이더 컨트롤러 핸들 -->
+              <div class="bna-slider-handle" id="bna-slider-handle">
+                <div class="bna-handle-line"></div>
+                <div class="bna-handle-knob">
+                  <span class="material-symbols-outlined">unfold_more</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. 비포 & 애프터 갤러리 리스트 -->
+          <div class="bna-showcase-list">
+            
+            <!-- 쇼케이스 1: 침실 -->
+            <div class="bna-showcase-card">
+              <div class="bna-showcase-imgs">
+                <div class="bna-showcase-img-box before-box">
+                  <img src="img/light002.jpg" alt="침실 비포" class="dark-filter">
+                  <span class="mini-bna-badge before">Before</span>
+                </div>
+                <div class="bna-showcase-img-box after-box">
+                  <img src="img/light002.jpg" alt="침실 애프터" class="warm-filter">
+                  <span class="mini-bna-badge after">After</span>
+                </div>
+              </div>
+              <div class="bna-showcase-info">
+                <h4 class="bna-showcase-title">침실 (Bedroom)</h4>
+                <p class="bna-showcase-desc">따뜻한 3000K 색온도로 아늑해진 휴식 공간</p>
+              </div>
+            </div>
+
+            <!-- 쇼케이스 2: 다이닝룸 -->
+            <div class="bna-showcase-card">
+              <div class="bna-showcase-imgs">
+                <div class="bna-showcase-img-box before-box">
+                  <img src="img/light009.jpg" alt="다이닝룸 비포" class="dark-filter">
+                  <span class="mini-bna-badge before">Before</span>
+                </div>
+                <div class="bna-showcase-img-box after-box">
+                  <img src="img/light009.jpg" alt="다이닝룸 애프터" class="warm-filter">
+                  <span class="mini-bna-badge after">After</span>
+                </div>
+              </div>
+              <div class="bna-showcase-info">
+                <h4 class="bna-showcase-title">다이닝룸 (Dining Room)</h4>
+                <p class="bna-showcase-desc">집중도 있는 포인트 펜던트 조명으로 클래식한 분위기 연출</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 하단 플로팅 CTA 버튼 -->
+        <button type="button" class="bna-float-scan-btn" id="btn-bna-float-scan">
+          <span class="material-symbols-outlined">auto_awesome</span> 내 방도 분석하기
+        </button>
       </div>
 
       <!-- [고정 하단 탭바] -->

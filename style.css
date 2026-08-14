@@ -3686,3 +3686,262 @@ img {
   text-align: center;
   padding: 24px 0;
 }
+
+/* ==========================================
+   1.10. AI Before & After 갤러리 전체 화면 스타일
+   ========================================== */
+.bna-all-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 120px; /* 플로팅 버튼 영역 확보 */
+}
+
+.bna-all-header {
+  margin-bottom: -4px;
+}
+
+.bna-all-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+  letter-spacing: -0.5px;
+}
+
+/* 스플릿 슬라이더 */
+.bna-slider-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.bna-comparison-slider {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.bna-image-before,
+.bna-image-after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.bna-image-before img,
+.bna-image-after img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.bna-image-before img {
+  filter: brightness(0.35) contrast(0.9) saturate(0.6) sepia(0.15) hue-rotate(15deg);
+}
+
+.bna-image-after {
+  width: 50%;
+  border-right: 1px solid rgba(255, 255, 255, 0.4);
+  z-index: 10;
+}
+
+.bna-image-after img {
+  width: 100%;
+  min-width: 370px;
+}
+
+.bna-tag-badge {
+  position: absolute;
+  bottom: 12px;
+  z-index: 20;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: var(--color-dark-navy);
+  background-color: #FFAB40;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.before-badge {
+  left: 12px;
+}
+
+.after-badge {
+  right: 12px;
+}
+
+/* 슬라이더 컨트롤러 */
+.bna-slider-handle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 100%;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.bna-handle-line {
+  position: absolute;
+  top: 0;
+  left: -1px;
+  width: 2px;
+  height: 100%;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.bna-handle-knob {
+  position: absolute;
+  top: 50%;
+  left: -18px;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  pointer-events: auto;
+  cursor: ew-resize;
+}
+
+.bna-handle-knob span {
+  font-size: 20px;
+  color: var(--color-dark-navy);
+  transform: rotate(90deg);
+}
+
+/* 비포애프터 가이드 리스트 */
+.bna-showcase-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.bna-showcase-card {
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-card);
+}
+
+.bna-showcase-imgs {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.bna-showcase-img-box {
+  flex: 1;
+  position: relative;
+  height: 130px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.bna-showcase-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dark-filter {
+  filter: brightness(0.3) contrast(0.85) saturate(0.6) sepia(0.1);
+}
+
+.warm-filter {
+  filter: brightness(1.05) contrast(1.05) sepia(0.12) saturate(1.1);
+}
+
+.mini-bna-badge {
+  position: absolute;
+  bottom: 8px;
+  font-size: 0.55rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #FFFFFF;
+}
+
+.mini-bna-badge.before {
+  left: 8px;
+  background-color: rgba(18, 24, 38, 0.7);
+}
+
+.mini-bna-badge.after {
+  right: 8px;
+  background-color: var(--color-primary);
+}
+
+.bna-showcase-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bna-showcase-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+}
+
+.bna-showcase-desc {
+  font-size: 0.7rem;
+  color: var(--color-text-sub);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* 하단 플로팅 CTA 버튼 */
+.bna-float-scan-btn {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  background: linear-gradient(135deg, #FFAB40 0%, #FF9100 100%);
+  color: #121826;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 12px 24px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(255, 145, 0, 0.4);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.bna-float-scan-btn:hover {
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 10px 28px rgba(255, 145, 0, 0.55);
+}
+
+.bna-float-scan-btn:active {
+  transform: translateX(-50%) translateY(0);
+}

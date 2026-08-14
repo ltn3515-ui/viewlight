@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewMypage = document.getElementById('view-mypage');
   const viewFeaturedMore = document.getElementById('view-featured-more');
   const viewCategoryAll = document.getElementById('view-category-all');
+  const viewBnaAll = document.getElementById('view-bna-all');
 
   function showView(viewId) {
     // Hide all views
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (viewMypage) viewMypage.classList.remove('active');
     if (viewFeaturedMore) viewFeaturedMore.classList.remove('active');
     if (viewCategoryAll) viewCategoryAll.classList.remove('active');
+    if (viewBnaAll) viewBnaAll.classList.remove('active');
     
     // Show selected view
     if (viewId === 'home') {
@@ -70,13 +72,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (viewCategoryAll) viewCategoryAll.classList.add('active');
       const catAllScrollContent = document.querySelector('.category-all-content');
       if (catAllScrollContent) catAllScrollContent.scrollTop = 0;
+    } else if (viewId === 'bna-all') {
+      if (viewBnaAll) viewBnaAll.classList.add('active');
+      const bnaAllScrollContent = document.querySelector('.bna-all-content');
+      if (bnaAllScrollContent) bnaAllScrollContent.scrollTop = 0;
+      if (window.initBnaSlider) window.initBnaSlider();
     }
     
     // Update bottom tab items active state
     tabItems.forEach(item => {
       item.classList.remove('active');
       const href = item.getAttribute('href');
-      if ((viewId === 'home' || viewId === 'featured-more' || viewId === 'category-all') && href === '#home') item.classList.add('active');
+      if ((viewId === 'home' || viewId === 'featured-more' || viewId === 'category-all' || viewId === 'bna-all') && href === '#home') item.classList.add('active');
       if (viewId === 'scan' && href === '#ai') item.classList.add('active');
       if (viewId === 'cart' && href === '#cart') item.classList.add('active');
       if (viewId === 'mypage' && href === '#mypage') item.classList.add('active');
@@ -290,6 +297,34 @@ document.addEventListener('DOMContentLoaded', () => {
     categoriesAllBackBtn.addEventListener('click', (e) => {
       e.preventDefault();
       showView('home');
+    });
+  }
+
+  const bnaAllBtn = document.getElementById('btn-bna-all');
+  if (bnaAllBtn) {
+    bnaAllBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      showView('bna-all');
+    });
+  }
+
+  const bnaAllBackBtn = document.getElementById('btn-bna-all-back');
+  if (bnaAllBackBtn) {
+    bnaAllBackBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      showView('home');
+    });
+  }
+
+  const bnaFloatScanBtn = document.getElementById('btn-bna-float-scan');
+  if (bnaFloatScanBtn) {
+    bnaFloatScanBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (window.openGuideModal) {
+        window.openGuideModal();
+      } else {
+        showView('scan');
+      }
     });
   }
 
@@ -1100,4 +1135,84 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // ==========================================
+  // 12.7. B&A 비교 스플릿 슬라이더 제어
+  // ==========================================
+  window.initBnaSlider = function() {
+    const slider = document.getElementById('main-bna-slider');
+    const overlay = document.getElementById('bna-after-overlay');
+    const handle = document.getElementById('bna-slider-handle');
+    if (!slider || !overlay || !handle) return;
+
+    // Reset positions to 50%
+    overlay.style.width = '50%';
+    handle.style.left = '50%';
+
+    let isDragging = false;
+
+    function moveSlider(clientX) {
+      const rect = slider.getBoundingClientRect();
+      let offsetX = clientX - rect.left;
+      
+      // Keep within bounds
+      if (offsetX < 0) offsetX = 0;
+      if (offsetX > rect.width) offsetX = rect.width;
+      
+      const percentage = (offsetX / rect.width) * 100;
+      overlay.style.width = percentage + '%';
+      handle.style.left = percentage + '%';
+    }
+
+    // Touch and mouse events
+    const knob = handle.querySelector('.bna-handle-knob');
+    if (knob) {
+      knob.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        e.preventDefault();
+      });
+
+      // Also allow dragging by clicking anywhere on the slider container
+      slider.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.bna-handle-knob')) return; // Avoid double triggering
+        isDragging = true;
+        moveSlider(e.clientX);
+      });
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      moveSlider(e.clientX);
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    // Touch support for mobile/tablet simulation
+    if (knob) {
+      knob.addEventListener('touchstart', (e) => {
+        isDragging = true;
+      });
+
+      slider.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.bna-handle-knob')) return;
+        isDragging = true;
+        if (e.touches && e.touches[0]) {
+          moveSlider(e.touches[0].clientX);
+        }
+      });
+    }
+
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      if (e.touches && e.touches[0]) {
+        moveSlider(e.touches[0].clientX);
+      }
+    });
+
+    window.addEventListener('touchend', () => {
+      isDragging = false;
+    });
+  };
 });
