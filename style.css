@@ -5287,7 +5287,6 @@ img {
 .report-rec-card,
 .story-step-card,
 .story-intro-card,
-.hero-card,
 .noti-item {
   transition:
     transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -5338,11 +5337,6 @@ img {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* ── 히어로 카드 ────────────────────────── */
-.hero-card:hover {
-  transform: translateY(-3px) scale(1.005);
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.14) !important;
-}
 
 /* ── 카드 이미지 줌 ─────────────────────── */
 .product-img-box,
