@@ -5155,3 +5155,95 @@ img {
 .btn-noti-clear-all:hover {
   color: #B36B00;
 }
+
+/* ==========================================
+   커스텀 커서 스타일 (데스크톱 전용)
+   ========================================== */
+
+/* 전체 기본 커서 숨김 */
+@media (hover: hover) and (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
+/* 도트 — 즉시 추적하는 중심점 */
+#cursor-dot {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #FFAB40;
+  box-shadow:
+    0 0 8px 3px rgba(255, 171, 64, 0.7),
+    0 0 20px 6px rgba(255, 171, 64, 0.3);
+  z-index: 999999;
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.2s ease,
+    height 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.3s ease;
+  mix-blend-mode: normal;
+  will-change: transform;
+}
+
+/* 글로우 링 — 부드럽게 지연 추적 */
+#cursor-glow {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 171, 64, 0.55);
+  background: radial-gradient(circle, rgba(255, 171, 64, 0.06) 0%, transparent 70%);
+  z-index: 999998;
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.25s ease,
+    background 0.25s ease,
+    opacity 0.3s ease;
+  will-change: transform;
+}
+
+/* 호버 상태 — 인터랙티브 요소 위 */
+#cursor-dot.cursor-hover {
+  width: 12px;
+  height: 12px;
+  background: #FF9800;
+  box-shadow:
+    0 0 14px 5px rgba(255, 152, 0, 0.8),
+    0 0 35px 12px rgba(255, 152, 0, 0.3);
+}
+
+#cursor-glow.cursor-hover {
+  width: 56px;
+  height: 56px;
+  border-color: rgba(255, 152, 0, 0.4);
+  background: radial-gradient(circle, rgba(255, 152, 0, 0.1) 0%, transparent 70%);
+}
+
+/* 클릭 상태 */
+#cursor-dot.cursor-click {
+  width: 6px;
+  height: 6px;
+  background: #FFFFFF;
+  box-shadow:
+    0 0 16px 6px rgba(255, 255, 255, 0.9),
+    0 0 40px 14px rgba(255, 171, 64, 0.5);
+}
+
+#cursor-glow.cursor-click {
+  width: 70px;
+  height: 70px;
+  border-color: rgba(255, 255, 255, 0.35);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+}
