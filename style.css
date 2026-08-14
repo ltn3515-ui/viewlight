@@ -227,7 +227,7 @@ img {
 .main-lamp-card {
   position: relative;
   width: 100%;
-  height: 260px;
+  height: 290px; /* 둘러보기 버튼 삭제 후 대표 카드 비율 확대 최적화 */
   border-radius: var(--radius-lg);
   overflow: hidden;
   background-color: #38302A;
