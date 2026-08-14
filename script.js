@@ -273,19 +273,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const cartCheckoutBtn = document.getElementById('btn-cart-checkout');
-  if (cartCheckoutBtn) {
-    cartCheckoutBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const itemCards = document.querySelectorAll('.cart-item-card');
-      if (itemCards.length === 0) {
-        alert('🛒 장바구니가 비어 있습니다. 제품을 담은 후 주문해 주세요!');
-        return;
-      }
-      showView('checkout');
-    });
-  }
-
   const mypageBackBtn = document.getElementById('btn-mypage-back');
   if (mypageBackBtn) {
     mypageBackBtn.addEventListener('click', (e) => {
@@ -995,9 +982,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // 10.6. 장바구니 결제하기 주문 버튼 이벤트
   const btnCartCheckout = document.getElementById('btn-cart-checkout');
   if (btnCartCheckout) {
-    btnCartCheckout.addEventListener('click', () => {
+    btnCartCheckout.addEventListener('click', (e) => {
+      e.preventDefault();
+      const itemCards = document.querySelectorAll('.cart-item-card');
+      if (itemCards.length === 0) {
+        alert('🛒 장바구니가 비어 있습니다. 제품을 담은 후 주문해 주세요!');
+        return;
+      }
       const totalPriceText = document.getElementById('cart-total-price').textContent;
-      alert(`💳 총 결제 금액 [${totalPriceText}] 주문서 접수 및 결제가 최종 완료되었습니다!`);
+      alert(`💳 총 결제 금액 [${totalPriceText}] 결제페이지로 이동하겠습니다`);
+      showView('checkout');
     });
   }
 
