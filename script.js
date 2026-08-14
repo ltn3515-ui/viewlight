@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewBnaAll = document.getElementById('view-bna-all');
   const viewProductDetail = document.getElementById('view-product-detail');
   const viewCheckout = document.getElementById('view-checkout');
+  const viewCurationReport = document.getElementById('view-curation-report');
 
   function showView(viewId) {
     // Hide all views
@@ -47,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (viewBnaAll) viewBnaAll.classList.remove('active');
     if (viewProductDetail) viewProductDetail.classList.remove('active');
     if (viewCheckout) viewCheckout.classList.remove('active');
+    if (viewCurationReport) viewCurationReport.classList.remove('active');
     
     // Show selected view
     if (viewId === 'home') {
@@ -90,13 +92,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const checkoutScrollContent = document.querySelector('.checkout-content');
       if (checkoutScrollContent) checkoutScrollContent.scrollTop = 0;
       if (window.initCheckoutView) window.initCheckoutView();
+    } else if (viewId === 'curation-report') {
+      if (viewCurationReport) viewCurationReport.classList.add('active');
+      const reportScrollContent = document.querySelector('.report-content');
+      if (reportScrollContent) reportScrollContent.scrollTop = 0;
     }
     
     // Update bottom tab items active state
     tabItems.forEach(item => {
       item.classList.remove('active');
       const href = item.getAttribute('href');
-      if ((viewId === 'home' || viewId === 'featured-more' || viewId === 'category-all' || viewId === 'bna-all' || viewId === 'product-detail' || viewId === 'checkout') && href === '#home') item.classList.add('active');
+      if ((viewId === 'home' || viewId === 'featured-more' || viewId === 'category-all' || viewId === 'bna-all' || viewId === 'product-detail' || viewId === 'checkout' || viewId === 'curation-report') && href === '#home') item.classList.add('active');
       if (viewId === 'scan' && href === '#ai') item.classList.add('active');
       if (viewId === 'cart' && href === '#cart') item.classList.add('active');
       if (viewId === 'mypage' && href === '#mypage') item.classList.add('active');
@@ -184,11 +190,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const heroCollectionBtn = document.querySelector('.hero-sub-btn[href="#collection"]');
-  if (heroCollectionBtn) {
-    heroCollectionBtn.addEventListener('click', (e) => {
+  const reportMenuLink = document.querySelector('.menu-drawer-nav a[href="#report"]');
+  if (reportMenuLink && menuDrawer) {
+    reportMenuLink.addEventListener('click', (e) => {
       e.preventDefault();
-      showView('category-all');
+      menuDrawer.classList.remove('open');
+      showView('curation-report');
     });
   }
 
@@ -1791,6 +1798,49 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       e.stopPropagation();
       window.addProductToCart("아우라 플로어 램프", 180000, "img/img002.png");
+    });
+  }
+
+  // ==========================================
+  // 15. Curation Report 화면 연동 로직
+  // ==========================================
+  
+  // 15.1. 뒤로가기 버튼
+  const btnReportBack = document.getElementById('btn-report-back');
+  if (btnReportBack) {
+    btnReportBack.addEventListener('click', (e) => {
+      e.preventDefault();
+      showView('home');
+    });
+  }
+
+  // 15.2. AR 체험 버튼 연동
+  const btnReportAr = document.getElementById('btn-report-ar');
+  if (btnReportAr) {
+    btnReportAr.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (window.openGuideModal) {
+        window.openGuideModal();
+      } else {
+        showView('scan');
+      }
+    });
+  }
+
+  // 15.3. 추천 무드등 일괄 담기 버튼 연동
+  const btnReportBulkCart = document.getElementById('btn-report-bulk-cart');
+  if (btnReportBulkCart) {
+    btnReportBulkCart.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      // 첫 번째 제품 추가: 집중된 안락함 (490,000원)
+      window.addProductToCart("집중된 안락함", 490000, "img/light009.jpg");
+      
+      // 두 번째 제품 추가: 앰비언트 모드 (200,000원)
+      // alert 창 겹침 방지 및 부드러운 시각적 적재 연출을 위해 500ms 간격을 두고 추가
+      setTimeout(() => {
+        window.addProductToCart("앰비언트 모드", 200000, "img/Stand03.png");
+      }, 500);
     });
   }
 });

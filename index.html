@@ -1326,6 +1326,94 @@
       </div>
 
 
+      <!-- [뷰 11] AI Curation Report 화면 -->
+      <div id="view-curation-report" class="mobile-view">
+        <!-- 상단바 -->
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-report-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo" style="margin-left: 20px;">
+            <img src="img/logo2.png" alt="ViewLight Logo" class="service-logo-img">
+            <span class="service-logo-text">ViewLight</span>
+          </div>
+          <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+        </header>
+
+        <!-- 스크롤 콘텐츠 영역 -->
+        <div class="service-content report-content">
+          <!-- 1. AI 공간 분석 요약 카드 -->
+          <div class="report-summary-card">
+            <h4 class="report-summary-title">AI 공간 분석 요약</h4>
+            <p class="report-summary-desc">
+              분석된 공간은 부드러운 자연광과 뉴트럴한 색조가 돋보입니다. 이에 어울리는 조명 무드를 제안합니다.
+            </p>
+            <div class="report-tag-list">
+              <span class="report-summary-tag">따뜻한 웜 미니멀리스트</span>
+              <span class="report-summary-tag">부드러운 베이지 톤</span>
+              <span class="report-summary-tag">로우 컨트라스트</span>
+            </div>
+          </div>
+
+          <!-- 2. 대표 공간 오리지널 룸 카드 -->
+          <div class="report-room-card" style="background-image: url('img/livingroom.jpg');">
+            <div class="room-overlay-content">
+              <span class="room-top-tag">ORIGINAL</span>
+              <h3 class="room-main-title">Living Room</h3>
+            </div>
+            <!-- AR 체험 노란색 알약 버튼 -->
+            <button type="button" class="room-ar-btn" id="btn-report-ar">
+              <span class="material-symbols-outlined">center_focus_strong</span> AR 체험
+            </button>
+          </div>
+
+          <!-- 3. 추천 무드등 가로 캐러셀 섹션 -->
+          <div class="report-rec-section">
+            <div class="report-rec-header">
+              <h4 class="report-rec-title">추천 무드등</h4>
+              <span class="material-symbols-outlined report-more-icon">more_horiz</span>
+            </div>
+
+            <!-- 가로 스크롤 카드 리스트 -->
+            <div class="report-carousel-container">
+              <!-- 카드 1: 집중된 안락함 -->
+              <div class="report-rec-card" onclick="openProductDetail('aurora-brass')">
+                <div class="report-card-img-box">
+                  <img src="img/light009.jpg" alt="집중된 안락함">
+                  <span class="scene-badge">SCENE 01</span>
+                </div>
+                <div class="report-card-body">
+                  <h5 class="report-card-title">집중된 안락함</h5>
+                  <p class="report-card-desc">드라마틱하고 낮게 드리워진 펜던트 조명 이러한 구성은..</p>
+                  <span class="report-card-price">490,000원</span>
+                </div>
+              </div>
+
+              <!-- 카드 2: 앰비언트 모드 -->
+              <div class="report-rec-card" onclick="openProductDetail('neo-able')">
+                <div class="report-card-img-box">
+                  <img src="img/Stand03.png" alt="앰비언트 모드">
+                  <span class="scene-badge">SCENE 02</span>
+                </div>
+                <div class="report-card-body">
+                  <h5 class="report-card-title">앰비언트 모드</h5>
+                  <p class="report-card-desc">부드럽고 자연스럽게 스며드는 잔잔한 간접 조명 무드셋업</p>
+                  <span class="report-card-price">200,000원</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 추천 무드등 일괄 담기 대형 오렌지색 버튼 -->
+            <button type="button" class="btn-report-bulk-cart" id="btn-report-bulk-cart">
+              <span class="material-symbols-outlined">shopping_bag</span>
+              추천 무드등 일괄 담기 (690,000원)
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+
       <!-- [고정 하단 탭바] -->
       <nav class="mobile-bottom-tabbar">
         <a href="#home" class="tab-item active">
