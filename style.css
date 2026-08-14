@@ -1911,7 +1911,9 @@ img {
 }
 
 .modal-wrapper.active {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 딤드 백드롭 */
@@ -3561,6 +3563,8 @@ img {
    1.9. 검색 모달창 스타일
    ========================================== */
 .search-card {
+  position: relative;
+  z-index: 2;
   background-color: #FDFBF7;
   border-radius: 24px;
   padding: 24px;
@@ -4995,6 +4999,8 @@ img {
    1.14. 알림 모달창 스타일
    ========================================== */
 .noti-card {
+  position: relative;
+  z-index: 2;
   max-width: 330px;
   width: 90%;
   background-color: #FFFFFF;
