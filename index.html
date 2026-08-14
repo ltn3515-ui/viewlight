@@ -1644,6 +1644,58 @@
         </div>
       </div>
 
+      <!-- 4. 알림 모달창 (상단 알림 종 아이콘 클릭 시 노출) -->
+      <div id="notification-modal" class="modal-wrapper">
+        <div class="modal-backdrop" id="noti-backdrop"></div>
+        <div class="modal-card noti-card">
+          <!-- 헤더 -->
+          <div class="noti-modal-header">
+            <h3 class="noti-modal-title">🔔 실시간 알림 센터</h3>
+            <button type="button" id="btn-noti-close" class="noti-modal-close-btn">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+
+          <!-- 알림 리스트 -->
+          <div class="noti-modal-body">
+            <!-- 알림 1: 공간분석 완성 -->
+            <div class="noti-item new" onclick="showView('curation-report'); document.getElementById('notification-modal').classList.remove('active');">
+              <span class="material-symbols-outlined noti-item-icon color-primary">auto_awesome</span>
+              <div class="noti-item-content">
+                <h4 class="noti-item-title">[AI 큐레이션] 방 분석 완료!</h4>
+                <p class="noti-item-text">당신의 거실 공간 분석 리포트가 발급되었습니다. 지금 바로 확인해 보세요.</p>
+                <span class="noti-item-time">방금 전</span>
+              </div>
+            </div>
+
+            <!-- 알림 2: 첫 가입 쿠폰 -->
+            <div class="noti-item" onclick="showView('mypage'); document.getElementById('notification-modal').classList.remove('active');">
+              <span class="material-symbols-outlined noti-item-icon color-blue">local_activity</span>
+              <div class="noti-item-content">
+                <h4 class="noti-item-title">[웰컴 혜택] 15% 할인 세트 쿠폰 발급</h4>
+                <p class="noti-item-text">가구 매칭 조명 세트 구매 시 사용 가능한 15% 할인 웰컴 쿠폰이 쿠폰함에 보관되었습니다.</p>
+                <span class="noti-item-time">2시간 전</span>
+              </div>
+            </div>
+
+            <!-- 알림 3: 배송 알림 -->
+            <div class="noti-item" onclick="showView('mypage'); document.getElementById('notification-modal').classList.remove('active');">
+              <span class="material-symbols-outlined noti-item-icon color-green">local_shipping</span>
+              <div class="noti-item-content">
+                <h4 class="noti-item-title">[주문 배송] 배송 출발 안내</h4>
+                <p class="noti-item-text">주문하신 '오로라 브라스 펜던트' 상품의 배송 차량 배차가 완료되어 안전하게 출발했습니다.</p>
+                <span class="noti-item-time">어제</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 전체 지우기 버튼 -->
+          <div class="noti-modal-footer">
+            <button type="button" class="btn-noti-clear-all" onclick="clearAllNotifications()">모든 알림 읽음 처리</button>
+          </div>
+        </div>
+      </div>
+
     </main>
 
   </div>

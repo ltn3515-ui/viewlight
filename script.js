@@ -1861,4 +1861,55 @@ document.addEventListener('DOMContentLoaded', () => {
       showView('category-all');
     });
   }
+
+  // ==========================================
+  // 16. 실시간 알림 모달 제어 로직
+  // ==========================================
+  const notiModal = document.getElementById('notification-modal');
+  const notiCloseBtn = document.getElementById('btn-noti-close');
+  const notiBackdrop = document.getElementById('noti-backdrop');
+
+  // 알림 모달 열기 함수
+  window.openNotificationModal = function() {
+    if (notiModal) {
+      notiModal.classList.add('active');
+    }
+  };
+
+  // 알림 모달 닫기 함수
+  window.closeNotificationModal = function() {
+    if (notiModal) {
+      notiModal.classList.remove('active');
+    }
+  };
+
+  // 모든 notifications 링크에 클릭 이벤트 매핑
+  const notiTriggers = document.querySelectorAll('a[href="#notifications"]');
+  notiTriggers.forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.openNotificationModal();
+    });
+  });
+
+  // 닫기 버튼 및 백드롭 이벤트 바인딩
+  if (notiCloseBtn) {
+    notiCloseBtn.addEventListener('click', window.closeNotificationModal);
+  }
+  if (notiBackdrop) {
+    notiBackdrop.addEventListener('click', window.closeNotificationModal);
+  }
+
+  // 모든 알림 읽음 처리 기능
+  window.clearAllNotifications = function() {
+    const unreadItems = document.querySelectorAll('.noti-item.new');
+    if (unreadItems.length > 0) {
+      unreadItems.forEach(item => {
+        item.classList.remove('new');
+      });
+      alert('🔔 모든 실시간 알림을 읽음 처리했습니다.');
+    } else {
+      alert('🔔 새로 온 미확인 알림이 없습니다.');
+    }
+  };
 });
