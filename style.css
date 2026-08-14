@@ -5475,3 +5475,119 @@ img {
   padding-left: calc(var(--spacing-sm, 8px) + 4px) !important;
   transform: translateX(4px) !important;
 }
+/* ==========================================
+   이미지 뷰어 모달
+   ========================================== */
+
+/* BNA 이미지 박스 — 줌 힌트 아이콘 */
+.bna-img-box {
+  position: relative;
+}
+
+.bna-zoom-hint {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #121826;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.34,1.56,0.64,1);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.bna-img-box:hover .bna-zoom-hint {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 이미지 뷰어 백드롭 */
+.img-viewer-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 12, 20, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 1;
+  animation: fadeIn 0.2s ease;
+}
+
+/* 이미지 뷰어 카드 */
+.img-viewer-card {
+  position: relative;
+  z-index: 2;
+  width: min(92vw, 480px);
+  background: #1A1E2A;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 28px 64px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.07);
+  animation: viewerSlideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes viewerSlideUp {
+  from { transform: translateY(40px) scale(0.92); opacity: 0; }
+  to   { transform: translateY(0)    scale(1);    opacity: 1; }
+}
+
+/* 닫기 버튼 */
+.img-viewer-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(4px);
+  border: none;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.18s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.img-viewer-close-btn:hover {
+  background: rgba(255,255,255,0.28);
+  transform: scale(1.1) rotate(90deg);
+}
+
+/* 이미지 영역 */
+.img-viewer-body {
+  width: 100%;
+  max-height: 68vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111318;
+}
+
+.img-viewer-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* 캡션 */
+.img-viewer-caption {
+  padding: 14px 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  letter-spacing: 0.2px;
+}

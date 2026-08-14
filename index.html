@@ -215,20 +215,22 @@
           <div class="bna-list">
             <!-- B&A 카드 1 -->
             <div class="bna-item-card">
-              <div class="bna-img-box">
+              <div class="bna-img-box" onclick="openImageViewer('img/Transformation Card 1.png', '거실 | 아우라 플로어 램프 적용')" style="cursor:pointer;">
                 <img src="img/Transformation Card 1.png" alt="거실 아우라 플로어 램프 적용" class="bna-img">
                 <span class="bna-pill before-pill">BEFORE</span>
                 <span class="bna-pill after-pill">AFTER</span>
+                <div class="bna-zoom-hint"><span class="material-symbols-outlined">zoom_in</span></div>
               </div>
               <div class="bna-caption">거실 | 아우라 플로어 램프 적용</div>
             </div>
 
             <!-- B&A 카드 2 -->
             <div class="bna-item-card">
-              <div class="bna-img-box">
+              <div class="bna-img-box" onclick="openImageViewer('img/Transformation Card 2.png', '다이닝 | 포근한 펜던트 조명 큐레이션')" style="cursor:pointer;">
                 <img src="img/Transformation Card 2.png" alt="다이닝 포근한 펜던트 조명 큐레이션" class="bna-img">
                 <span class="bna-pill before-pill">BEFORE</span>
                 <span class="bna-pill after-pill">AFTER</span>
+                <div class="bna-zoom-hint"><span class="material-symbols-outlined">zoom_in</span></div>
               </div>
               <div class="bna-caption">다이닝 | 포근한 펜던트 조명 큐레이션</div>
             </div>
@@ -1700,6 +1702,20 @@
         <div class="noti-modal-footer">
           <button type="button" class="btn-noti-clear-all" onclick="clearAllNotifications()">모든 알림 읽음 처리</button>
         </div>
+      </div>
+    </div>
+
+    <!-- 5. 이미지 뷰어 모달 (BNA 이미지 클릭 시 노출) -->
+    <div id="image-viewer-modal" class="fixed-modal-wrapper" onclick="closeImageViewer()">
+      <div class="img-viewer-backdrop"></div>
+      <div class="img-viewer-card" onclick="event.stopPropagation()">
+        <button type="button" class="img-viewer-close-btn" onclick="closeImageViewer()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+        <div class="img-viewer-body">
+          <img id="img-viewer-src" src="" alt="" class="img-viewer-img">
+        </div>
+        <div class="img-viewer-caption" id="img-viewer-caption"></div>
       </div>
     </div>
 

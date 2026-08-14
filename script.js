@@ -1913,3 +1913,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 });
+
+/* ==========================================
+   이미지 뷰어 모달 — 전역 함수
+   ========================================== */
+window.openImageViewer = function(src, caption) {
+  const modal  = document.getElementById('image-viewer-modal');
+  const imgEl  = document.getElementById('img-viewer-src');
+  const capEl  = document.getElementById('img-viewer-caption');
+  if (!modal || !imgEl) return;
+
+  imgEl.src = src;
+  imgEl.alt = caption || '';
+  if (capEl) capEl.textContent = caption || '';
+
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeImageViewer = function() {
+  const modal = document.getElementById('image-viewer-modal');
+  if (!modal) return;
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+};
+
+/* ESC 키로도 닫기 */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    window.closeImageViewer();
+  }
+});
