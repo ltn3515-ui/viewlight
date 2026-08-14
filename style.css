@@ -102,7 +102,7 @@ img {
 
 .service-logo-text {
   font-size: 1.25rem;
-  font-weight: 800;
+  font-weight: 400; /* ViewLight 로고 폰트 두께 레귤러로 최적화 */
   color: var(--color-text-main);
   letter-spacing: -0.5px;
 }
