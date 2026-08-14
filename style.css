@@ -1,4 +1,4 @@
-﻿/* ==========================================
+/* ==========================================
    0. 디자인 시스템 변수 & 리셋
    ========================================== */
 :root {
@@ -5277,13 +5277,10 @@ img {
 }
 
 /* ==========================================
-   호버 & 리프트 인터랙션 시스템 (전체 버튼)
+   호버 & 리프트 인터랙션 시스템
    ========================================== */
 
-/* ━━ 공통 스프링 이징 변수 ━━━━━━━━━━━━━━━━ */
-/* cubic-bezier(0.34, 1.56, 0.64, 1) = 스프링 오버슈트 */
-
-/* ━━ 1. 카드 리프트 ━━━━━━━━━━━━━━━━━━━━━━ */
+/* ── 공통 트랜지션 기반 ─────────────────── */
 .featured-product-card,
 .curated-product-card,
 .collection-product-card,
@@ -5291,79 +5288,74 @@ img {
 .story-step-card,
 .story-intro-card,
 .hero-card,
-.noti-item,
-.thumb-card,
-.cat-card,
-.bna-item-card,
-.dark-tech-card,
-.category-list-card {
+.noti-item {
   transition:
     transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
     box-shadow 0.28s ease !important;
   will-change: transform;
 }
 
+/* ── 제품 카드 리프트 ───────────────────── */
 .featured-product-card:hover {
   transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.13), 0 4px 12px rgba(255,171,64,0.15) !important;
-}
-.curated-product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 14px 32px rgba(0,0,0,0.1), 0 0 24px rgba(255,171,64,0.12) !important;
-}
-.collection-product-card:hover {
-  transform: translateY(-7px) scale(1.015) !important;
-  box-shadow: 0 20px 48px rgba(0,0,0,0.15), 0 4px 16px rgba(255,171,64,0.12) !important;
-}
-.report-rec-card:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.1), 0 0 20px rgba(255,171,64,0.14) !important;
-}
-.story-step-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.1) !important;
-}
-.hero-card:hover {
-  transform: translateY(-3px) scale(1.005);
-  box-shadow: 0 18px 44px rgba(0,0,0,0.14) !important;
-}
-.thumb-card:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.12), 0 0 16px rgba(255,171,64,0.12) !important;
-}
-.cat-card:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 14px 32px rgba(0,0,0,0.18) !important;
-}
-.bna-item-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(0,0,0,0.1) !important;
-}
-.dark-tech-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 36px rgba(0,0,0,0.2), 0 0 20px rgba(255,171,64,0.1) !important;
-}
-.category-list-card:hover {
-  transform: translateY(-5px) scale(1.01);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.2) !important;
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.13),
+    0 4px 12px rgba(255, 171, 64, 0.15) !important;
 }
 
-/* ━━ 카드 이미지 줌 ━━━━━━━━━━━━━━━━━━━━━━ */
+.curated-product-card:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.1),
+    0 0 24px rgba(255, 171, 64, 0.12) !important;
+}
+
+.collection-product-card {
+  transition:
+    transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.28s ease !important;
+  will-change: transform;
+}
+
+.collection-product-card:hover {
+  transform: translateY(-7px) scale(1.015) !important;
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.15),
+    0 4px 16px rgba(255, 171, 64, 0.12) !important;
+}
+
+/* ── 추천 카드 (리포트) ─────────────────── */
+.report-rec-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.1),
+    0 0 20px rgba(255, 171, 64, 0.14) !important;
+}
+
+/* ── 스토리 스텝 카드 ───────────────────── */
+.story-step-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ── 히어로 카드 ────────────────────────── */
+.hero-card:hover {
+  transform: translateY(-3px) scale(1.005);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.14) !important;
+}
+
+/* ── 카드 이미지 줌 ─────────────────────── */
 .product-img-box,
 .rec-product-img,
 .col-product-img,
-.report-rec-img,
-.thumb-img-box,
-.bna-img-box {
+.report-rec-img {
   overflow: hidden;
 }
 
 .product-img-box img,
 .rec-product-img img,
 .col-product-img img,
-.report-rec-img img,
-.thumb-img-box img,
-.bna-img-box .bna-img {
+.report-rec-img img {
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
   will-change: transform;
 }
@@ -5371,267 +5363,121 @@ img {
 .featured-product-card:hover .product-img-box img,
 .curated-product-card:hover .rec-product-img img,
 .collection-product-card:hover .col-product-img img,
-.report-rec-card:hover .report-rec-img img,
-.thumb-card:hover .thumb-img-box img,
-.bna-item-card:hover .bna-img-box .bna-img {
+.report-rec-card:hover .report-rec-img img {
   transform: scale(1.07) !important;
 }
 
-/* ━━ 2. CTA & 주요 버튼 ━━━━━━━━━━━━━━━━━━ */
-.quick-cta-badge,
+/* ── 버튼 공통 리프트 ───────────────────── */
 .hero-sub-btn,
-.btn-guide-cta,
-.btn-start-analysis,
-.dark-tech-btn,
-.add-to-cart-btn,
-.btn-report-bulk-cart,
-.featured-more-btn,
-.btn-detailed-view,
-.bna-float-scan-btn {
-  transition:
-    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.2s ease,
-    background 0.18s ease !important;
-  will-change: transform;
-}
-
-.quick-cta-badge:hover {
-  transform: translateY(-3px) scale(1.015) !important;
-  box-shadow: 0 10px 28px rgba(255,171,64,0.45) !important;
-}
-.hero-sub-btn:hover,
-.dark-tech-btn:hover {
-  transform: translateY(-3px) !important;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
-}
-.btn-guide-cta:hover,
-.btn-start-analysis:hover:not(.disabled) {
-  transform: translateY(-3px) !important;
-  box-shadow: 0 8px 24px rgba(255,171,64,0.4) !important;
-}
-.add-to-cart-btn:hover {
-  transform: translateY(-3px) !important;
-  box-shadow: 0 8px 22px rgba(255,171,64,0.3) !important;
-}
-.btn-report-bulk-cart:hover {
-  transform: translateY(-3px) scale(1.01) !important;
-  box-shadow: 0 10px 28px rgba(255,171,64,0.4) !important;
-}
-.featured-more-btn:hover {
-  transform: translateY(-2px) scale(1.02) !important;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.1) !important;
-}
-.btn-detailed-view:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 16px rgba(255,171,64,0.25) !important;
-}
-.bna-float-scan-btn:hover {
-  transform: translateY(-4px) scale(1.05) !important;
-  box-shadow: 0 12px 30px rgba(255,171,64,0.5) !important;
-}
-
-/* ━━ 3. 스캔·카메라·리셋 버튼 ━━━━━━━━━━━━ */
 .btn-rec-action,
 .btn-camera-action,
+.btn-start-analysis,
+.btn-guide-cta,
 .btn-reset-analysis,
 .btn-go-home-link,
-.btn-remove-preview {
+.btn-rec-add,
+.btn-noti-clear-all,
+.trend-tag {
   transition:
     transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
     box-shadow 0.18s ease,
-    background 0.18s ease !important;
+    background 0.18s ease,
+    color 0.18s ease !important;
   will-change: transform;
+}
+
+.hero-sub-btn:hover,
+.btn-guide-cta:hover,
+.btn-start-analysis:hover:not(.disabled) {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 24px rgba(255, 171, 64, 0.35) !important;
 }
 
 .btn-rec-action.primary:hover,
 .btn-camera-action.primary:hover:not(.disabled) {
   transform: translateY(-2px) !important;
-  box-shadow: 0 6px 18px rgba(255,171,64,0.35) !important;
+  box-shadow: 0 6px 18px rgba(255, 171, 64, 0.3) !important;
 }
+
 .btn-rec-action.secondary:hover,
 .btn-camera-action.secondary:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
-}
-.btn-reset-analysis:hover,
-.btn-go-home-link:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 16px rgba(255,171,64,0.2) !important;
-}
-.btn-remove-preview:hover {
-  transform: scale(1.1) !important;
-}
-
-/* ━━ 4. 장바구니 버튼들 ━━━━━━━━━━━━━━━━━━ */
-.btn-rec-add,
-.qty-btn,
-.cart-item-remove,
-.btn-order-checkout {
-  transition:
-    transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.18s ease,
-    background 0.18s ease !important;
-  will-change: transform;
 }
 
 .btn-rec-add:hover {
-  transform: translateY(-2px) scale(1.06) !important;
-  box-shadow: 0 4px 14px rgba(255,171,64,0.3) !important;
-}
-.qty-btn:hover {
-  transform: scale(1.12) !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12) !important;
-}
-.cart-item-remove:hover {
-  transform: scale(1.15) rotate(10deg) !important;
-}
-.btn-order-checkout:hover {
-  transform: translateY(-3px) scale(1.01) !important;
-  box-shadow: 0 10px 28px rgba(255,171,64,0.45) !important;
-}
-
-/* ━━ 5. 상품 상세 버튼 ━━━━━━━━━━━━━━━━━━━ */
-.pd-buy-btn,
-.pd-circle-btn,
-.arrow-btn {
-  transition:
-    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.2s ease !important;
-  will-change: transform;
-}
-
-.pd-buy-btn:hover {
-  transform: translateY(-3px) !important;
-  box-shadow: 0 10px 26px rgba(255,171,64,0.45) !important;
-}
-.pd-circle-btn:hover {
-  transform: scale(1.12) !important;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.15) !important;
-}
-.arrow-btn:hover {
-  transform: scale(1.1) !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
-}
-
-/* ━━ 6. 검색 & 알림 버튼 ━━━━━━━━━━━━━━━━━ */
-.trend-tag,
-.btn-remove-recent,
-.btn-search-cancel-link,
-.btn-guide-cancel-link,
-.btn-guide-skip-link,
-.btn-noti-clear-all,
-.noti-modal-close-btn {
-  transition:
-    transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.18s ease,
-    color 0.18s ease !important;
-  will-change: transform;
+  transform: translateY(-2px) scale(1.04) !important;
+  box-shadow: 0 4px 14px rgba(255, 171, 64, 0.25) !important;
 }
 
 .trend-tag:hover {
-  transform: translateY(-2px) scale(1.06) !important;
-  box-shadow: 0 4px 12px rgba(255,171,64,0.22) !important;
-}
-.btn-remove-recent:hover {
-  transform: scale(1.2) rotate(90deg) !important;
-}
-.btn-search-cancel-link:hover,
-.btn-guide-cancel-link:hover,
-.btn-guide-skip-link:hover {
-  transform: translateY(-1px) !important;
-}
-.btn-noti-clear-all:hover {
-  transform: translateY(-1px) !important;
-}
-.noti-modal-close-btn:hover {
-  transform: scale(1.15) rotate(90deg) !important;
+  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 0 4px 12px rgba(255, 171, 64, 0.2) !important;
 }
 
-/* ━━ 7. 헤더·내비게이션 버튼 ━━━━━━━━━━━━━ */
-.header-icon-btn,
-.nav-arrow-btn,
-.col-card-like-btn,
-.like-toggle,
-.close-btn,
-.logout-btn {
-  transition:
-    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.2s ease !important;
-  will-change: transform;
+/* ── 버튼 클릭(press) 효과 ──────────────── */
+.hero-sub-btn:active,
+.btn-rec-action:active,
+.btn-camera-action:active,
+.btn-start-analysis:active,
+.btn-guide-cta:active,
+.btn-rec-add:active,
+.trend-tag:active {
+  transform: translateY(1px) scale(0.97) !important;
+  box-shadow: none !important;
+  transition-duration: 0.08s !important;
 }
 
-.header-icon-btn:hover {
-  transform: scale(1.15) !important;
-}
-.nav-arrow-btn:hover {
-  transform: scale(1.1) !important;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15) !important;
-}
-.col-card-like-btn:hover,
-.like-toggle:hover {
-  transform: scale(1.2) !important;
-}
-.close-btn:hover {
-  transform: scale(1.12) rotate(90deg) !important;
-}
-.logout-btn:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
-}
-
-/* ━━ 8. 탭 아이템 ━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* ── 탭 아이템 호버/활성 ────────────────── */
 .tab-item {
   transition:
     transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
     color 0.2s ease !important;
 }
+
 .tab-item:hover:not(.active) {
-  transform: translateY(-3px) !important;
+  transform: translateY(-2px) !important;
 }
+
 .tab-item.active {
   transform: translateY(-2px) !important;
 }
 
-/* ━━ 9. 알림 아이템 슬라이드 ━━━━━━━━━━━━━ */
+/* ── 알림 아이템 호버 리프트 ────────────── */
 .noti-item {
   transition:
     transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
     background 0.2s ease,
     box-shadow 0.22s ease !important;
 }
+
 .noti-item:hover {
   transform: translateX(4px) !important;
-  box-shadow: 3px 0 0 0 #FFAB40 inset !important;
+  box-shadow: 2px 0 0 0 #FFAB40 inset !important;
 }
 
-/* ━━ 10. 마이페이지 메뉴 행 ━━━━━━━━━━━━━━ */
-.menu-list-row,
+/* ── 헤더 아이콘 버튼 ───────────────────── */
+.header-icon-btn {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.header-icon-btn:hover {
+  transform: scale(1.15) !important;
+}
+
+.header-icon-btn:active {
+  transform: scale(0.9) !important;
+  transition-duration: 0.08s !important;
+}
+
+/* ── 드로어 메뉴 아이템 ─────────────────── */
 .drawer-menu-item {
   transition:
     transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
     background 0.2s ease,
     padding-left 0.2s ease !important;
 }
-.menu-list-row:hover {
-  transform: translateX(5px) !important;
-}
+
 .drawer-menu-item:hover {
   padding-left: calc(var(--spacing-sm, 8px) + 4px) !important;
   transform: translateX(4px) !important;
 }
-
-/* ━━ 11. 전체 press-down 효과 ━━━━━━━━━━━━ */
-button:active,
-a[onclick]:active,
-[onclick]:active,
-.tab-item:active {
-  transform: translateY(1px) scale(0.96) !important;
-  box-shadow: none !important;
-  transition-duration: 0.07s !important;
-}
-
-/* 단, 제외: disabled 버튼, 카드 요소 press는 별도 */
-.btn-start-analysis.disabled:active {
-  transform: none !important;
-}
-
