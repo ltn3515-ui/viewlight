@@ -2113,7 +2113,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loginButtons.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      alert('로그인 서비스 준비 중입니다.');
+      window.openLoginModal();
     });
   });
 
@@ -2763,4 +2763,73 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// 17. 로그인 / 회원가입 모달 핸들러
+window.openLoginModal = function() {
+  const modal = document.getElementById('login-modal');
+  if (modal) {
+    modal.classList.add('open');
+    switchLoginTab('login'); // 기본 로그인 탭으로 초기화
+  }
+};
+
+window.closeLoginModal = function() {
+  const modal = document.getElementById('login-modal');
+  if (modal) {
+    modal.classList.remove('open');
+    // 입력 폼 초기화
+    document.getElementById('form-email-login')?.reset();
+    document.getElementById('form-email-signup')?.reset();
+  }
+};
+
+window.switchLoginTab = function(tab) {
+  const loginForm = document.getElementById('login-form-wrapper');
+  const signupForm = document.getElementById('signup-form-wrapper');
+  const title = document.getElementById('login-modal-title');
+  const sub = document.getElementById('login-modal-sub');
+
+  if (!loginForm || !signupForm) return;
+
+  if (tab === 'signup') {
+    loginForm.style.display = 'none';
+    signupForm.style.display = 'flex';
+    if (title) title.textContent = '이메일 회원가입';
+    if (sub) sub.textContent = '이메일 주소로 빠르고 간편하게 가입하세요.';
+  } else {
+    loginForm.style.display = 'flex';
+    signupForm.style.display = 'none';
+    if (title) title.textContent = '로그인';
+    if (sub) sub.textContent = 'ViewLight 회원만을 위한 특별한 조명 제어 혜택을 누리세요.';
+  }
+};
+
+window.handleSocialLogin = function(provider) {
+  alert(`[소셜 로그인] ${provider} 계정으로 로그인을 진행합니다.`);
+  closeLoginModal();
+};
+
+window.handleEmailLogin = function(e) {
+  e.preventDefault();
+  const email = document.getElementById('login-email')?.value;
+  if (email) {
+    alert(`${email} 계정으로 로그인이 완료되었습니다.\n환영합니다!`);
+    closeLoginModal();
+  }
+};
+
+window.handleEmailSignup = function(e) {
+  e.preventDefault();
+  const email = document.getElementById('signup-email')?.value;
+  const pw = document.getElementById('signup-password')?.value;
+  const pwConfirm = document.getElementById('signup-password-confirm')?.value;
+
+  if (pw !== pwConfirm) {
+    alert('비밀번호가 일치하지 않습니다. 다시 입력해 주세요.');
+    return;
+  }
+
+  alert(`회원가입이 완료되었습니다!\n${email} 계정으로 가입해주셔서 감사합니다.`);
+  closeLoginModal();
+};
 
