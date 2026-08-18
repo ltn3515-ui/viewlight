@@ -627,30 +627,32 @@
             <span class="material-symbols-outlined">chevron_left</span>
           </button>
           <div class="service-logo">
-
             <span class="service-logo-text">ViewLight</span>
           </div>
           <div class="header-actions">
             <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
-
           </div>
         </header>
 
         <!-- 스크롤 콘텐츠 영역 -->
         <div class="service-content mypage-content">
+
           <!-- 사용자 프로필 카드 -->
           <div class="user-profile-section">
             <div class="profile-avatar-box">
               <img id="profile-avatar-img" src="img/Stand01.jpg" alt="User Profile Image">
+              <button type="button" class="btn-profile-edit-badge" onclick="openEditProfileModal()" title="프로필 수정">
+                <span class="material-symbols-outlined">edit</span>
+              </button>
             </div>
             <div class="profile-user-info">
-              <h3 class="profile-username" style="display: flex; align-items: center; gap: 6px;">
+              <h3 class="profile-username">
                 <span id="profile-name-text">김뷰라이트</span>
-                <button type="button" class="btn-profile-edit" onclick="openEditProfileModal()" style="background: none; border: none; padding: 0; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: var(--color-primary); transition: opacity 0.2s;">
-                  <span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
-                </button>
               </h3>
-              <span class="profile-join-date">● 2026.05.15 가입</span>
+              <span class="profile-member-badge">
+                <span class="material-symbols-outlined" style="font-size: 11px;">star</span>
+                PREMIUM MEMBER
+              </span>
             </div>
           </div>
 
@@ -664,7 +666,7 @@
                 따뜻하고 은은한 조명은 나무의 자연스러운 질감과 어우러져 피로를 덜어주고 집중력을 높이는 데 도움이 됩니다.
               </p>
               <button type="button" class="btn-view-report" onclick="showView('curation-report')">
-                View Report +
+                View Report →
               </button>
             </div>
           </div>
@@ -673,16 +675,16 @@
           <div class="mypage-section-card">
             <h4 class="section-card-title">⚙️ Smart Control</h4>
             <div class="smart-devices-list">
-              
-              <!-- 기기 1: 루미나 플로어 하프 -->
+
+              <!-- 기기 1: 루미나 플로어 아크 -->
               <div class="smart-device-item" id="device-item-lumina">
                 <div class="device-info-row">
                   <div class="device-icon-circle">
                     <span class="material-symbols-outlined">lightbulb</span>
                   </div>
                   <div class="device-text-meta">
-                    <h5 class="device-name">루미나 플로어 하프</h5>
-                    <p class="device-location">Living Room | 3000K Warm White</p>
+                    <h5 class="device-name">루미나 플로어 아크</h5>
+                    <p class="device-location">Living Room · 3000K Warm White</p>
                   </div>
                   <button type="button" class="btn-device-toggle on" id="toggle-device-lumina" onclick="toggleDevice('device-item-lumina')">ON</button>
                 </div>
@@ -693,15 +695,15 @@
                 </div>
               </div>
 
-              <!-- 기기 2: 네오 에블 라이트 -->
+              <!-- 기기 2: 에코 페블 라이트 -->
               <div class="smart-device-item offline" id="device-item-neo">
                 <div class="device-info-row">
                   <div class="device-icon-circle">
                     <span class="material-symbols-outlined">light</span>
                   </div>
                   <div class="device-text-meta">
-                    <h5 class="device-name">네오 에블 라이트</h5>
-                    <p class="device-location">Bedroom | Offline</p>
+                    <h5 class="device-name">에코 페블 라이트</h5>
+                    <p class="device-location">Bedroom · Offline</p>
                   </div>
                   <button type="button" class="btn-device-toggle off" id="toggle-device-neo" onclick="toggleDevice('device-item-neo')">OFF</button>
                 </div>
@@ -717,49 +719,50 @@
 
           <!-- 설정 메뉴 목록 -->
           <div class="mypage-menu-list">
-            <a href="#orders" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: inherit; border-bottom: 1px solid var(--color-border);" onclick="showView('orders'); return false;">
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <span class="material-symbols-outlined list-icon" style="font-size: 20px; color: var(--color-text-sub);">receipt_long</span>
-                <span class="list-label" style="font-size: 0.88rem; font-weight: 700; color: var(--color-text-main);">주문 내역 (Order History)</span>
+            <a href="#orders" class="menu-list-row" onclick="showView('orders'); return false;">
+              <div class="menu-list-inner">
+                <span class="material-symbols-outlined menu-list-icon">receipt_long</span>
+                <span class="menu-list-label">주문 내역 (Order History)</span>
               </div>
-              <span class="material-symbols-outlined list-arrow" style="color: #bbb; font-size: 18px;">chevron_right</span>
-            </a>
-            
-            <a href="#reviews" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: inherit; border-bottom: 1px solid var(--color-border);" onclick="showView('reviews'); return false;">
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <span class="material-symbols-outlined list-icon" style="font-size: 20px; color: var(--color-text-sub);">rate_review</span>
-                <span class="list-label" style="font-size: 0.88rem; font-weight: 700; color: var(--color-text-main);">내 리뷰 (My Reviews)</span>
-              </div>
-              <span class="material-symbols-outlined list-arrow" style="color: #bbb; font-size: 18px;">chevron_right</span>
+              <span class="material-symbols-outlined menu-list-arrow">chevron_right</span>
             </a>
 
-            <a href="#shipping" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: inherit; border-bottom: 1px solid var(--color-border);" onclick="showView('shipping'); return false;">
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <span class="material-symbols-outlined list-icon" style="font-size: 20px; color: var(--color-text-sub);">local_shipping</span>
-                <span class="list-label" style="font-size: 0.88rem; font-weight: 700; color: var(--color-text-main);">배송지 관리 (Shipping Management)</span>
+            <a href="#reviews" class="menu-list-row" onclick="showView('reviews'); return false;">
+              <div class="menu-list-inner">
+                <span class="material-symbols-outlined menu-list-icon">rate_review</span>
+                <span class="menu-list-label">내 리뷰 (My Reviews)</span>
               </div>
-              <span class="material-symbols-outlined list-arrow" style="color: #bbb; font-size: 18px;">chevron_right</span>
+              <span class="material-symbols-outlined menu-list-arrow">chevron_right</span>
             </a>
 
-            <a href="#customer-center" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: inherit; border-bottom: 1px solid var(--color-border);" onclick="showView('customer-center'); return false;">
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <span class="material-symbols-outlined list-icon" style="font-size: 20px; color: var(--color-text-sub);">support_agent</span>
-                <span class="list-label" style="font-size: 0.88rem; font-weight: 700; color: var(--color-text-main);">고객센터 (Customer Center)</span>
+            <a href="#shipping" class="menu-list-row" onclick="showView('shipping'); return false;">
+              <div class="menu-list-inner">
+                <span class="material-symbols-outlined menu-list-icon">local_shipping</span>
+                <span class="menu-list-label">배송지 관리 (Shipping Management)</span>
               </div>
-              <span class="material-symbols-outlined list-arrow" style="color: #bbb; font-size: 18px;">chevron_right</span>
+              <span class="material-symbols-outlined menu-list-arrow">chevron_right</span>
             </a>
 
-            <a href="#settings" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: inherit;" onclick="showView('settings'); return false;">
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <span class="material-symbols-outlined list-icon" style="font-size: 20px; color: var(--color-text-sub);">settings</span>
-                <span class="list-label" style="font-size: 0.88rem; font-weight: 700; color: var(--color-text-main);">설정 (Settings)</span>
+            <a href="#customer-center" class="menu-list-row" onclick="showView('customer-center'); return false;">
+              <div class="menu-list-inner">
+                <span class="material-symbols-outlined menu-list-icon">support_agent</span>
+                <span class="menu-list-label">고객센터 (Customer Center)</span>
               </div>
-              <span class="material-symbols-outlined list-arrow" style="color: #bbb; font-size: 18px;">chevron_right</span>
+              <span class="material-symbols-outlined menu-list-arrow">chevron_right</span>
+            </a>
+
+            <a href="#settings" class="menu-list-row menu-list-row--last" onclick="showView('settings'); return false;">
+              <div class="menu-list-inner">
+                <span class="material-symbols-outlined menu-list-icon">settings</span>
+                <span class="menu-list-label">설정 (Settings)</span>
+              </div>
+              <span class="material-symbols-outlined menu-list-arrow">chevron_right</span>
             </a>
           </div>
 
         </div>
       </div>
+
 
       <!-- [뷰 6] 이달의 추천 조명 상세 화면 -->
       <div id="view-featured-more" class="mobile-view">

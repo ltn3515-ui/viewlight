@@ -2944,41 +2944,86 @@ img {
 .user-profile-section {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
   background-color: var(--color-bg-card);
   border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: 22px 20px;
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-card);
 }
 
 .profile-avatar-box {
-  width: 60px;
-  height: 60px;
+  position: relative;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid var(--color-border);
+  overflow: visible;
   flex-shrink: 0;
 }
 
 .profile-avatar-box img {
-  width: 100%;
-  height: 100%;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
   object-fit: cover;
+  border: 3px solid var(--color-border);
+  display: block;
+}
+
+/* 아바타 위에 올라가는 수정 배지 버튼 */
+.btn-profile-edit-badge {
+  position: absolute;
+  bottom: 0;
+  right: -2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  border: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: transform 0.2s;
+}
+.btn-profile-edit-badge:hover {
+  transform: scale(1.1);
+}
+.btn-profile-edit-badge .material-symbols-outlined {
+  font-size: 13px;
 }
 
 .profile-user-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .profile-username {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: var(--color-text-main);
 }
 
+/* PREMIUM MEMBER 배지 */
+.profile-member-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #7C5A18;
+  background: linear-gradient(135deg, #FDF3DC, #F5E1A0);
+  border: 1px solid #E8C96A;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.3px;
+  width: fit-content;
+}
+
+/* 기존 가입일 배지 (fallback) */
 .profile-join-date {
   font-size: 0.72rem;
   font-weight: 700;
@@ -3047,17 +3092,162 @@ img {
 }
 
 .btn-view-report {
-  height: 32px;
-  padding: 0 16px;
+  height: 34px;
+  padding: 0 18px;
   background-color: var(--color-dark-navy);
   color: #FFFFFF;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 700;
   border-radius: var(--radius-pill);
   border: none;
   cursor: pointer;
   transition: background-color 0.2s;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-view-report:hover {
+  background-color: #2E333F;
+}
+
+/* Smart Control 기기 목록 */
+.smart-devices-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.smart-device-item {
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.25s;
+}
+
+.smart-device-item.offline {
+  background-color: rgba(240, 240, 240, 0.5);
+  opacity: 0.85;
+}
+
+.device-info-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.device-icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #FAF6EE;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.smart-device-item.offline .device-icon-circle {
+  background-color: #E2E8F0;
+  color: #94A3B8;
+  border-color: #CBD5E1;
+}
+
+.device-icon-circle .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.device-text-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.device-name {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+}
+
+.device-location {
+  font-size: 0.7rem;
+  color: var(--color-text-sub);
+}
+
+/* 토글 온오프 뱃지 */
+.btn-device-toggle {
+  width: 52px;
+  height: 26px;
+  border-radius: var(--radius-pill);
+  border: none;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.btn-device-toggle.on {
+  background-color: var(--color-primary);
+  color: var(--color-dark-navy);
+}
+
+.btn-device-toggle.off {
+  background-color: #E2E8F0;
+  color: #64748B;
+}
+
+/* 밝기 슬라이더 게이지 */
+.device-dim-slider {
+  height: 6px;
+  width: 100%;
+}
+
+.slider-track {
+  height: 6px;
+  background-color: #FAF6EE;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.smart-device-item.offline .slider-track {
+  background-color: #E2E8F0;
+  border-color: #CBD5E1;
+}
+
+.slider-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.smart-device-item.offline .slider-fill {
+  background-color: #94A3B8;
+}
+
+/* 마이페이지 메뉴 목록 리스트 */
+.mypage-menu-list {
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
 }
 
 .btn-view-report:hover {
@@ -3202,13 +3392,16 @@ img {
 .menu-list-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
   padding: 16px 20px;
   border-bottom: 1px solid var(--color-border);
-  transition: background-color 0.2s;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.15s;
 }
 
-.menu-list-row:last-child {
+.menu-list-row:last-child,
+.menu-list-row--last {
   border-bottom: none;
 }
 
@@ -3216,6 +3409,29 @@ img {
   background-color: #FAF9F6;
 }
 
+.menu-list-inner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.menu-list-icon {
+  font-size: 20px;
+  color: var(--color-text-sub);
+}
+
+.menu-list-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.menu-list-arrow {
+  font-size: 18px;
+  color: #BBBBBB;
+}
+
+/* legacy support */
 .list-icon {
   font-size: 20px;
   color: var(--color-text-sub);
@@ -3232,6 +3448,7 @@ img {
   font-size: 18px;
   color: var(--color-text-sub);
 }
+
 
 /* --- 이달의 추천 조명 상세 화면 스타일 --- */
 .featured-more-btn {
