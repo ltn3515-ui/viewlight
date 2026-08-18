@@ -1961,27 +1961,31 @@ document.addEventListener('DOMContentLoaded', () => {
   window.directCheckoutItem = null; // 단품 바로 구매 정보 보관용
 
   window.initCheckoutView = function() {
-    const mainImg = document.getElementById('checkout-main-img');
+    const galleryRow = document.querySelector('.checkout-gallery-row');
     const mainTitle = document.getElementById('checkout-main-title');
     const mainPriceBadge = document.getElementById('checkout-main-price-badge');
-    const sideLeftImg = document.getElementById('checkout-side-img-left');
-    const sideRightImg = document.getElementById('checkout-side-img-right');
+    const mainSub = document.getElementById('checkout-main-sub');
     const checkoutTotalPrice = document.getElementById('checkout-total-price');
     const checkoutTotalQty = document.getElementById('checkout-total-qty');
     const btnSubmitText = document.getElementById('btn-checkout-submit-text');
     const checkoutDiscBox = document.getElementById('checkout-discount-info');
+
+    if (!galleryRow) return;
 
     // 1. 단품 바로 구매 모드 (상세페이지에서 바로 구매 클릭 시)
     if (window.directCheckoutItem) {
       const item = window.directCheckoutItem;
       const formattedPrice = item.price.toLocaleString() + '원';
 
-      if (mainImg) mainImg.src = item.img;
+      galleryRow.innerHTML = `
+        <div class="checkout-thumb-main" style="width: 160px; height: 160px;">
+          <img src="${item.img}" alt="${item.name}">
+        </div>
+      `;
+
       if (mainTitle) mainTitle.textContent = item.name;
       if (mainPriceBadge) mainPriceBadge.textContent = formattedPrice;
-
-      if (sideLeftImg) sideLeftImg.src = "img/light005.jpg";
-      if (sideRightImg) sideRightImg.src = "img/light006.jpg";
+      if (mainSub) mainSub.textContent = item.desc ? item.desc.substring(0, 30) + '...' : '바로 구매 상품';
 
       if (checkoutTotalPrice) checkoutTotalPrice.textContent = formattedPrice;
       if (checkoutTotalQty) checkoutTotalQty.textContent = "1";
@@ -2003,63 +2007,58 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. 일반 장바구니 결제 모드 (장바구니에서 주문하기 클릭 시)
     const itemCards = document.querySelectorAll('.cart-item-card');
     let totalQtyVal = 0;
+    
+    // 갤러리 로우 비우기
+    galleryRow.innerHTML = '';
+    
+    const names = [];
     itemCards.forEach(card => {
       const qtyValEl = card.querySelector('.qty-val');
       const qtyVal = qtyValEl ? (parseInt(qtyValEl.textContent) || 0) : 0;
       totalQtyVal += qtyVal;
-    });
-    const totalPriceVal = document.getElementById('cart-total-price') ? document.getElementById('cart-total-price').textContent : "0원";
-    
-    // 대표 상품 로드
-    if (itemCards.length > 0) {
-      const firstCard = itemCards[0];
-      const imgTag = firstCard.querySelector('.cart-item-thumb img');
-      const nameTag = firstCard.querySelector('.cart-item-name');
-      const priceLabel = firstCard.querySelector('.cart-item-price-label');
-      
-      if (imgTag && nameTag && priceLabel) {
-        if (mainImg) mainImg.src = imgTag.src;
-        if (mainTitle) mainTitle.textContent = nameTag.textContent;
-        if (mainPriceBadge) mainPriceBadge.textContent = priceLabel.textContent;
-      }
-      
-      if (itemCards.length > 1) {
-        const secondCard = itemCards[1];
-        const secondImg = secondCard.querySelector('.cart-item-thumb img');
-        if (sideLeftImg && secondImg) sideLeftImg.src = secondImg.src;
-      } else {
-        if (sideLeftImg) sideLeftImg.src = "img/light005.jpg";
-      }
-      
-      if (itemCards.length > 2) {
-        const thirdCard = itemCards[2];
-        const thirdImg = thirdCard.querySelector('.cart-item-thumb img');
-        if (sideRightImg && thirdImg) sideRightImg.src = thirdImg.src;
-      } else {
-        if (sideRightImg) sideRightImg.src = "img/light006.jpg";
-      }
-    } else {
-      if (mainImg) mainImg.src = "img/light009.jpg";
-      if (mainTitle) mainTitle.textContent = "램프 스웜";
-      if (mainPriceBadge) mainPriceBadge.textContent = "90,000원";
-    }
 
-    // 총 금액 및 총 개수 동기화 (괄호 설명 문구 분리 처리)
+      const imgSrc = card.querySelector('.cart-item-thumb img')?.src || '';
+      const name = card.querySelector('.cart-item-name')?.textContent || '';
+      
+      names.push(name);
+
+      // 각 상품마다 이미지 박스 추가
+      const thumbHtml = `
+        <div class="checkout-thumb-main" style="width: 130px; height: 130px; margin: 0 4px;">
+          <img src="${imgSrc}" alt="${name}" style="width:100%; height:100%; object-fit:contain; padding:8px; box-sizing:border-box;">
+        </div>
+      `;
+      galleryRow.insertAdjacentHTML('beforeend', thumbHtml);
+    });
+
+    const totalPriceVal = document.getElementById('cart-total-price') ? document.getElementById('cart-total-price').textContent : "0원";
     const cleanPrice = totalPriceVal ? totalPriceVal.split('(')[0].trim() : '0원';
-    
+
+    if (mainTitle) {
+      if (names.length > 2) {
+        mainTitle.textContent = `${names[0]} 외 ${names.length - 1}건`;
+      } else if (names.length > 0) {
+        mainTitle.textContent = names.join(' + ');
+      } else {
+        mainTitle.textContent = '주문 상품 없음';
+      }
+    }
+    if (mainPriceBadge) mainPriceBadge.textContent = cleanPrice;
+    if (mainSub) mainSub.textContent = '장바구니 선택 결제 상품';
+
     if (checkoutTotalPrice) checkoutTotalPrice.textContent = cleanPrice;
     if (checkoutTotalQty) checkoutTotalQty.textContent = totalQtyVal;
     if (btnSubmitText) btnSubmitText.textContent = `${cleanPrice} 결제하기`;
-    
+
     // 할인 혜택 포함 시 상단 전용 뱃지로 깔끔하게 분리 노출
     if (totalPriceVal.includes('할인') || totalPriceVal.includes('혜택')) {
       if (checkoutDiscBox) checkoutDiscBox.style.display = 'flex';
     } else {
       if (checkoutDiscBox) checkoutDiscBox.style.display = 'none';
     }
-    
+
     currentCheckoutTotalPrice = cleanPrice;
-    
+
     // 입력 필드 및 드롭다운 초기화
     const spaceInput = document.getElementById('checkout-space-input');
     if (spaceInput) spaceInput.value = '내방 책상';
