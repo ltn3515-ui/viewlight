@@ -119,6 +119,18 @@
       return target.getAttribute('data-tooltip');
     }
 
+    // 0. 버튼류 우선 처리 (카드 내부에 포함된 경우 부모 카드로 오인되는 현상 차단)
+    if (target.classList.contains('add-to-cart-btn') || target.closest('.add-to-cart-btn')) {
+      return '장바구니 담기';
+    }
+    if (target.classList.contains('like-toggle') || target.closest('.like-toggle') || target.id === 'btn-like') {
+      const isLiked = target.closest('.like-toggle')?.classList.contains('active') || target.classList.contains('active');
+      return isLiked ? '좋아요 취소' : '좋아요 추가';
+    }
+    if (target.classList.contains('thumb-add-btn') || target.closest('.thumb-add-btn')) {
+      return '장바구니 추가';
+    }
+
     // 1. 썸네일 카드 요소
     if (target.classList.contains('thumb-card') || target.closest('.thumb-card')) {
       const card = target.closest('.thumb-card');
