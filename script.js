@@ -2108,6 +2108,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // 로그인 버튼 클릭 핸들러 바인딩
+  const loginButtons = document.querySelectorAll('.btn-header-login');
+  loginButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('로그인 서비스 준비 중입니다.');
+    });
+  });
+
   const couponCloseBtn = document.getElementById('btn-coupon-close');
   const couponBackdrop = document.getElementById('coupon-backdrop');
   const claimCouponsBtn = document.getElementById('btn-claim-coupons');
