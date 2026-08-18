@@ -5312,9 +5312,24 @@ img {
   -webkit-overflow-scrolling: touch;
 }
 
-/* 스크롤바 숨기기 */
+/* 스크롤바 숨기기 방지 및 스타일링 */
 .report-carousel-container::-webkit-scrollbar {
-  display: none;
+  height: 6px;
+  display: block;
+}
+
+.report-carousel-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.report-carousel-container::-webkit-scrollbar-thumb {
+  background: #ffab40;
+  border-radius: 10px;
+}
+
+.report-carousel-container::-webkit-scrollbar-thumb:hover {
+  background: #ff9800;
 }
 
 .report-rec-card {
@@ -5610,7 +5625,168 @@ img {
   color: #FFAB40;
   font-weight: 700;
   cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
 }
+
+/* 큐레이션 전체보기 모달 전용 CSS */
+.rec-all-modal-card {
+  width: 90%;
+  max-width: 420px;
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+  overflow: hidden;
+  z-index: 1001;
+  position: relative;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+.rec-all-modal-header {
+  padding: 20px;
+  border-bottom: 1px solid #f0ede6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rec-all-modal-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+  margin-bottom: 4px;
+}
+
+.rec-all-modal-sub {
+  font-size: 0.75rem;
+  color: var(--color-text-sub);
+}
+
+.rec-all-select-bar {
+  padding: 10px 20px;
+  background: #fdfbf7;
+  border-bottom: 1px solid #f0ede6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rec-all-select-count {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ff9800;
+}
+
+.rec-all-select-all-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-sub);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.rec-all-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rec-all-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  border-radius: 16px;
+  background: #fdfbf7;
+  border: 1px solid #f0ede6;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.rec-all-item.selected {
+  border-color: #ffab40;
+  background: #fff9f0;
+}
+
+.rec-all-item-check {
+  font-size: 20px;
+  color: #ccc;
+  user-select: none;
+}
+
+.rec-all-item.selected .rec-all-item-check {
+  color: #ffab40;
+}
+
+.rec-all-item-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.rec-all-item-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rec-all-item-title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+}
+
+.rec-all-item-desc {
+  font-size: 0.72rem;
+  color: var(--color-text-sub);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rec-all-item-price {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #ff9800;
+}
+
+.rec-all-footer {
+  padding: 20px;
+  border-top: 1px solid #f0ede6;
+}
+
+.rec-all-cart-btn {
+  width: 100%;
+  height: 46px;
+  background: #ffab40;
+  color: #121826;
+  border: none;
+  border-radius: 23px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.rec-all-cart-btn:hover {
+  background: #ff9800;
+}
+
 
 
 /* ==========================================

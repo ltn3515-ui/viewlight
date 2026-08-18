@@ -3609,6 +3609,9 @@ window.openReportDetail = function(reportKey) {
     `).join('');
   }
 
+  // 현재 어떤 리포트 상세인지 키값 저장
+  window.currentReportKey = reportKey;
+
   // 헤더 타이틀 변경
   const viewTitle = document.getElementById('report-view-title');
   if (viewTitle) viewTitle.textContent = data.title;
@@ -3638,4 +3641,142 @@ window.handleReportBack = function() {
     showView('mypage');
   }
 };
+
+// ── 추천 무드등 전체보기 모달 기능 실장 ────────────────────────
+
+let selectedRecItems = []; // 현재 선택된 아이템 key 배열
+
+window.openRecAllModal = function() {
+  const modal = document.getElementById('rec-all-modal');
+  if (!modal) return;
+
+  const data = reportDataMap[window.currentReportKey];
+  if (!data) return;
+
+  // 모달 서브 텍스트에 공간 이름 반영
+  const subText = document.getElementById('rec-all-sub-text');
+  if (subText) subText.textContent = `'${data.title}' 리포트의 모든 추천 무드등`;
+
+  // 기본적으로 전체 선택 상태로 로드
+  selectedRecItems = data.scenes.map(s => s.key);
+
+  renderRecAllList(data);
+  updateRecAllSelectBar();
+
+  modal.classList.add('active');
+};
+
+window.closeRecAllModal = function() {
+  const modal = document.getElementById('rec-all-modal');
+  if (modal) modal.classList.remove('active');
+};
+
+function renderRecAllList(data) {
+  const container = document.getElementById('rec-all-list');
+  if (!container) return;
+
+  container.innerHTML = data.scenes.map(s => {
+    const isSelected = selectedRecItems.includes(s.key);
+    return `
+      <div class="rec-all-item ${isSelected ? 'selected' : ''}" onclick="toggleSelectRecItem('${s.key}', event)">
+        <span class="material-symbols-outlined rec-all-item-check">
+          ${isSelected ? 'check_box' : 'check_box_outline_blank'}
+        </span>
+        <img class="rec-all-item-img" src="${s.img}" alt="${s.title}">
+        <div class="rec-all-item-info">
+          <h4 class="rec-all-item-title">${s.title}</h4>
+          <p class="rec-all-item-desc">${s.desc}</p>
+          <span class="rec-all-item-price">${s.price}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+window.toggleSelectRecItem = function(key, event) {
+  // 이벤트 버블링 차단
+  if (event) event.stopPropagation();
+
+  const index = selectedRecItems.indexOf(key);
+  if (index > -1) {
+    selectedRecItems.splice(index, 1);
+  } else {
+    selectedRecItems.push(key);
+  }
+
+  const data = reportDataMap[window.currentReportKey];
+  renderRecAllList(data);
+  updateRecAllSelectBar();
+};
+
+window.toggleSelectAllRec = function() {
+  const data = reportDataMap[window.currentReportKey];
+  if (!data) return;
+
+  const allKeys = data.scenes.map(s => s.key);
+  const toggleBtn = document.getElementById('rec-all-toggle-all');
+
+  if (selectedRecItems.length === allKeys.length) {
+    // 이미 전체 선택된 상태 -> 전체 해제
+    selectedRecItems = [];
+    if (toggleBtn) toggleBtn.textContent = '전체 선택';
+  } else {
+    // 전체 선택
+    selectedRecItems = allKeys;
+    if (toggleBtn) toggleBtn.textContent = '전체 해제';
+  }
+
+  renderRecAllList(data);
+  updateRecAllSelectBar();
+};
+
+function updateRecAllSelectBar() {
+  const data = reportDataMap[window.currentReportKey];
+  if (!data) return;
+
+  const countEl = document.getElementById('rec-all-select-count');
+  if (countEl) countEl.textContent = `${selectedRecItems.length}개 선택됨`;
+
+  const toggleBtn = document.getElementById('rec-all-toggle-all');
+  if (toggleBtn) {
+    if (selectedRecItems.length === data.scenes.length) {
+      toggleBtn.textContent = '전체 해제';
+    } else {
+      toggleBtn.textContent = '전체 선택';
+    }
+  }
+
+  // 하단 버튼 텍스트 업데이트
+  const btnText = document.getElementById('rec-all-cart-btn-text');
+  if (btnText) {
+    btnText.textContent = `${selectedRecItems.length}개 항목 장바구니에 담기`;
+  }
+}
+
+window.addSelectedRecToCart = function() {
+  if (selectedRecItems.length === 0) {
+    if (window.showToast) window.showToast('선택된 조명이 없습니다.', 'error');
+    return;
+  }
+
+  const data = reportDataMap[window.currentReportKey];
+  if (!data) return;
+
+  let addedCount = 0;
+  selectedRecItems.forEach(key => {
+    const scene = data.scenes.find(s => s.key === key);
+    if (scene) {
+      const priceVal = parseInt(scene.price.replace(/,/g, '').replace('원', ''));
+      if (window.addProductToCart) {
+        window.addProductToCart(scene.title, priceVal, scene.img);
+        addedCount++;
+      }
+    }
+  });
+
+  if (addedCount > 0) {
+    closeRecAllModal();
+  }
+};
+
 
