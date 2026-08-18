@@ -2634,14 +2634,19 @@
           <div class="form-group">
             <label style="color: var(--color-text-main, #121826) !important; font-weight: 800; display: block; margin-bottom: 6px;">프로필 아바타 선택</label>
             <div class="avatar-presets-grid" style="display: flex; gap: 12px; margin-top: 8px;">
-              <div class="avatar-preset-item active" onclick="selectAvatarPreset('img/Stand01.jpg', this)" style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid var(--color-primary); transition: all 0.2s;">
+              <div class="avatar-preset-item active" onclick="selectAvatarPreset('img/Stand01.jpg', this)" style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid var(--color-primary); transition: all 0.2s; flex-shrink: 0;">
                 <img src="img/Stand01.jpg" alt="Avatar 1" style="width: 100%; height: 100%; object-fit: cover;">
               </div>
-              <div class="avatar-preset-item" onclick="selectAvatarPreset('img/Stand02.png', this)" style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;">
+              <div class="avatar-preset-item" onclick="selectAvatarPreset('img/Stand02.png', this)" style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; flex-shrink: 0;">
                 <img src="img/Stand02.png" alt="Avatar 2" style="width: 100%; height: 100%; object-fit: cover;">
               </div>
-              <div class="avatar-preset-item" onclick="selectAvatarPreset('img/Stand03.png', this)" style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;">
+              <div class="avatar-preset-item" onclick="selectAvatarPreset('img/Stand03.png', this)" style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; flex-shrink: 0;">
                 <img src="img/Stand03.png" alt="Avatar 3" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <!-- 파일 업로드 아이콘 버튼 -->
+              <div class="avatar-preset-item custom-upload-btn-wrapper" style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px dashed #bbb; background-color: #f7f7f7; color: #666; transition: all 0.2s; position: relative; flex-shrink: 0;">
+                <span class="material-symbols-outlined" style="font-size: 20px;">add_a_photo</span>
+                <input type="file" id="avatar-file-input" accept="image/*" onchange="handleAvatarFileSelect(event)" style="position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 10;">
               </div>
             </div>
           </div>

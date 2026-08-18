@@ -3309,6 +3309,48 @@ window.handleResetPassword = function(e) {
 // ── 프로필 수정 기능 실장 ───────────────────────────────
 let selectedAvatarPath = 'img/Stand01.jpg';
 
+window.handleAvatarFileSelect = function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const dataUrl = e.target.result;
+    selectedAvatarPath = dataUrl;
+    
+    // 프리셋 활성화 해제
+    const presets = document.querySelectorAll('#edit-profile-modal .avatar-preset-item');
+    presets.forEach(p => {
+      p.classList.remove('active');
+      p.style.borderColor = 'transparent';
+    });
+    
+    // 파일 업로드 래퍼에 이미지 노출 및 테두리 효과
+    const uploadWrapper = document.querySelector('.custom-upload-btn-wrapper');
+    if (uploadWrapper) {
+      uploadWrapper.classList.add('active');
+      uploadWrapper.style.borderColor = 'var(--color-primary)';
+      uploadWrapper.style.borderStyle = 'solid';
+      
+      let img = uploadWrapper.querySelector('.preview-uploaded-avatar');
+      if (!img) {
+        img = document.createElement('img');
+        img.className = 'preview-uploaded-avatar';
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        img.style.borderRadius = '50%';
+        uploadWrapper.appendChild(img);
+      }
+      img.src = dataUrl;
+      
+      const icon = uploadWrapper.querySelector('.material-symbols-outlined');
+      if (icon) icon.style.display = 'none';
+    }
+  };
+  reader.readAsDataURL(file);
+};
+
 window.openEditProfileModal = function() {
   const modal = document.getElementById('edit-profile-modal');
   const nameInput = document.getElementById('edit-profile-name');
@@ -3326,6 +3368,9 @@ window.openEditProfileModal = function() {
     
     const presets = document.querySelectorAll('#edit-profile-modal .avatar-preset-item');
     presets.forEach(p => {
+      // 파일 업로드 래퍼는 제외
+      if (p.classList.contains('custom-upload-btn-wrapper')) return;
+      
       const img = p.querySelector('img');
       if (img && img.getAttribute('src') === src) {
         p.classList.add('active');
@@ -3335,6 +3380,40 @@ window.openEditProfileModal = function() {
         p.style.borderColor = 'transparent';
       }
     });
+
+    // 커스텀 이미지인 경우의 매칭
+    const isPreset = ['img/Stand01.jpg', 'img/Stand02.png', 'img/Stand03.png'].includes(src);
+    const uploadWrapper = document.querySelector('.custom-upload-btn-wrapper');
+    if (!isPreset && uploadWrapper) {
+      uploadWrapper.classList.add('active');
+      uploadWrapper.style.borderColor = 'var(--color-primary)';
+      uploadWrapper.style.borderStyle = 'solid';
+      
+      let img = uploadWrapper.querySelector('.preview-uploaded-avatar');
+      if (!img) {
+        img = document.createElement('img');
+        img.className = 'preview-uploaded-avatar';
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        img.style.borderRadius = '50%';
+        uploadWrapper.appendChild(img);
+      }
+      img.src = src;
+      
+      const icon = uploadWrapper.querySelector('.material-symbols-outlined');
+      if (icon) icon.style.display = 'none';
+    } else if (uploadWrapper) {
+      uploadWrapper.classList.remove('active');
+      uploadWrapper.style.borderColor = '#bbb';
+      uploadWrapper.style.borderStyle = 'dashed';
+      
+      const img = uploadWrapper.querySelector('.preview-uploaded-avatar');
+      if (img) img.remove();
+      
+      const icon = uploadWrapper.querySelector('.material-symbols-outlined');
+      if (icon) icon.style.display = 'block';
+    }
   }
 
   if (modal) {
@@ -3358,6 +3437,23 @@ window.selectAvatarPreset = function(path, element) {
   });
   element.classList.add('active');
   element.style.borderColor = 'var(--color-primary)';
+
+  // 파일 업로드 프리뷰 제거
+  const uploadWrapper = document.querySelector('.custom-upload-btn-wrapper');
+  if (uploadWrapper) {
+    uploadWrapper.classList.remove('active');
+    uploadWrapper.style.borderColor = '#bbb';
+    uploadWrapper.style.borderStyle = 'dashed';
+    
+    const img = uploadWrapper.querySelector('.preview-uploaded-avatar');
+    if (img) img.remove();
+    
+    const icon = uploadWrapper.querySelector('.material-symbols-outlined');
+    if (icon) icon.style.display = 'block';
+  }
+  // 파일 인풋 값 리셋
+  const fileInput = document.getElementById('avatar-file-input');
+  if (fileInput) fileInput.value = '';
 };
 
 window.handleSaveProfile = function(event) {
