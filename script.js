@@ -2981,6 +2981,35 @@ document.addEventListener('DOMContentLoaded', () => {
       cardObserver.observe(card);
     });
   }
+
+  // 17.1. 로그인 상태 인터랙션 동기화
+  window.updateLoginUI = function() {
+    const isLoggedIn = localStorage.getItem('viewlight_logged_in') === 'true';
+    const drawerLoginBtn = document.querySelector('.drawer-login-btn');
+    const drawerFooter = document.querySelector('.menu-drawer-footer');
+
+    if (isLoggedIn) {
+      if (drawerLoginBtn) drawerLoginBtn.style.display = 'none';
+      if (drawerFooter) drawerFooter.style.display = 'flex';
+    } else {
+      if (drawerLoginBtn) drawerLoginBtn.style.display = 'block';
+      if (drawerFooter) drawerFooter.style.display = 'none';
+    }
+  };
+
+  // 로그아웃 버튼 이벤트 바인딩
+  const logoutBtn = document.querySelector('.logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.setItem('viewlight_logged_in', 'false');
+      window.updateLoginUI();
+      alert('로그아웃 되었습니다.');
+    });
+  }
+
+  // 초기 로드 시 로그인 상태 UI 업데이트
+  window.updateLoginUI();
 });
 
 // 17. 로그인 / 회원가입 모달 핸들러
@@ -3025,6 +3054,8 @@ window.switchLoginTab = function(tab) {
 
 window.handleSocialLogin = function(provider) {
   alert(`[소셜 로그인] ${provider} 계정으로 로그인을 진행합니다.`);
+  localStorage.setItem('viewlight_logged_in', 'true');
+  if (window.updateLoginUI) window.updateLoginUI();
   closeLoginModal();
 };
 
@@ -3033,6 +3064,8 @@ window.handleEmailLogin = function(e) {
   const email = document.getElementById('login-email')?.value;
   if (email) {
     alert(`${email} 계정으로 로그인이 완료되었습니다.\n환영합니다!`);
+    localStorage.setItem('viewlight_logged_in', 'true');
+    if (window.updateLoginUI) window.updateLoginUI();
     closeLoginModal();
   }
 };
@@ -3049,6 +3082,8 @@ window.handleEmailSignup = function(e) {
   }
 
   alert(`회원가입이 완료되었습니다!\n${email} 계정으로 가입해주셔서 감사합니다.`);
+  localStorage.setItem('viewlight_logged_in', 'true');
+  if (window.updateLoginUI) window.updateLoginUI();
   closeLoginModal();
 };
 

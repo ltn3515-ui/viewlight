@@ -7716,6 +7716,15 @@ input:checked + .toggle-slider:before {
   background-color: #F8F9FA;
 }
 
+.btn-apple {
+  background-color: #000000;
+  color: #FFFFFF;
+}
+
+.btn-apple:hover {
+  background-color: #1A1A1A;
+}
+
 .social-icon {
   font-size: 1.1rem;
 }
