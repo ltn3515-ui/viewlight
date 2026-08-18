@@ -2223,6 +2223,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loginButtons.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
+      if (window.closeMenuDrawer) window.closeMenuDrawer();
       window.openLoginModal();
     });
   });
