@@ -558,47 +558,12 @@
 
         <!-- 스크롤 콘텐츠 영역 -->
         <div class="service-content cart-content">
-          <!-- 장바구니 제품 리스트 -->
           <div class="cart-items-list" id="cart-items-container">
-            
-            <!-- 아이템 1: 루나 아우라 베이스 -->
-            <div class="cart-item-card" data-price="90000" id="cart-item-luna">
-              <button type="button" class="cart-item-remove" onclick="removeCartItem('cart-item-luna')">
-                <span class="material-symbols-outlined">close</span>
-              </button>
-              <div class="cart-item-thumb">
-                <img src="img/Stand02.png" alt="Luna Aura Base">
-              </div>
-              <div class="cart-item-info">
-                <h4 class="cart-item-name">루나 아우라 베이스</h4>
-                <p class="cart-item-price-label">90,000원</p>
-                <div class="quantity-controller">
-                  <button type="button" class="qty-btn qty-minus" onclick="changeQty('cart-item-luna', -1)">-</button>
-                  <span class="qty-val" id="qty-val-luna">1</span>
-                  <button type="button" class="qty-btn qty-plus" onclick="changeQty('cart-item-luna', 1)">+</button>
-                </div>
-              </div>
+            <!-- 장바구니가 비어 있을 때 표시할 메시지 -->
+            <div class="cart-empty-placeholder" id="cart-empty-message" style="text-align: center; padding: 48px 20px; color: var(--color-text-sub);">
+              <span class="material-symbols-outlined" style="font-size: 48px; color: var(--color-border); margin-bottom: 12px; display: block;">shopping_cart</span>
+              <p style="font-size: 0.88rem; font-weight: 500;">장바구니가 비어 있습니다.</p>
             </div>
-
-            <!-- 아이템 2: 네오 에블 라이트 -->
-            <div class="cart-item-card" data-price="180000" id="cart-item-neo">
-              <button type="button" class="cart-item-remove" onclick="removeCartItem('cart-item-neo')">
-                <span class="material-symbols-outlined">close</span>
-              </button>
-              <div class="cart-item-thumb">
-                <img src="img/Stand03.png" alt="Neo Abel Light">
-              </div>
-              <div class="cart-item-info">
-                <h4 class="cart-item-name">네오 에블 라이트</h4>
-                <p class="cart-item-price-label">180,000원</p>
-                <div class="quantity-controller">
-                  <button type="button" class="qty-btn qty-minus" onclick="changeQty('cart-item-neo', -1)">-</button>
-                  <span class="qty-val" id="qty-val-neo">1</span>
-                  <button type="button" class="qty-btn qty-plus" onclick="changeQty('cart-item-neo', 1)">+</button>
-                </div>
-              </div>
-            </div>
-
           </div>
 
           <!-- AI 추천 공간 연출 조합 -->

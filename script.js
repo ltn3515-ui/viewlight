@@ -27,37 +27,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function restoreCartFromStorage() {
     const stored = localStorage.getItem('viewlight_cart');
-    if (!stored) return;
-    let items;
-    try { items = JSON.parse(stored); } catch(e) { return; }
-    if (!items || !items.length) return;
+    let items = [];
+    if (stored) {
+      try { items = JSON.parse(stored) || []; } catch(e) { items = []; }
+    }
 
     const container = document.getElementById('cart-items-container');
-    if (!container) return;
-    container.innerHTML = '';
+    if (container) {
+      container.querySelectorAll('.cart-item-card').forEach(card => card.remove());
 
-    items.forEach(item => {
-      const cardHtml = `
-        <div class="cart-item-card" data-price="${item.price}" id="${item.id}">
-          <button type="button" class="cart-item-remove" onclick="removeCartItem('${item.id}')">
-            <span class="material-symbols-outlined">close</span>
-          </button>
-          <div class="cart-item-thumb">
-            <img src="${item.img}" alt="${item.name}">
-          </div>
-          <div class="cart-item-info">
-            <h4 class="cart-item-name">${item.name}</h4>
-            <p class="cart-item-price-label">${item.price.toLocaleString()}원</p>
-            <div class="quantity-controller">
-              <button type="button" class="qty-btn qty-minus" onclick="changeQty('${item.id}', -1)">-</button>
-              <span class="qty-val" id="qty-val-${item.id}">${item.qty}</span>
-              <button type="button" class="qty-btn qty-plus" onclick="changeQty('${item.id}', 1)">+</button>
+      items.forEach(item => {
+        const cardHtml = `
+          <div class="cart-item-card" data-price="${item.price}" id="${item.id}">
+            <button type="button" class="cart-item-remove" onclick="removeCartItem('${item.id}')">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="cart-item-thumb">
+              <img src="${item.img}" alt="${item.name}">
+            </div>
+            <div class="cart-item-info">
+              <h4 class="cart-item-name">${item.name}</h4>
+              <p class="cart-item-price-label">${item.price.toLocaleString()}원</p>
+              <div class="quantity-controller">
+                <button type="button" class="qty-btn qty-minus" onclick="changeQty('${item.id}', -1)">-</button>
+                <span class="qty-val" id="qty-val-${item.id}">${item.qty}</span>
+                <button type="button" class="qty-btn qty-plus" onclick="changeQty('${item.id}', 1)">+</button>
+              </div>
             </div>
           </div>
-        </div>
-      `;
-      container.insertAdjacentHTML('beforeend', cardHtml);
-    });
+        `;
+        container.insertAdjacentHTML('beforeend', cardHtml);
+      });
+    }
 
     if (window.updateCartTotals) window.updateCartTotals();
     if (window.updateCartBadge) window.updateCartBadge();
@@ -972,6 +973,12 @@ document.addEventListener('DOMContentLoaded', () => {
   window.updateCartTotals = function() {
     const itemCards = document.querySelectorAll('.cart-item-card');
     let subtotal = 0;
+    
+    // 장바구니 비어있음 텍스트 토글
+    const emptyMsg = document.getElementById('cart-empty-message');
+    if (emptyMsg) {
+      emptyMsg.style.display = itemCards.length > 0 ? 'none' : 'block';
+    }
     
     itemCards.forEach(card => {
       const price = parseInt(card.getAttribute('data-price')) || 0;
