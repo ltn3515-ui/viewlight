@@ -71,45 +71,6 @@
             </div>
           </div>
         </div>
-
-        <!-- 데스크톱 전용 마이페이지 메뉴 목록 (마이페이지 진입 시 동적 표시) -->
-        <div id="desktop-mypage-menu" class="mypage-menu-list desktop-menu-list" style="display: none; margin-top: 24px; background: rgba(255, 255, 255, 0.95); border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 4px 12px rgba(0,0,0,0.03); overflow: hidden;">
-          <a href="#orders" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: #333; border-bottom: 1px solid rgba(0,0,0,0.04);" onclick="window.showView('orders'); return false;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <span class="material-symbols-outlined" style="color: #666; font-size: 20px;">receipt_long</span>
-              <span style="font-size: 0.88rem; font-weight: 600;">주문 내역 (Order History)</span>
-            </div>
-            <span class="material-symbols-outlined" style="color: #bbb; font-size: 18px;">chevron_right</span>
-          </a>
-          <a href="#reviews" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: #333; border-bottom: 1px solid rgba(0,0,0,0.04);" onclick="window.showView('reviews'); return false;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <span class="material-symbols-outlined" style="color: #666; font-size: 20px;">rate_review</span>
-              <span style="font-size: 0.88rem; font-weight: 600;">내 리뷰 (My Reviews)</span>
-            </div>
-            <span class="material-symbols-outlined" style="color: #bbb; font-size: 18px;">chevron_right</span>
-          </a>
-          <a href="#shipping" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: #333; border-bottom: 1px solid rgba(0,0,0,0.04);" onclick="window.showView('shipping'); return false;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <span class="material-symbols-outlined" style="color: #666; font-size: 20px;">local_shipping</span>
-              <span style="font-size: 0.88rem; font-weight: 600;">배송지 관리 (Shipping Management)</span>
-            </div>
-            <span class="material-symbols-outlined" style="color: #bbb; font-size: 18px;">chevron_right</span>
-          </a>
-          <a href="#customer-center" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: #333; border-bottom: 1px solid rgba(0,0,0,0.04);" onclick="window.showView('customer-center'); return false;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <span class="material-symbols-outlined" style="color: #666; font-size: 20px;">support_agent</span>
-              <span style="font-size: 0.88rem; font-weight: 600;">고객센터 (Customer Center)</span>
-            </div>
-            <span class="material-symbols-outlined" style="color: #bbb; font-size: 18px;">chevron_right</span>
-          </a>
-          <a href="#settings" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: #333;" onclick="window.showView('settings'); return false;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <span class="material-symbols-outlined" style="color: #666; font-size: 20px;">settings</span>
-              <span style="font-size: 0.88rem; font-weight: 600;">설정 (Settings)</span>
-            </div>
-            <span class="material-symbols-outlined" style="color: #bbb; font-size: 18px;">chevron_right</span>
-          </a>
-        </div>
       </div>
     </aside>
 
@@ -680,10 +641,15 @@
           <!-- 사용자 프로필 카드 -->
           <div class="user-profile-section">
             <div class="profile-avatar-box">
-              <img src="img/Stand01.jpg" alt="User Profile Image">
+              <img id="profile-avatar-img" src="img/Stand01.jpg" alt="User Profile Image">
             </div>
             <div class="profile-user-info">
-              <h3 class="profile-username">김뷰라이트</h3>
+              <h3 class="profile-username" style="display: flex; align-items: center; gap: 6px;">
+                <span id="profile-name-text">김뷰라이트</span>
+                <button type="button" class="btn-profile-edit" onclick="openEditProfileModal()" style="background: none; border: none; padding: 0; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: var(--color-primary); transition: opacity 0.2s;">
+                  <span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+                </button>
+              </h3>
               <span class="profile-join-date">● 2026.05.15 가입</span>
             </div>
           </div>
@@ -751,34 +717,44 @@
 
           <!-- 설정 메뉴 목록 -->
           <div class="mypage-menu-list">
-            <a href="#orders" class="menu-list-row" onclick="showView('orders'); return false;">
-              <span class="material-symbols-outlined list-icon">receipt_long</span>
-              <span class="list-label">주문 내역 (Order History)</span>
-              <span class="material-symbols-outlined list-arrow">chevron_right</span>
+            <a href="#orders" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: inherit; border-bottom: 1px solid var(--color-border);" onclick="showView('orders'); return false;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span class="material-symbols-outlined list-icon" style="font-size: 20px; color: var(--color-text-sub);">receipt_long</span>
+                <span class="list-label" style="font-size: 0.88rem; font-weight: 700; color: var(--color-text-main);">주문 내역 (Order History)</span>
+              </div>
+              <span class="material-symbols-outlined list-arrow" style="color: #bbb; font-size: 18px;">chevron_right</span>
             </a>
             
-            <a href="#reviews" class="menu-list-row" onclick="showView('reviews'); return false;">
-              <span class="material-symbols-outlined list-icon">rate_review</span>
-              <span class="list-label">내 리뷰 (My Reviews)</span>
-              <span class="material-symbols-outlined list-arrow">chevron_right</span>
+            <a href="#reviews" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: inherit; border-bottom: 1px solid var(--color-border);" onclick="showView('reviews'); return false;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span class="material-symbols-outlined list-icon" style="font-size: 20px; color: var(--color-text-sub);">rate_review</span>
+                <span class="list-label" style="font-size: 0.88rem; font-weight: 700; color: var(--color-text-main);">내 리뷰 (My Reviews)</span>
+              </div>
+              <span class="material-symbols-outlined list-arrow" style="color: #bbb; font-size: 18px;">chevron_right</span>
             </a>
 
-            <a href="#shipping" class="menu-list-row" onclick="showView('shipping'); return false;">
-              <span class="material-symbols-outlined list-icon">local_shipping</span>
-              <span class="list-label">배송지 관리 (Shipping Management)</span>
-              <span class="material-symbols-outlined list-arrow">chevron_right</span>
+            <a href="#shipping" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: inherit; border-bottom: 1px solid var(--color-border);" onclick="showView('shipping'); return false;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span class="material-symbols-outlined list-icon" style="font-size: 20px; color: var(--color-text-sub);">local_shipping</span>
+                <span class="list-label" style="font-size: 0.88rem; font-weight: 700; color: var(--color-text-main);">배송지 관리 (Shipping Management)</span>
+              </div>
+              <span class="material-symbols-outlined list-arrow" style="color: #bbb; font-size: 18px;">chevron_right</span>
             </a>
 
-            <a href="#customer-center" class="menu-list-row" onclick="showView('customer-center'); return false;">
-              <span class="material-symbols-outlined list-icon">support_agent</span>
-              <span class="list-label">고객센터 (Customer Center)</span>
-              <span class="material-symbols-outlined list-arrow">chevron_right</span>
+            <a href="#customer-center" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: inherit; border-bottom: 1px solid var(--color-border);" onclick="showView('customer-center'); return false;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span class="material-symbols-outlined list-icon" style="font-size: 20px; color: var(--color-text-sub);">support_agent</span>
+                <span class="list-label" style="font-size: 0.88rem; font-weight: 700; color: var(--color-text-main);">고객센터 (Customer Center)</span>
+              </div>
+              <span class="material-symbols-outlined list-arrow" style="color: #bbb; font-size: 18px;">chevron_right</span>
             </a>
 
-            <a href="#settings" class="menu-list-row" onclick="showView('settings'); return false;">
-              <span class="material-symbols-outlined list-icon">settings</span>
-              <span class="list-label">설정 (Settings)</span>
-              <span class="material-symbols-outlined list-arrow">chevron_right</span>
+            <a href="#settings" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: inherit;" onclick="showView('settings'); return false;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span class="material-symbols-outlined list-icon" style="font-size: 20px; color: var(--color-text-sub);">settings</span>
+                <span class="list-label" style="font-size: 0.88rem; font-weight: 700; color: var(--color-text-main);">설정 (Settings)</span>
+              </div>
+              <span class="material-symbols-outlined list-arrow" style="color: #bbb; font-size: 18px;">chevron_right</span>
             </a>
           </div>
 
@@ -2635,6 +2611,43 @@
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- 18. 프로필 수정 모달 -->
+    <div id="edit-profile-modal" class="fixed-modal-wrapper">
+      <div class="modal-backdrop" onclick="closeEditProfileModal();"></div>
+      <div class="login-modal-card" style="max-width: 340px;">
+        <button type="button" class="modal-close-btn" onclick="closeEditProfileModal();">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+        <div class="login-modal-header" style="margin-bottom: 20px;">
+          <h3 class="login-modal-title">프로필 수정</h3>
+          <p class="login-modal-sub">이름(닉네임)과 프로필 이미지를 설정해보세요.</p>
+        </div>
+        <form id="form-edit-profile" onsubmit="handleSaveProfile(event)" style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="form-group">
+            <label for="edit-profile-name">닉네임</label>
+            <input type="text" id="edit-profile-name" class="modal-input" placeholder="닉네임을 입력하세요" required>
+          </div>
+          
+          <div class="form-group">
+            <label style="color: var(--color-text-main, #121826) !important; font-weight: 800; display: block; margin-bottom: 6px;">프로필 아바타 선택</label>
+            <div class="avatar-presets-grid" style="display: flex; gap: 12px; margin-top: 8px;">
+              <div class="avatar-preset-item active" onclick="selectAvatarPreset('img/Stand01.jpg', this)" style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid var(--color-primary); transition: all 0.2s;">
+                <img src="img/Stand01.jpg" alt="Avatar 1" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <div class="avatar-preset-item" onclick="selectAvatarPreset('img/Stand02.png', this)" style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;">
+                <img src="img/Stand02.png" alt="Avatar 2" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <div class="avatar-preset-item" onclick="selectAvatarPreset('img/Stand03.png', this)" style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;">
+                <img src="img/Stand03.png" alt="Avatar 3" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+            </div>
+          </div>
+          
+          <button type="submit" class="btn-login-submit" style="margin-top: 12px;">변경사항 저장</button>
+        </form>
       </div>
     </div>
 

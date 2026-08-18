@@ -145,13 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
     currentActiveView = viewId;
     previousActiveView = viewHistoryStack.length > 1 ? viewHistoryStack[viewHistoryStack.length - 2] : 'home';
 
-    // 데스크톱 사이드바 마이페이지 전용 카드 노출 트리거
-    const desktopMypageMenu = document.getElementById('desktop-mypage-menu');
-    if (desktopMypageMenu) {
-      const isMypageRelated = ['mypage', 'orders', 'reviews', 'shipping', 'customer-center', 'settings'].includes(viewId);
-      desktopMypageMenu.style.display = isMypageRelated ? 'block' : 'none';
-    }
-
     // Hide all views
     if (viewHome) viewHome.classList.remove('active');
     if (viewStory) viewStory.classList.remove('active');
@@ -3273,3 +3266,104 @@ window.handleResetPassword = function(e) {
   switchLoginTab('login');
 };
 
+// ── 프로필 수정 기능 실장 ───────────────────────────────
+let selectedAvatarPath = 'img/Stand01.jpg';
+
+window.openEditProfileModal = function() {
+  const modal = document.getElementById('edit-profile-modal');
+  const nameInput = document.getElementById('edit-profile-name');
+  const nameText = document.getElementById('profile-name-text');
+  
+  if (nameText && nameInput) {
+    nameInput.value = nameText.textContent.trim();
+  }
+  
+  // 현재 아바타 경로 읽어 프리셋 활성화 매칭
+  const currentAvatar = document.getElementById('profile-avatar-img');
+  if (currentAvatar) {
+    const src = currentAvatar.getAttribute('src');
+    selectedAvatarPath = src;
+    
+    const presets = document.querySelectorAll('#edit-profile-modal .avatar-preset-item');
+    presets.forEach(p => {
+      const img = p.querySelector('img');
+      if (img && img.getAttribute('src') === src) {
+        p.classList.add('active');
+        p.style.borderColor = 'var(--color-primary)';
+      } else {
+        p.classList.remove('active');
+        p.style.borderColor = 'transparent';
+      }
+    });
+  }
+
+  if (modal) {
+    modal.classList.add('active');
+  }
+};
+
+window.closeEditProfileModal = function() {
+  const modal = document.getElementById('edit-profile-modal');
+  if (modal) {
+    modal.classList.remove('active');
+  }
+};
+
+window.selectAvatarPreset = function(path, element) {
+  selectedAvatarPath = path;
+  const presets = document.querySelectorAll('#edit-profile-modal .avatar-preset-item');
+  presets.forEach(p => {
+    p.classList.remove('active');
+    p.style.borderColor = 'transparent';
+  });
+  element.classList.add('active');
+  element.style.borderColor = 'var(--color-primary)';
+};
+
+window.handleSaveProfile = function(event) {
+  event.preventDefault();
+  const nameInput = document.getElementById('edit-profile-name');
+  const nameText = document.getElementById('profile-name-text');
+  const avatarImg = document.getElementById('profile-avatar-img');
+  const drawerAvatarImg = document.querySelector('.user-profile .avatar-img');
+  const drawerUserNameText = document.querySelector('.user-profile .user-name strong');
+
+  if (nameInput && nameInput.value.trim()) {
+    const newName = nameInput.value.trim();
+    
+    // 화면 텍스트 실시간 동기화
+    if (nameText) nameText.textContent = newName;
+    if (drawerUserNameText) drawerUserNameText.textContent = `'${newName}'`;
+    
+    // 아바타 이미지 실시간 동기화
+    if (avatarImg) avatarImg.setAttribute('src', selectedAvatarPath);
+    if (drawerAvatarImg) drawerAvatarImg.setAttribute('src', selectedAvatarPath);
+    
+    // 로컬스토리지에도 보관하여 지속성 유지
+    localStorage.setItem('viewlight_username', newName);
+    localStorage.setItem('viewlight_avatar', selectedAvatarPath);
+
+    if (window.showToast) window.showToast('프로필이 성공적으로 변경되었습니다!');
+    window.closeEditProfileModal();
+  }
+};
+
+// 페이지 로드 시 기존 커스텀 프로필 복구
+window.addEventListener('DOMContentLoaded', () => {
+  const savedName = localStorage.getItem('viewlight_username');
+  const savedAvatar = localStorage.getItem('viewlight_avatar');
+  
+  if (savedName) {
+    const nameText = document.getElementById('profile-name-text');
+    const drawerUserNameText = document.querySelector('.user-profile .user-name strong');
+    if (nameText) nameText.textContent = savedName;
+    if (drawerUserNameText) drawerUserNameText.textContent = `'${savedName}'`;
+  }
+  
+  if (savedAvatar) {
+    const avatarImg = document.getElementById('profile-avatar-img');
+    const drawerAvatarImg = document.querySelector('.user-profile .avatar-img');
+    if (avatarImg) avatarImg.setAttribute('src', savedAvatar);
+    if (drawerAvatarImg) drawerAvatarImg.setAttribute('src', savedAvatar);
+  }
+});
