@@ -29,6 +29,7 @@ import { ScanGuideModal } from './components/modals/ScanGuideModal';
 import { CameraScanModal } from './components/modals/CameraScanModal';
 import { EditProfileModal } from './components/modals/EditProfileModal';
 import { OrderHistoryModal } from './components/modals/OrderHistoryModal';
+import { MyReviewsModal } from './components/modals/MyReviewsModal';
 
 export const App: React.FC = () => {
   return (
@@ -64,6 +65,7 @@ export const App: React.FC = () => {
                 <CameraScanModal />
                 <EditProfileModal />
                 <OrderHistoryModal />
+                <MyReviewsModal />
               </BrowserRouter>
             </ModalProvider>
           </AuthProvider>

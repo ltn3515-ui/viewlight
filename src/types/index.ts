@@ -41,4 +41,5 @@ export type ModalType =
   | 'editProfile'
   | 'menu'
   | 'orderHistory'
+  | 'myReviews'
   | null;

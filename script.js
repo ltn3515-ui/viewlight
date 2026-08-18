@@ -3464,6 +3464,20 @@ window.closeOrderHistoryModal = function() {
   }
 };
 
+window.openMyReviewsModal = function() {
+  const modal = document.getElementById('my-reviews-modal');
+  if (modal) {
+    modal.classList.add('active');
+  }
+};
+
+window.closeMyReviewsModal = function() {
+  const modal = document.getElementById('my-reviews-modal');
+  if (modal) {
+    modal.classList.remove('active');
+  }
+};
+
 window.selectAvatarPreset = function(path, element) {
   selectedAvatarPath = path;
   const presets = document.querySelectorAll('#edit-profile-modal .avatar-preset-item');

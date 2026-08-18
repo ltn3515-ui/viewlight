@@ -407,7 +407,7 @@ export const MyPage: React.FC = () => {
                 {
                   icon: 'rate_review',
                   label: '내 리뷰 (My Reviews)',
-                  onClick: () => showToast('💬 작성 가능한 리뷰가 1건 있습니다.'),
+                  onClick: () => openModal('myReviews'),
                 },
                 {
                   icon: 'local_shipping',
