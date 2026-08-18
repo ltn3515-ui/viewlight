@@ -3004,7 +3004,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       localStorage.setItem('viewlight_logged_in', 'false');
       window.updateLoginUI();
-      alert('로그아웃 되었습니다.');
+      if (window.showToast) window.showToast('로그아웃 되었습니다.');
     });
   }
 
@@ -3052,8 +3052,63 @@ window.switchLoginTab = function(tab) {
   }
 };
 
+window.showToast = function(message, type = 'info') {
+  let container = document.getElementById('global-toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'global-toast-container';
+    container.style.cssText = `
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+      width: calc(100% - 40px);
+      max-width: 320px;
+    `;
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement('div');
+  const isError = type === 'error';
+  toast.style.cssText = `
+    background: ${isError ? 'rgba(239, 68, 68, 0.95)' : 'rgba(15, 23, 42, 0.95)'};
+    color: #FFFFFF;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid ${isError ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.1)'};
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  `;
+  toast.textContent = message;
+  container.appendChild(toast);
+
+  toast.offsetHeight; // reflow
+
+  toast.style.opacity = '1';
+  toast.style.transform = 'translateY(0)';
+
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(-20px)';
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
+  }, 2500);
+};
+
 window.handleSocialLogin = function(provider) {
-  alert(`[소셜 로그인] ${provider} 계정으로 로그인을 진행합니다.`);
+  if (window.showToast) window.showToast(`[소셜 로그인] ${provider} 계정으로 로그인을 진행합니다.`);
   localStorage.setItem('viewlight_logged_in', 'true');
   if (window.updateLoginUI) window.updateLoginUI();
   closeLoginModal();
@@ -3061,27 +3116,76 @@ window.handleSocialLogin = function(provider) {
 
 window.handleEmailLogin = function(e) {
   e.preventDefault();
-  const email = document.getElementById('login-email')?.value;
-  if (email) {
-    alert(`${email} 계정으로 로그인이 완료되었습니다.\n환영합니다!`);
-    localStorage.setItem('viewlight_logged_in', 'true');
-    if (window.updateLoginUI) window.updateLoginUI();
-    closeLoginModal();
+  const email = document.getElementById('login-email')?.value?.trim();
+  const pw = document.getElementById('login-password')?.value;
+  
+  if (!email || !pw) return;
+
+  let users = [];
+  try {
+    users = JSON.parse(localStorage.getItem('viewlight_registered_users') || '[]');
+  } catch(err) {
+    users = [];
   }
+
+  const user = users.find(u => u.email === email);
+  if (!user) {
+    if (email === 'test@email.com') {
+      if (pw === '1234') {
+        if (window.showToast) window.showToast('로그인이 완료되었습니다. 환영합니다!');
+        localStorage.setItem('viewlight_logged_in', 'true');
+        if (window.updateLoginUI) window.updateLoginUI();
+        closeLoginModal();
+      } else {
+        if (window.showToast) window.showToast('비밀번호가 틀렸습니다.', 'error');
+      }
+    } else {
+      if (window.showToast) window.showToast('가입되지 않은 이메일 주소입니다.', 'error');
+    }
+    return;
+  }
+
+  if (user.password !== pw) {
+    if (window.showToast) window.showToast('비밀번호가 틀렸습니다.', 'error');
+    return;
+  }
+
+  if (window.showToast) window.showToast('로그인이 완료되었습니다. 환영합니다!');
+  localStorage.setItem('viewlight_logged_in', 'true');
+  if (window.updateLoginUI) window.updateLoginUI();
+  closeLoginModal();
 };
 
 window.handleEmailSignup = function(e) {
   e.preventDefault();
-  const email = document.getElementById('signup-email')?.value;
+  const email = document.getElementById('signup-email')?.value?.trim();
   const pw = document.getElementById('signup-password')?.value;
   const pwConfirm = document.getElementById('signup-password-confirm')?.value;
 
+  if (!email || !pw) return;
+
   if (pw !== pwConfirm) {
-    alert('비밀번호가 일치하지 않습니다. 다시 입력해 주세요.');
+    if (window.showToast) window.showToast('비밀번호가 일치하지 않습니다. 다시 입력해 주세요.', 'error');
     return;
   }
 
-  alert(`회원가입이 완료되었습니다!\n${email} 계정으로 가입해주셔서 감사합니다.`);
+  let users = [];
+  try {
+    users = JSON.parse(localStorage.getItem('viewlight_registered_users') || '[]');
+  } catch(err) {
+    users = [];
+  }
+
+  const exists = users.some(u => u.email === email);
+  if (exists) {
+    if (window.showToast) window.showToast('이미 등록된 이메일 주소입니다.', 'error');
+    return;
+  }
+
+  users.push({ email, password: pw });
+  localStorage.setItem('viewlight_registered_users', JSON.stringify(users));
+
+  if (window.showToast) window.showToast('회원가입이 완료되었습니다!');
   localStorage.setItem('viewlight_logged_in', 'true');
   if (window.updateLoginUI) window.updateLoginUI();
   closeLoginModal();
