@@ -145,6 +145,13 @@ document.addEventListener('DOMContentLoaded', () => {
     currentActiveView = viewId;
     previousActiveView = viewHistoryStack.length > 1 ? viewHistoryStack[viewHistoryStack.length - 2] : 'home';
 
+    // 데스크톱 사이드바 마이페이지 전용 카드 노출 트리거
+    const desktopMypageMenu = document.getElementById('desktop-mypage-menu');
+    if (desktopMypageMenu) {
+      const isMypageRelated = ['mypage', 'orders', 'reviews', 'shipping', 'customer-center', 'settings'].includes(viewId);
+      desktopMypageMenu.style.display = isMypageRelated ? 'block' : 'none';
+    }
+
     // Hide all views
     if (viewHome) viewHome.classList.remove('active');
     if (viewStory) viewStory.classList.remove('active');
