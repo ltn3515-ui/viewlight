@@ -7775,10 +7775,73 @@ input:checked + .toggle-slider:before {
   gap: 18px; /* 입력 폼 내부 필드간 간격 넓힘 */
 }
 
-/* 크림색 모달 배경에서 폼 라벨이 흰색으로 묻히던 시인성 문제 해결 */
 .login-modal-card .form-group label {
   color: var(--color-text-main, #121826) !important;
   font-weight: 800;
+}
+
+/* ── 다크 앰비언트 모드 테마 오버라이드 ─────────────────── */
+body.dark-mode {
+  --color-bg-cream: #121826;     /* 다크 네이비 배경 */
+  --color-bg-card: #1E293B;      /* 슬레이트 카드 배경 */
+  --color-text-main: #F4F1EA;    /* 밝은 크림색 텍스트 */
+  --color-text-sub: #94A3B8;     /* 연한 슬레이트 보조 텍스트 */
+  --color-border: #2D3748;       /* 다크 톤 보더 */
+}
+
+/* 다크모드 전용 세부 스타일 보완 */
+body.dark-mode .menu-list-row:hover {
+  background-color: #1E293B;
+}
+
+body.dark-mode .menu-modal-card {
+  background-color: #121826;
+  border: 1px solid #2D3748;
+}
+
+body.dark-mode .sub-item {
+  color: #94A3B8;
+}
+
+body.dark-mode .menu-drawer-footer {
+  border-top: 1px solid #2D3748;
+}
+
+body.dark-mode .brand-event-info {
+  background-color: #1E293B !important;
+  color: #F4F1EA !important;
+}
+
+body.dark-mode .trend-tag {
+  background-color: #1E293B !important;
+  color: #F4F1EA !important;
+}
+
+body.dark-mode .faq-answer {
+  background-color: #1E293B !important;
+}
+
+body.dark-mode .modal-card {
+  background-color: #121826 !important;
+  border: 1px solid #2D3748 !important;
+}
+
+body.dark-mode .noti-item {
+  border-bottom: 1px solid #2D3748 !important;
+}
+
+body.dark-mode .noti-item:hover {
+  background-color: #1E293B !important;
+}
+
+body.dark-mode .coupon-box {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px dashed rgba(255, 171, 64, 0.4) !important;
+}
+
+body.dark-mode .bna-card {
+  background-color: #1E293B !important;
+  border: 1px solid #2D3748 !important;
 }
 
 

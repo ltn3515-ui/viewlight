@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  // 다크 모드 초기 활성화 및 상태 복원
+  const darkModeSetting = localStorage.getItem('viewlight_dark_mode');
+  const darkModeInput = document.querySelector('input[onchange*="다크 모드"]');
+  if (darkModeSetting === 'true' || darkModeSetting === null) {
+    document.body.classList.add('dark-mode');
+    if (darkModeInput) darkModeInput.checked = true;
+  } else {
+    document.body.classList.remove('dark-mode');
+    if (darkModeInput) darkModeInput.checked = false;
+  }
+
   // 1. 하단 탭바 활성화 제어
   const tabItems = document.querySelectorAll('.tab-item');
   tabItems.forEach(tab => {
@@ -2717,6 +2728,14 @@ window.submitCsInquiry = function() {
 
 // 7. 설정 (Settings) 토글 동작
 window.toggleSettingState = function(settingName, isChecked) {
+  if (settingName === '다크 모드') {
+    if (isChecked) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+    localStorage.setItem('viewlight_dark_mode', isChecked ? 'true' : 'false');
+  }
   alert(`[${settingName}] 설정이 ${isChecked ? 'ON(켜짐)' : 'OFF(꺼짐)'}으로 변경되었습니다.`);
 };
 
