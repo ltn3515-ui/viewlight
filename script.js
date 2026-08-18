@@ -11,6 +11,62 @@ document.addEventListener('DOMContentLoaded', () => {
     if (darkModeInput) darkModeInput.checked = false;
   }
 
+  // 장바구니 localStorage 저장/복원 헬퍼
+  function saveCartToStorage() {
+    const items = [];
+    document.querySelectorAll('.cart-item-card').forEach(card => {
+      const id = card.id;
+      const price = parseInt(card.getAttribute('data-price')) || 0;
+      const img = card.querySelector('.cart-item-thumb img')?.src || '';
+      const name = card.querySelector('.cart-item-name')?.textContent || '';
+      const qty = parseInt(card.querySelector('.qty-val')?.textContent) || 1;
+      items.push({ id, price, img, name, qty });
+    });
+    localStorage.setItem('viewlight_cart', JSON.stringify(items));
+  }
+
+  function restoreCartFromStorage() {
+    const stored = localStorage.getItem('viewlight_cart');
+    if (!stored) return;
+    let items;
+    try { items = JSON.parse(stored); } catch(e) { return; }
+    if (!items || !items.length) return;
+
+    const container = document.getElementById('cart-items-container');
+    if (!container) return;
+    container.innerHTML = '';
+
+    items.forEach(item => {
+      const cardHtml = `
+        <div class="cart-item-card" data-price="${item.price}" id="${item.id}">
+          <button type="button" class="cart-item-remove" onclick="removeCartItem('${item.id}')">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+          <div class="cart-item-thumb">
+            <img src="${item.img}" alt="${item.name}">
+          </div>
+          <div class="cart-item-info">
+            <h4 class="cart-item-name">${item.name}</h4>
+            <p class="cart-item-price-label">${item.price.toLocaleString()}원</p>
+            <div class="quantity-controller">
+              <button type="button" class="qty-btn qty-minus" onclick="changeQty('${item.id}', -1)">-</button>
+              <span class="qty-val" id="qty-val-${item.id}">${item.qty}</span>
+              <button type="button" class="qty-btn qty-plus" onclick="changeQty('${item.id}', 1)">+</button>
+            </div>
+          </div>
+        </div>
+      `;
+      container.insertAdjacentHTML('beforeend', cardHtml);
+    });
+
+    if (window.updateCartTotals) window.updateCartTotals();
+    if (window.updateCartBadge) window.updateCartBadge();
+  }
+
+  // saveCartToStorage를 window에 노출
+  window.saveCartToStorage = saveCartToStorage;
+  // restoreCartFromStorage는 아래 window.updateCartBadge 정의 후 말미에서 호출됨
+
   // 1. 하단 탭바 활성화 제어
   const tabItems = document.querySelectorAll('.tab-item');
   tabItems.forEach(tab => {
@@ -946,6 +1002,9 @@ document.addEventListener('DOMContentLoaded', () => {
         totalEl.textContent = `${totalPrice.toLocaleString()}원`;
       }
     }
+
+    // 장바구니 상태 localStorage에 자동 저장
+    if (window.saveCartToStorage) window.saveCartToStorage();
   };
 
   // 10.2. 장바구니 수량 증감 버튼
@@ -1497,6 +1556,9 @@ document.addEventListener('DOMContentLoaded', () => {
       badge.style.display = 'none';
     }
   };
+
+  // 페이지 로드 시 장바구니 및 뱃지 복원 (updateCartBadge 정의 이후 실행)
+  restoreCartFromStorage();
 
   // 13.3. 상세 정보 화면에 제품 바인딩 및 노출
   window.openProductDetail = function(productKey) {
