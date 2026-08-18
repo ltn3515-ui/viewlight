@@ -131,6 +131,16 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentActiveView = 'home';
 
   function showView(viewId) {
+    // 로그인 체크 인터셉터 (비로그인 상태에서 장바구니 및 마이페이지 하위 경로 차단)
+    if (['cart', 'mypage', 'orders', 'reviews', 'shipping', 'customer-center', 'settings'].includes(viewId)) {
+      const isLoggedIn = localStorage.getItem('viewlight_logged_in') === 'true';
+      if (!isLoggedIn) {
+        if (window.showToast) window.showToast('로그인이 필요합니다.', 'error');
+        if (window.openLoginModal) window.openLoginModal();
+        return;
+      }
+    }
+
     if (!isNavigatingBack) {
       if (viewId === 'home') {
         viewHistoryStack.length = 0;
@@ -144,13 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     currentActiveView = viewId;
     previousActiveView = viewHistoryStack.length > 1 ? viewHistoryStack[viewHistoryStack.length - 2] : 'home';
-
-    // 데스크톱 사이드바 마이페이지 전용 카드 노출 트리거
-    const desktopMypageMenu = document.getElementById('desktop-mypage-menu');
-    if (desktopMypageMenu) {
-      const isMypageRelated = ['mypage', 'orders', 'reviews', 'shipping', 'customer-center', 'settings'].includes(viewId);
-      desktopMypageMenu.style.display = isMypageRelated ? 'block' : 'none';
-    }
 
     // Hide all views
     if (viewHome) viewHome.classList.remove('active');
