@@ -7749,4 +7749,36 @@ input:checked + .toggle-slider:before {
   margin-left: 4px;
 }
 
+/* 로그인 모달 레이아웃 간격 및 카카오 로고 스타일링 최적화 */
+.login-modal-card {
+  gap: 28px !important; /* 모달 요소 간 세로 간격 넓혀서 여유감 조성 */
+}
+
+.social-login-group {
+  gap: 12px !important; /* 소셜 로그인 버튼 간격 넓힘 */
+}
+
+.social-icon-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.login-divider {
+  margin: 10px 0 !important; /* 구분선 위아래 간격 넓힘 */
+}
+
+.login-form-wrapper form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px; /* 입력 폼 내부 필드간 간격 넓힘 */
+}
+
+/* 크림색 모달 배경에서 폼 라벨이 흰색으로 묻히던 시인성 문제 해결 */
+.login-modal-card .form-group label {
+  color: var(--color-text-main, #121826) !important;
+  font-weight: 800;
+}
+
 
