@@ -85,10 +85,18 @@
       }
     }
 
-    // 툴팁 위치 실시간 추적 (마우스 포인터 위쪽에 뜨도록 Y축 -22px 오프셋)
+    // 툴팁 위치 실시간 추적 (상단 잘림 방지: 상단 55px 이내면 아래로 위치 변경)
     if (tooltip && !isHidden && tooltip.classList.contains('visible')) {
-      tooltip.style.left = mouseX + 'px';
-      tooltip.style.top = (mouseY - 22) + 'px';
+      const isTopCutoff = mouseY < 55;
+      if (isTopCutoff) {
+        tooltip.classList.add('position-below');
+        tooltip.style.left = mouseX + 'px';
+        tooltip.style.top = (mouseY + 28) + 'px';
+      } else {
+        tooltip.classList.remove('position-below');
+        tooltip.style.left = mouseX + 'px';
+        tooltip.style.top = (mouseY - 22) + 'px';
+      }
     }
   });
 
@@ -225,8 +233,16 @@
       const text = getTooltipText(target);
       if (text) {
         tooltip.textContent = text;
-        tooltip.style.left = mouseX + 'px';
-        tooltip.style.top = (mouseY - 22) + 'px';
+        const isTopCutoff = mouseY < 55;
+        if (isTopCutoff) {
+          tooltip.classList.add('position-below');
+          tooltip.style.left = mouseX + 'px';
+          tooltip.style.top = (mouseY + 28) + 'px';
+        } else {
+          tooltip.classList.remove('position-below');
+          tooltip.style.left = mouseX + 'px';
+          tooltip.style.top = (mouseY - 22) + 'px';
+        }
         // 다음 프레임에서 애니메이션 동작하게 하여 부드럽게 출력
         requestAnimationFrame(() => {
           tooltip.classList.add('visible');

@@ -7547,4 +7547,13 @@ input:checked + .toggle-slider:before {
   transform: translate(-50%, -100%) scale(1); /* 부드러운 스케일 업 애니메이션 */
 }
 
+#custom-tooltip.position-below {
+  transform: translate(-50%, 0) scale(0.85);
+  transform-origin: top center;
+}
+
+#custom-tooltip.position-below.visible {
+  transform: translate(-50%, 0) scale(1);
+}
+
 
