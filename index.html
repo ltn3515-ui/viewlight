@@ -71,6 +71,45 @@
             </div>
           </div>
         </div>
+
+        <!-- 데스크톱 전용 마이페이지 메뉴 목록 -->
+        <div class="mypage-menu-list desktop-menu-list" style="margin-top: 24px; background: rgba(255, 255, 255, 0.95); border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 4px 12px rgba(0,0,0,0.03); overflow: hidden;">
+          <a href="#orders" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: #333; border-bottom: 1px solid rgba(0,0,0,0.04);" onclick="window.showView('orders'); return false;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span class="material-symbols-outlined" style="color: #666; font-size: 20px;">receipt_long</span>
+              <span style="font-size: 0.88rem; font-weight: 600;">주문 내역 (Order History)</span>
+            </div>
+            <span class="material-symbols-outlined" style="color: #bbb; font-size: 18px;">chevron_right</span>
+          </a>
+          <a href="#reviews" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: #333; border-bottom: 1px solid rgba(0,0,0,0.04);" onclick="window.showView('reviews'); return false;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span class="material-symbols-outlined" style="color: #666; font-size: 20px;">rate_review</span>
+              <span style="font-size: 0.88rem; font-weight: 600;">내 리뷰 (My Reviews)</span>
+            </div>
+            <span class="material-symbols-outlined" style="color: #bbb; font-size: 18px;">chevron_right</span>
+          </a>
+          <a href="#shipping" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: #333; border-bottom: 1px solid rgba(0,0,0,0.04);" onclick="window.showView('shipping'); return false;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span class="material-symbols-outlined" style="color: #666; font-size: 20px;">local_shipping</span>
+              <span style="font-size: 0.88rem; font-weight: 600;">배송지 관리 (Shipping Management)</span>
+            </div>
+            <span class="material-symbols-outlined" style="color: #bbb; font-size: 18px;">chevron_right</span>
+          </a>
+          <a href="#customer-center" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: #333; border-bottom: 1px solid rgba(0,0,0,0.04);" onclick="window.showView('customer-center'); return false;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span class="material-symbols-outlined" style="color: #666; font-size: 20px;">support_agent</span>
+              <span style="font-size: 0.88rem; font-weight: 600;">고객센터 (Customer Center)</span>
+            </div>
+            <span class="material-symbols-outlined" style="color: #bbb; font-size: 18px;">chevron_right</span>
+          </a>
+          <a href="#settings" class="menu-list-row" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; color: #333;" onclick="window.showView('settings'); return false;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span class="material-symbols-outlined" style="color: #666; font-size: 20px;">settings</span>
+              <span style="font-size: 0.88rem; font-weight: 600;">설정 (Settings)</span>
+            </div>
+            <span class="material-symbols-outlined" style="color: #bbb; font-size: 18px;">chevron_right</span>
+          </a>
+        </div>
       </div>
     </aside>
 
@@ -2539,6 +2578,9 @@
               <label for="login-password">비밀번호</label>
               <input type="password" id="login-password" class="modal-input" placeholder="비밀번호를 입력하세요" required>
             </div>
+            <div id="password-find-wrapper" style="display: none; margin-bottom: 12px; text-align: right;">
+              <button type="button" class="btn-find-password" onclick="switchLoginTab('find-password')" style="background: none; border: none; color: #FF9800; font-size: 0.8rem; font-weight: 700; text-decoration: underline; cursor: pointer;">비밀번호 찾기 / 변경하기</button>
+            </div>
             <button type="submit" class="btn-login-submit">로그인</button>
           </form>
           <div class="login-switch-prompt">
@@ -2566,6 +2608,29 @@
           </form>
           <div class="login-switch-prompt">
             이미 계정이 있으신가요? 
+            <button type="button" class="btn-switch-tab" onclick="switchLoginTab('login')">로그인하기</button>
+          </div>
+        </div>
+
+        <!-- 4. 이메일 비밀번호 찾기/변경 폼 (기본 숨김) -->
+        <div id="find-password-form-wrapper" class="login-form-wrapper" style="display: none;">
+          <form id="form-email-find-password" onsubmit="handleResetPassword(event)">
+            <div class="form-group">
+              <label for="find-email">가입된 이메일 주소</label>
+              <input type="email" id="find-email" class="modal-input" placeholder="example@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="find-new-password">새 비밀번호</label>
+              <input type="password" id="find-new-password" class="modal-input" placeholder="새 비밀번호 (8자 이상)" minlength="8" required>
+            </div>
+            <div class="form-group">
+              <label for="find-new-password-confirm">새 비밀번호 확인</label>
+              <input type="password" id="find-new-password-confirm" class="modal-input" placeholder="새 비밀번호를 한번 더 입력하세요" required>
+            </div>
+            <button type="submit" class="btn-login-submit btn-find-submit">비밀번호 변경 완료</button>
+          </form>
+          <div class="login-switch-prompt">
+            다시 로그인 화면으로 돌아가시겠습니까? 
             <button type="button" class="btn-switch-tab" onclick="switchLoginTab('login')">로그인하기</button>
           </div>
         </div>

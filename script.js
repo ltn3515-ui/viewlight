@@ -3028,25 +3028,35 @@ window.closeLoginModal = function() {
     // 입력 폼 초기화
     document.getElementById('form-email-login')?.reset();
     document.getElementById('form-email-signup')?.reset();
+    document.getElementById('form-email-find-password')?.reset();
   }
 };
 
 window.switchLoginTab = function(tab) {
   const loginForm = document.getElementById('login-form-wrapper');
   const signupForm = document.getElementById('signup-form-wrapper');
+  const findForm = document.getElementById('find-password-form-wrapper');
   const title = document.getElementById('login-modal-title');
   const sub = document.getElementById('login-modal-sub');
 
-  if (!loginForm || !signupForm) return;
+  if (!loginForm || !signupForm || !findForm) return;
 
   if (tab === 'signup') {
     loginForm.style.display = 'none';
     signupForm.style.display = 'flex';
+    findForm.style.display = 'none';
     if (title) title.textContent = '이메일 회원가입';
     if (sub) sub.textContent = '이메일 주소로 빠르고 간편하게 가입하세요.';
+  } else if (tab === 'find-password') {
+    loginForm.style.display = 'none';
+    signupForm.style.display = 'none';
+    findForm.style.display = 'flex';
+    if (title) title.textContent = '비밀번호 변경';
+    if (sub) sub.textContent = '가입하신 이메일과 변경할 새 비밀번호를 입력해주세요.';
   } else {
     loginForm.style.display = 'flex';
     signupForm.style.display = 'none';
+    findForm.style.display = 'none';
     if (title) title.textContent = '로그인';
     if (sub) sub.textContent = 'ViewLight 회원만을 위한 특별한 조명 제어 혜택을 누리세요.';
   }
@@ -3107,6 +3117,9 @@ window.showToast = function(message, type = 'info') {
   }, 2500);
 };
 
+// 비밀번호 오류 카운터 맵
+let failedAttemptsMap = {};
+
 window.handleSocialLogin = function(provider) {
   if (window.showToast) window.showToast(`[소셜 로그인] ${provider} 계정으로 로그인을 진행합니다.`);
   localStorage.setItem('viewlight_logged_in', 'true');
@@ -3129,6 +3142,8 @@ window.handleEmailLogin = function(e) {
   }
 
   const user = users.find(u => u.email === email);
+  
+  // 미가입 이메일 체크
   if (!user) {
     if (email === 'test@email.com') {
       if (pw === '1234') {
@@ -3137,18 +3152,34 @@ window.handleEmailLogin = function(e) {
         if (window.updateLoginUI) window.updateLoginUI();
         closeLoginModal();
       } else {
+        failedAttemptsMap[email] = (failedAttemptsMap[email] || 0) + 1;
+        if (failedAttemptsMap[email] >= 3) {
+          const findWrapper = document.getElementById('password-find-wrapper');
+          if (findWrapper) findWrapper.style.display = 'block';
+        }
         if (window.showToast) window.showToast('비밀번호가 틀렸습니다.', 'error');
       }
     } else {
-      if (window.showToast) window.showToast('가입되지 않은 이메일 주소입니다.', 'error');
+      if (window.showToast) window.showToast('존재하지 않는 이메일입니다.', 'error');
     }
     return;
   }
 
+  // 비밀번호 불일치 체크
   if (user.password !== pw) {
+    failedAttemptsMap[email] = (failedAttemptsMap[email] || 0) + 1;
+    if (failedAttemptsMap[email] >= 3) {
+      const findWrapper = document.getElementById('password-find-wrapper');
+      if (findWrapper) findWrapper.style.display = 'block';
+    }
     if (window.showToast) window.showToast('비밀번호가 틀렸습니다.', 'error');
     return;
   }
+
+  // 로그인 성공
+  failedAttemptsMap[email] = 0;
+  const findWrapper = document.getElementById('password-find-wrapper');
+  if (findWrapper) findWrapper.style.display = 'none';
 
   if (window.showToast) window.showToast('로그인이 완료되었습니다. 환영합니다!');
   localStorage.setItem('viewlight_logged_in', 'true');
@@ -3189,5 +3220,49 @@ window.handleEmailSignup = function(e) {
   localStorage.setItem('viewlight_logged_in', 'true');
   if (window.updateLoginUI) window.updateLoginUI();
   closeLoginModal();
+};
+
+window.handleResetPassword = function(e) {
+  e.preventDefault();
+  const email = document.getElementById('find-email')?.value?.trim();
+  const pw = document.getElementById('find-new-password')?.value;
+  const pwConfirm = document.getElementById('find-new-password-confirm')?.value;
+
+  if (!email || !pw) return;
+
+  if (pw !== pwConfirm) {
+    if (window.showToast) window.showToast('비밀번호가 일치하지 않습니다. 다시 입력해 주세요.', 'error');
+    return;
+  }
+
+  let users = [];
+  try {
+    users = JSON.parse(localStorage.getItem('viewlight_registered_users') || '[]');
+  } catch(err) {
+    users = [];
+  }
+
+  // 가입 여부 체크
+  const userIdx = users.findIndex(u => u.email === email);
+  if (userIdx === -1 && email !== 'test@email.com') {
+    if (window.showToast) window.showToast('존재하지 않는 이메일입니다.', 'error');
+    return;
+  }
+
+  // 비밀번호 덮어쓰기 및 업데이트
+  if (email === 'test@email.com') {
+    // 테스트용 임시 변경은 가상으로 성공 처리
+  } else {
+    users[userIdx].password = pw;
+    localStorage.setItem('viewlight_registered_users', JSON.stringify(users));
+  }
+
+  // 횟수 초기화 및 버튼 숨김
+  failedAttemptsMap[email] = 0;
+  const findWrapper = document.getElementById('password-find-wrapper');
+  if (findWrapper) findWrapper.style.display = 'none';
+
+  if (window.showToast) window.showToast('비밀번호가 성공적으로 변경되었습니다!');
+  switchLoginTab('login');
 };
 
