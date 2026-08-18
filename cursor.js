@@ -87,7 +87,8 @@
 
     // 툴팁 위치 실시간 추적 (마우스 포인터 위쪽에 뜨도록 Y축 -22px 오프셋)
     if (tooltip && !isHidden && tooltip.classList.contains('visible')) {
-      tooltip.style.transform = `translate(${mouseX}px, ${mouseY - 22px}) scale(1)`;
+      tooltip.style.left = mouseX + 'px';
+      tooltip.style.top = (mouseY - 22) + 'px';
     }
   });
 
@@ -224,7 +225,8 @@
       const text = getTooltipText(target);
       if (text) {
         tooltip.textContent = text;
-        tooltip.style.transform = `translate(${mouseX}px, ${mouseY - 22px}) scale(0.85)`;
+        tooltip.style.left = mouseX + 'px';
+        tooltip.style.top = (mouseY - 22) + 'px';
         // 다음 프레임에서 애니메이션 동작하게 하여 부드럽게 출력
         requestAnimationFrame(() => {
           tooltip.classList.add('visible');

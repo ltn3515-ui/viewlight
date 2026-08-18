@@ -3596,6 +3596,23 @@ img {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
+.category-list-card.scroll-animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.category-list-card.scroll-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.category-list-card.scroll-animate.visible:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
 .category-list-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
@@ -7502,6 +7519,8 @@ input:checked + .toggle-slider:before {
 /* ── 커스텀 플로팅 툴팁 ─────────────────── */
 #custom-tooltip {
   position: fixed;
+  left: 0;
+  top: 0;
   pointer-events: none;
   z-index: 10000000; /* 최상단 위치 */
   background: rgba(18, 24, 38, 0.9); /* 다크 모드 어울리는 깊은 블랙 네이비 */

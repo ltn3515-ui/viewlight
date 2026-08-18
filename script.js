@@ -2735,3 +2735,32 @@ window.toggleGlowCursorSetting = function(isChecked) {
   alert(`커스텀 GLOW 커서 효과가 ${isChecked ? '활성화' : '비활성화'}되었습니다.`);
 };
 
+// 16. 제품 둘러보기 화면 (view-category-all) 카드 스크롤 애니메이션 (Intersection Observer)
+document.addEventListener('DOMContentLoaded', () => {
+  const categoryCards = document.querySelectorAll('.category-list-card');
+  if (categoryCards.length > 0 && 'IntersectionObserver' in window) {
+    categoryCards.forEach(card => {
+      card.classList.add('scroll-animate');
+    });
+
+    const observerOptions = {
+      root: null, // 브라우저 뷰포트 기준
+      rootMargin: '0px 0px -50px 0px', // 스크롤 감지 임계 영역 최적화
+      threshold: 0.15
+    };
+
+    const cardObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); // 한 번만 실행되도록 해제
+        }
+      });
+    }, observerOptions);
+
+    categoryCards.forEach(card => {
+      cardObserver.observe(card);
+    });
+  }
+});
+
