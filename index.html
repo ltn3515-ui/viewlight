@@ -663,7 +663,7 @@
               <p class="banner-description">
                 따뜻하고 은은한 조명은 나무의 자연스러운 질감과 어우러져 피로를 덜어주고 집중력을 높이는 데 도움이 됩니다.
               </p>
-              <button type="button" class="btn-view-report" onclick="alert('📋 상세 AI 큐레이션 리포트로 이동합니다.')">
+              <button type="button" class="btn-view-report" onclick="showView('curation-report')">
                 View Report +
               </button>
             </div>
@@ -1335,56 +1335,126 @@
       <div id="view-curation-report" class="mobile-view">
         <!-- 상단바 -->
         <header class="service-header">
-          <button type="button" class="header-icon-btn back-btn" id="btn-report-back">
+          <button type="button" class="header-icon-btn back-btn" id="btn-report-back" onclick="handleReportBack()">
             <span class="material-symbols-outlined">chevron_left</span>
           </button>
           <div class="service-logo" style="margin-left: 20px;">
-
-            <span class="service-logo-text">ViewLight</span>
+            <span class="service-logo-text" id="report-view-title">AI 큐레이션 리포트</span>
           </div>
           <div class="header-actions">
             <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
-
           </div>
         </header>
 
-        <!-- 스크롤 콘텐츠 영역 -->
-        <div class="service-content report-content">
-          <!-- 1. AI 공간 분석 요약 카드 -->
+        <!-- [화면 A] 리포트 목록 -->
+        <div id="report-list-panel" class="service-content report-content" style="padding-top: 12px;">
+
+          <!-- 페이지 타이틀 -->
+          <div class="report-list-hero">
+            <span class="report-list-hero-badge">✨ AI ANALYSIS</span>
+            <h3 class="report-list-hero-title">나의 큐레이션 리포트</h3>
+            <p class="report-list-hero-sub">AI가 분석한 공간별 맞춤 조명 큐레이션 기록</p>
+          </div>
+
+          <!-- 리포트 카드 1: 내 방 책상 - 우드&크림 -->
+          <div class="report-list-card" onclick="openReportDetail('wood-cream')">
+            <div class="report-list-card-img" style="background-image: url('img/livingroom.jpg');"></div>
+            <div class="report-list-card-info">
+              <span class="report-list-badge">LATEST</span>
+              <h4 class="report-list-card-title">내 방 책상 - 우드&크림</h4>
+              <p class="report-list-card-meta">따뜻한 웜 미니멀리스트 · 베이지 톤</p>
+              <p class="report-list-card-date">2026.08.10 분석</p>
+            </div>
+            <span class="material-symbols-outlined report-list-chevron">chevron_right</span>
+          </div>
+
+          <!-- 리포트 카드 2: 거실 소파 - 다크 앰비언트 -->
+          <div class="report-list-card" onclick="openReportDetail('dark-ambient')">
+            <div class="report-list-card-img" style="background-image: url('img/light009.jpg');"></div>
+            <div class="report-list-card-info">
+              <span class="report-list-badge report-list-badge--prev">PREVIOUS</span>
+              <h4 class="report-list-card-title">거실 소파 - 다크 앰비언트</h4>
+              <p class="report-list-card-meta">다크 무드 · 하이 컨트라스트</p>
+              <p class="report-list-card-date">2026.07.22 분석</p>
+            </div>
+            <span class="material-symbols-outlined report-list-chevron">chevron_right</span>
+          </div>
+
+          <!-- 리포트 카드 3: 침실 - 나이트 릴렉스 -->
+          <div class="report-list-card" onclick="openReportDetail('night-relax')">
+            <div class="report-list-card-img" style="background-image: url('img/light001.jpg');"></div>
+            <div class="report-list-card-info">
+              <span class="report-list-badge report-list-badge--prev">PREVIOUS</span>
+              <h4 class="report-list-card-title">침실 - 나이트 릴렉스</h4>
+              <p class="report-list-card-meta">소프트 라이트 · 로우 컨트라스트</p>
+              <p class="report-list-card-date">2026.07.05 분석</p>
+            </div>
+            <span class="material-symbols-outlined report-list-chevron">chevron_right</span>
+          </div>
+
+          <!-- 리포트 카드 4: 홈 오피스 - 포커스 모드 -->
+          <div class="report-list-card" onclick="openReportDetail('focus-mode')">
+            <div class="report-list-card-img" style="background-image: url('img/light004.jpg');"></div>
+            <div class="report-list-card-info">
+              <span class="report-list-badge report-list-badge--prev">PREVIOUS</span>
+              <h4 class="report-list-card-title">홈 오피스 - 포커스 모드</h4>
+              <p class="report-list-card-meta">쿨 화이트 · 고집중 셋업</p>
+              <p class="report-list-card-date">2026.06.18 분석</p>
+            </div>
+            <span class="material-symbols-outlined report-list-chevron">chevron_right</span>
+          </div>
+
+        </div>
+
+        <!-- [화면 B] 리포트 상세 -->
+        <div id="report-detail-panel" class="service-content report-content" style="display:none; padding-top: 12px;">
+
+          <!-- 1. 상단 공간 이미지 히어로 -->
+          <div class="report-hero-image" id="report-hero-img">
+            <div class="report-hero-overlay">
+              <span class="room-top-tag" id="report-hero-tag">ORIGINAL</span>
+              <h3 class="room-main-title" id="report-hero-title">Living Room</h3>
+              <p class="report-hero-sub-label" id="report-hero-date">2026.08.10 AI 분석</p>
+            </div>
+            <button type="button" class="room-ar-btn">
+              <span class="material-symbols-outlined">center_focus_strong</span> AR 체험
+            </button>
+          </div>
+
+          <!-- 2. AI 공간 분석 요약 카드 -->
           <div class="report-summary-card">
-            <h4 class="report-summary-title">AI 공간 분석 요약</h4>
-            <p class="report-summary-desc">
+            <h4 class="report-summary-title">🧠 AI 공간 분석 요약</h4>
+            <p class="report-summary-desc" id="report-detail-desc">
               분석된 공간은 부드러운 자연광과 뉴트럴한 색조가 돋보입니다. 이에 어울리는 조명 무드를 제안합니다.
             </p>
-            <div class="report-tag-list">
+            <div class="report-tag-list" id="report-detail-tags">
               <span class="report-summary-tag">따뜻한 웜 미니멀리스트</span>
               <span class="report-summary-tag">부드러운 베이지 톤</span>
               <span class="report-summary-tag">로우 컨트라스트</span>
             </div>
           </div>
 
-          <!-- 2. 대표 공간 오리지널 룸 카드 -->
-          <div class="report-room-card" style="background-image: url('img/livingroom.jpg');">
-            <div class="room-overlay-content">
-              <span class="room-top-tag">ORIGINAL</span>
-              <h3 class="room-main-title">Living Room</h3>
+          <!-- 3. AI 매칭 스코어 바 -->
+          <div class="report-score-card">
+            <div class="report-score-row">
+              <span class="report-score-label">AI 매칭 신뢰도</span>
+              <span class="report-score-value" id="report-score-val">98%</span>
             </div>
-            <!-- AR 체험 노란색 알약 버튼 -->
-            <button type="button" class="room-ar-btn" id="btn-report-ar">
-              <span class="material-symbols-outlined">center_focus_strong</span> AR 체험
-            </button>
+            <div class="report-score-track">
+              <div class="report-score-fill" id="report-score-fill" style="width: 98%;"></div>
+            </div>
+            <p class="report-score-hint">분석 이미지와 조명 팔레트의 색온도 일치율을 기반으로 산출되었습니다.</p>
           </div>
 
-          <!-- 3. 추천 무드등 가로 캐러셀 섹션 -->
+          <!-- 4. 추천 무드등 가로 캐러셀 -->
           <div class="report-rec-section">
             <div class="report-rec-header">
-              <h4 class="report-rec-title">추천 무드등</h4>
-              <span class="material-symbols-outlined report-more-icon" id="btn-report-more-curation" style="cursor: pointer;">more_horiz</span>
+              <h4 class="report-rec-title">✨ 추천 무드등</h4>
+              <span class="report-list-see-all">전체보기</span>
             </div>
 
-            <!-- 가로 스크롤 카드 리스트 -->
-            <div class="report-carousel-container">
-              <!-- 카드 1: 집중된 안락함 -->
+            <div class="report-carousel-container" id="report-carousel">
+              <!-- 카드 1 -->
               <div class="report-rec-card" onclick="openProductDetail('aurora-brass')">
                 <div class="report-card-img-box">
                   <img src="img/light009.jpg" alt="집중된 안락함">
@@ -1392,12 +1462,11 @@
                 </div>
                 <div class="report-card-body">
                   <h5 class="report-card-title">집중된 안락함</h5>
-                  <p class="report-card-desc">드라마틱하고 낮게 드리워진 펜던트 조명 이러한 구성은..</p>
+                  <p class="report-card-desc">드라마틱하고 낮게 드리워진 펜던트 조명</p>
                   <span class="report-card-price">490,000원</span>
                 </div>
               </div>
-
-              <!-- 카드 2: 앰비언트 모드 -->
+              <!-- 카드 2 -->
               <div class="report-rec-card" onclick="openProductDetail('neo-able')">
                 <div class="report-card-img-box">
                   <img src="img/Stand03.png" alt="앰비언트 모드">
@@ -1405,12 +1474,11 @@
                 </div>
                 <div class="report-card-body">
                   <h5 class="report-card-title">앰비언트 모드</h5>
-                  <p class="report-card-desc">부드럽고 자연스럽게 스며드는 잔잔한 간접 조명 무드셋업</p>
+                  <p class="report-card-desc">부드럽고 자연스럽게 스며드는 간접 조명</p>
                   <span class="report-card-price">200,000원</span>
                 </div>
               </div>
-
-              <!-- 카드 3: 자연광 시너지 -->
+              <!-- 카드 3 -->
               <div class="report-rec-card" onclick="openProductDetail('wood-hexa')">
                 <div class="report-card-img-box">
                   <img src="img/light001.jpg" alt="자연광 시너지">
@@ -1418,12 +1486,11 @@
                 </div>
                 <div class="report-card-body">
                   <h5 class="report-card-title">자연광 시너지</h5>
-                  <p class="report-card-desc">천연 우드 결이 부드러운 자연광 반사 무드와 극치로 융합</p>
+                  <p class="report-card-desc">천연 우드 결이 자연광 반사 무드와 극치 융합</p>
                   <span class="report-card-price">75,000원</span>
                 </div>
               </div>
-
-              <!-- 카드 4: 스마트 큐브 셋업 -->
+              <!-- 카드 4 -->
               <div class="report-rec-card" onclick="openProductDetail('smart-cube')">
                 <div class="report-card-img-box">
                   <img src="img/light004.jpg" alt="스마트 큐브 셋업">
@@ -1431,13 +1498,13 @@
                 </div>
                 <div class="report-card-body">
                   <h5 class="report-card-title">스마트 큐브 셋업</h5>
-                  <p class="report-card-desc">다채로운 색조 조합을 모바일 큐레이션으로 실시간 컨트롤</p>
+                  <p class="report-card-desc">다채로운 색조 조합을 모바일로 실시간 컨트롤</p>
                   <span class="report-card-price">49,000원</span>
                 </div>
               </div>
             </div>
 
-            <!-- 추천 무드등 일괄 담기 대형 오렌지색 버튼 -->
+            <!-- 추천 무드등 일괄 담기 버튼 -->
             <button type="button" class="btn-report-bulk-cart" id="btn-report-bulk-cart">
               <span class="material-symbols-outlined">shopping_bag</span>
               추천 무드등 일괄 담기 (814,000원)

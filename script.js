@@ -3503,3 +3503,139 @@ window.addEventListener('DOMContentLoaded', () => {
     if (drawerAvatarImg) drawerAvatarImg.setAttribute('src', savedAvatar);
   }
 });
+
+// ── 큐레이션 리포트 목록 / 상세 ─────────────────────────────
+
+const reportDataMap = {
+  'wood-cream': {
+    title: '내 방 책상 - 우드&크림',
+    date: '2026.08.10 AI 분석',
+    img: "img/livingroom.jpg",
+    desc: '분석된 공간은 부드러운 자연광과 뉴트럴한 색조가 돋보입니다. 따뜻한 조명은 나무의 자연스러운 질감과 어우러져 피로를 덜어주고 집중력을 높이는 데 도움이 됩니다.',
+    tags: ['따뜻한 웜 미니멀리스트', '부드러운 베이지 톤', '로우 컨트라스트'],
+    score: 98,
+    scenes: [
+      { title: '집중된 안락함', desc: '드라마틱하고 낮게 드리워진 펜던트 조명', price: '490,000원', img: 'img/light009.jpg', key: 'aurora-brass', label: 'SCENE 01' },
+      { title: '앰비언트 모드', desc: '부드럽고 자연스럽게 스며드는 간접 조명', price: '200,000원', img: 'img/Stand03.png', key: 'neo-able', label: 'SCENE 02' },
+      { title: '자연광 시너지', desc: '천연 우드 결이 자연광 반사 무드와 극치 융합', price: '75,000원', img: 'img/light001.jpg', key: 'wood-hexa', label: 'SCENE 03' },
+      { title: '스마트 큐브 셋업', desc: '다채로운 색조 조합을 모바일로 실시간 컨트롤', price: '49,000원', img: 'img/light004.jpg', key: 'smart-cube', label: 'SCENE 04' },
+    ]
+  },
+  'dark-ambient': {
+    title: '거실 소파 - 다크 앰비언트',
+    date: '2026.07.22 AI 분석',
+    img: "img/light009.jpg",
+    desc: '깊은 어두움 속 포인트 조명이 드라마틱한 분위기를 연출합니다. 하이 컨트라스트 무드가 공간에 깊이와 고급스러움을 더해줍니다.',
+    tags: ['다크 무드', '하이 컨트라스트', '드라마틱 포인트'],
+    score: 94,
+    scenes: [
+      { title: '뮤트 골드 펜던트', desc: '황금빛 포인트 조명이 다크 배경과 조화', price: '450,000원', img: 'img/light009.jpg', key: 'aurora-brass', label: 'SCENE 01' },
+      { title: '딥 앰비언트 스트립', desc: 'RGB 스트립이 만드는 몰입감 있는 벽면 무드', price: '62,000원', img: 'img/Stand04.png', key: 'ambient-strip', label: 'SCENE 02' },
+      { title: '무드 플로어 하프', desc: '반투명 갓에서 퍼지는 부드러운 하향 조명', price: '90,000원', img: 'img/Stand02.png', key: 'lumina-floor', label: 'SCENE 03' },
+    ]
+  },
+  'night-relax': {
+    title: '침실 - 나이트 릴렉스',
+    date: '2026.07.05 AI 분석',
+    img: "img/light001.jpg",
+    desc: '취침 전 긴장을 풀어주는 2700K 이하의 따뜻한 저조도 조명 세팅이 이상적입니다. 소프트한 간접광이 수면의 질을 높여줍니다.',
+    tags: ['소프트 라이트', '로우 컨트라스트', '2700K 웜'],
+    score: 91,
+    scenes: [
+      { title: '자연광 우드 헥사', desc: '우드 프레임 육각 조명의 따뜻한 저녁빛', price: '75,000원', img: 'img/light001.jpg', key: 'wood-hexa', label: 'SCENE 01' },
+      { title: '루미나 플로어 하프', desc: '아래로 은은하게 퍼지는 나이트 스탠드 무드', price: '90,000원', img: 'img/Stand01.jpg', key: 'lumina-floor', label: 'SCENE 02' },
+    ]
+  },
+  'focus-mode': {
+    title: '홈 오피스 - 포커스 모드',
+    date: '2026.06.18 AI 분석',
+    img: "img/light004.jpg",
+    desc: '업무 집중도를 극대화하는 5000K~6500K의 쿨 화이트 조명 환경입니다. 피로 없이 장시간 집중이 가능하도록 색온도와 조도를 최적화했습니다.',
+    tags: ['쿨 화이트', '고집중 셋업', '6500K 데이라이트'],
+    score: 96,
+    scenes: [
+      { title: '스마트 큐브 데스크', desc: '쿨 화이트 색온도로 업무 효율 극대화', price: '49,000원', img: 'img/light004.jpg', key: 'smart-cube', label: 'SCENE 01' },
+      { title: '오로라 브라스 집중등', desc: '황동 암 아래 집중되는 하향 작업 조명', price: '320,000원', img: 'img/Stand01.jpg', key: 'aurora-brass', label: 'SCENE 02' },
+    ]
+  }
+};
+
+window.openReportDetail = function(reportKey) {
+  const data = reportDataMap[reportKey];
+  if (!data) return;
+
+  // 히어로 이미지 & 텍스트 업데이트
+  const heroImg = document.getElementById('report-hero-img');
+  const heroTitle = document.getElementById('report-hero-title');
+  const heroDate = document.getElementById('report-hero-date');
+  const heroTag = document.getElementById('report-hero-tag');
+  if (heroImg) heroImg.style.backgroundImage = `url('${data.img}')`;
+  if (heroTitle) heroTitle.textContent = data.title;
+  if (heroDate) heroDate.textContent = data.date;
+  if (heroTag) heroTag.textContent = 'ANALYSIS';
+
+  // 설명 & 태그 업데이트
+  const descEl = document.getElementById('report-detail-desc');
+  const tagsEl = document.getElementById('report-detail-tags');
+  if (descEl) descEl.textContent = data.desc;
+  if (tagsEl) {
+    tagsEl.innerHTML = data.tags.map(t => `<span class="report-summary-tag">${t}</span>`).join('');
+  }
+
+  // 스코어 업데이트
+  const scoreVal = document.getElementById('report-score-val');
+  const scoreFill = document.getElementById('report-score-fill');
+  if (scoreVal) scoreVal.textContent = data.score + '%';
+  if (scoreFill) {
+    scoreFill.style.width = '0%';
+    setTimeout(() => { scoreFill.style.width = data.score + '%'; }, 100);
+  }
+
+  // 추천 카드 캐러셀 업데이트
+  const carousel = document.getElementById('report-carousel');
+  if (carousel) {
+    carousel.innerHTML = data.scenes.map(s => `
+      <div class="report-rec-card" onclick="openProductDetail('${s.key}')">
+        <div class="report-card-img-box">
+          <img src="${s.img}" alt="${s.title}">
+          <span class="scene-badge">${s.label}</span>
+        </div>
+        <div class="report-card-body">
+          <h5 class="report-card-title">${s.title}</h5>
+          <p class="report-card-desc">${s.desc}</p>
+          <span class="report-card-price">${s.price}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // 헤더 타이틀 변경
+  const viewTitle = document.getElementById('report-view-title');
+  if (viewTitle) viewTitle.textContent = data.title;
+
+  // 패널 전환: 목록 숨기고 상세 노출
+  const listPanel = document.getElementById('report-list-panel');
+  const detailPanel = document.getElementById('report-detail-panel');
+  if (listPanel) listPanel.style.display = 'none';
+  if (detailPanel) {
+    detailPanel.style.display = 'flex';
+    detailPanel.scrollTop = 0;
+  }
+};
+
+window.handleReportBack = function() {
+  const listPanel = document.getElementById('report-list-panel');
+  const detailPanel = document.getElementById('report-detail-panel');
+  const viewTitle = document.getElementById('report-view-title');
+
+  // 상세 화면이 보이는 경우: 목록으로 복귀
+  if (detailPanel && detailPanel.style.display !== 'none') {
+    detailPanel.style.display = 'none';
+    if (listPanel) listPanel.style.display = 'flex';
+    if (viewTitle) viewTitle.textContent = 'AI 큐레이션 리포트';
+  } else {
+    // 목록 화면: 이전 뷰(마이페이지)로 이동
+    showView('mypage');
+  }
+};
+
