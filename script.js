@@ -960,6 +960,7 @@ document.addEventListener('DOMContentLoaded', () => {
     qtyValEl.textContent = qty;
     
     window.updateCartTotals();
+    if (window.updateCartBadge) window.updateCartBadge();
   };
 
   // 10.3. 장바구니 품목 삭제
@@ -973,6 +974,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       itemCard.remove();
       window.updateCartTotals();
+      if (window.updateCartBadge) window.updateCartBadge();
     }, 250);
   };
 
@@ -1022,6 +1024,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 50);
       
       window.updateCartTotals();
+      if (window.updateCartBadge) window.updateCartBadge();
       alert(`🛒 [${name}]가 장바구니에 추가되었습니다!\n3개 품목 이상으로 세트 20% 할인 혜택이 적용됩니다.`);
     }
   };
@@ -1469,7 +1472,29 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 50);
       
       window.updateCartTotals();
+      window.updateCartBadge();
       alert(`🛒 [${name}]가 장바구니에 추가되었습니다!\n3개 품목 이상으로 세트 20% 할인 혜택이 적용됩니다.`);
+    }
+  };
+
+  // 탭바 장바구니 뱃지 카운트 업데이트
+  window.updateCartBadge = function() {
+    const badge = document.getElementById('cart-badge');
+    if (!badge) return;
+    let total = 0;
+    document.querySelectorAll('.cart-item-card').forEach(card => {
+      const qtyValEl = card.querySelector('.qty-val');
+      total += qtyValEl ? (parseInt(qtyValEl.textContent) || 0) : 0;
+    });
+    if (total > 0) {
+      badge.textContent = total > 99 ? '99+' : total;
+      badge.style.display = 'flex';
+      // 뱃지 팝 애니메이션 재실행
+      badge.style.animation = 'none';
+      badge.offsetHeight; // reflow
+      badge.style.animation = '';
+    } else {
+      badge.style.display = 'none';
     }
   };
 
