@@ -1340,11 +1340,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const productsData = {
     "aurora-brass": {
       name: "오로라 브라스 펜던트",
-      price: 90000,
-      img: "img/light009.jpg",
+      price: 450000,
+      img: "img/Transformation Card 2.png",
       match: "98%",
-      desc: "부드럽고 따뜻한 빛을 선사하는 우아한 매트 피니시 펜던트 무드연출 조명입니다.",
-      specs: ["2700K~6500K", "1200 Lux", "스마트 App 연동"],
+      desc: "정제된 황동 소재와 따뜻한 빛의 조화가 다이닝 공간을 클래식하게 연출해줍니다. 시간의 흐름에 따라 깊어지는 질감을 경험해보세요.",
+      specs: ["2700K~6500K", "Smart Control", "Dimmable"],
       insight: "이 조명은 구석의 그림자를 부드럽게 만들어주어 기존의 '미드나잇 네이비' 소파와 완벽하게 어울립니다.",
       colors: ["#E5C7B2", "#3E4C5E", "#1C1D1F"]
     },
