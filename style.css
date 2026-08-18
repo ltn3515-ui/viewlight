@@ -2652,6 +2652,8 @@ img {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  height: calc(100vh - 116px);
+  overflow-y: auto;
 }
 
 /* --- 장바구니 스타일 --- */
