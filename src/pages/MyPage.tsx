@@ -9,7 +9,7 @@ import { useToast } from '../context/ToastContext';
 export const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { openModal } = useModal();
+  const { openModal, unreadNotiCount } = useModal();
   const { showToast } = useToast();
 
   const [luminaOn, setLuminaOn] = useState(true);
@@ -52,22 +52,24 @@ export const MyPage: React.FC = () => {
                 style={{ position: 'relative' }}
               >
                 <span className="material-symbols-outlined">notifications</span>
-                <span
-                  className="noti-badge"
-                  style={{
-                    position: 'absolute',
-                    top: '2px',
-                    right: '2px',
-                    background: '#EF4444',
-                    color: '#FFF',
-                    fontSize: '0.65rem',
-                    fontWeight: 800,
-                    borderRadius: '50%',
-                    padding: '2px 5px',
-                  }}
-                >
-                  2
-                </span>
+                {unreadNotiCount > 0 && (
+                  <span
+                    className="noti-badge"
+                    style={{
+                      position: 'absolute',
+                      top: '2px',
+                      right: '2px',
+                      background: '#EF4444',
+                      color: '#FFF',
+                      fontSize: '0.65rem',
+                      fontWeight: 800,
+                      borderRadius: '50%',
+                      padding: '2px 5px',
+                    }}
+                  >
+                    {unreadNotiCount}
+                  </span>
+                )}
               </button>
             </div>
           </header>
@@ -79,6 +81,7 @@ export const MyPage: React.FC = () => {
               display: 'flex',
               flexDirection: 'column',
               gap: '24px',
+              overflowY: 'auto',
             }}
           >
             {/* 1. 유저 프로필 영역 */}
@@ -400,7 +403,7 @@ export const MyPage: React.FC = () => {
                 {
                   icon: 'receipt_long',
                   label: '주문 내역 (Order History)',
-                  onClick: () => showToast('📑 주문 내역: 최근 주문된 상품이 1건 있습니다.'),
+                  onClick: () => openModal('orderHistory'),
                 },
                 {
                   icon: 'rate_review',

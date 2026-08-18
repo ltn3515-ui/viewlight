@@ -55,17 +55,22 @@ const NotiItem = styled.div`
 `;
 
 export const NotificationModal: React.FC = () => {
-  const { activeModal, closeModal } = useModal();
+  const { activeModal, closeModal, clearNotifications } = useModal();
   const { showToast } = useToast();
 
   if (activeModal !== 'notification') return null;
+
+  const handleClearAll = () => {
+    clearNotifications();
+    showToast('모든 실시간 알림을 읽음 처리했습니다.');
+  };
 
   return (
     <Overlay $isOpen={true} onClick={closeModal}>
       <ModalCard onClick={e => e.stopPropagation()}>
         <HeaderRow>
           <h3>🔔 알림 센터</h3>
-          <button onClick={() => showToast('모든 실시간 알림을 읽음 처리했습니다.')}>전체 읽음</button>
+          <button onClick={handleClearAll}>전체 읽음</button>
         </HeaderRow>
 
         <NotiList>

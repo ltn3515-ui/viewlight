@@ -2244,6 +2244,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       alert('🔔 새로 온 미확인 알림이 없습니다.');
     }
+    
+    // Hide all notification badges in headers
+    const badges = document.querySelectorAll('.header-noti-badge');
+    badges.forEach(badge => {
+      badge.style.display = 'none';
+    });
   };
 
   // ==========================================
@@ -3439,6 +3445,20 @@ window.openEditProfileModal = function() {
 
 window.closeEditProfileModal = function() {
   const modal = document.getElementById('edit-profile-modal');
+  if (modal) {
+    modal.classList.remove('active');
+  }
+};
+
+window.openOrderHistoryModal = function() {
+  const modal = document.getElementById('order-history-modal');
+  if (modal) {
+    modal.classList.add('active');
+  }
+};
+
+window.closeOrderHistoryModal = function() {
+  const modal = document.getElementById('order-history-modal');
   if (modal) {
     modal.classList.remove('active');
   }

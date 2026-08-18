@@ -40,4 +40,5 @@ export type ModalType =
   | 'cameraScan'
   | 'editProfile'
   | 'menu'
+  | 'orderHistory'
   | null;

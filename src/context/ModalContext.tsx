@@ -6,6 +6,8 @@ interface ModalContextType {
   selectedProduct: Product | null;
   openModal: (type: ModalType, product?: Product) => void;
   closeModal: () => void;
+  unreadNotiCount: number;
+  clearNotifications: () => void;
 }
 
 const ModalContext = createContext<ModalContextType>({
@@ -13,11 +15,14 @@ const ModalContext = createContext<ModalContextType>({
   selectedProduct: null,
   openModal: () => {},
   closeModal: () => {},
+  unreadNotiCount: 2,
+  clearNotifications: () => {},
 });
 
 export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [unreadNotiCount, setUnreadNotiCount] = useState(2);
 
   const openModal = (type: ModalType, product?: Product) => {
     setActiveModal(type);
@@ -31,8 +36,12 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setSelectedProduct(null);
   };
 
+  const clearNotifications = () => {
+    setUnreadNotiCount(0);
+  };
+
   return (
-    <ModalContext.Provider value={{ activeModal, selectedProduct, openModal, closeModal }}>
+    <ModalContext.Provider value={{ activeModal, selectedProduct, openModal, closeModal, unreadNotiCount, clearNotifications }}>
       {children}
     </ModalContext.Provider>
   );

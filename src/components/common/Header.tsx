@@ -3,7 +3,7 @@ import { useModal } from '../../context/ModalContext';
 import { Link } from 'react-router-dom';
 
 export const Header: React.FC = () => {
-  const { openModal } = useModal();
+  const { openModal, unreadNotiCount } = useModal();
 
   return (
     <header className="service-header">
@@ -40,17 +40,19 @@ export const Header: React.FC = () => {
           style={{ position: 'relative' }}
         >
           <span className="material-symbols-outlined">notifications</span>
-          <span className="noti-badge" style={{
-            position: 'absolute',
-            top: '2px',
-            right: '2px',
-            background: '#EF4444',
-            color: '#FFF',
-            fontSize: '0.65rem',
-            fontWeight: 800,
-            borderRadius: '50%',
-            padding: '2px 5px'
-          }}>2</span>
+          {unreadNotiCount > 0 && (
+            <span className="noti-badge" style={{
+              position: 'absolute',
+              top: '2px',
+              right: '2px',
+              background: '#EF4444',
+              color: '#FFF',
+              fontSize: '0.65rem',
+              fontWeight: 800,
+              borderRadius: '50%',
+              padding: '2px 5px'
+            }}>{unreadNotiCount}</span>
+          )}
         </button>
       </div>
     </header>
