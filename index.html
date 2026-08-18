@@ -1169,24 +1169,25 @@
           <button type="button" class="header-icon-btn" id="btn-pd-like" onclick="togglePdLike()"><span class="material-symbols-outlined" id="pd-like-icon">favorite_border</span></button>
         </header>
 
+        <!-- 1. 제품 대형 이미지 카드 (full-bleed, 헤더 직하단) -->
+        <div class="pd-image-card pd-image-fullbleed">
+          <img src="img/light009.jpg" id="pd-img" alt="제품 이미지">
+          <!-- 매치 매칭 뱃지 -->
+          <span class="pd-match-badge" id="pd-match-badge">
+            <span class="material-symbols-outlined pd-sparkle-icon">auto_awesome</span>
+            <span id="pd-match-val">98% 매칭</span>
+          </span>
+          <!-- 페이지네이션 도트 -->
+          <div class="pd-slider-dots">
+            <span class="pd-dot active"></span>
+            <span class="pd-dot"></span>
+            <span class="pd-dot"></span>
+            <span class="pd-dot"></span>
+          </div>
+        </div>
+
         <!-- 스크롤 콘텐츠 영역 -->
         <div class="service-content pd-content">
-          <!-- 1. 제품 대형 이미지 카드 -->
-          <div class="pd-image-card">
-            <img src="img/light009.jpg" id="pd-img" alt="제품 이미지">
-            <!-- 매치 매칭 뱃지 -->
-            <span class="pd-match-badge" id="pd-match-badge">
-              <span class="material-symbols-outlined pd-sparkle-icon">auto_awesome</span>
-              <span id="pd-match-val">98% 매칭</span>
-            </span>
-            <!-- 페이지네이션 도트 -->
-            <div class="pd-slider-dots">
-              <span class="pd-dot active"></span>
-              <span class="pd-dot"></span>
-              <span class="pd-dot"></span>
-              <span class="pd-dot"></span>
-            </div>
-          </div>
 
           <!-- 2. 리뷰 별점 및 제목 정보 -->
           <div class="pd-meta-row">

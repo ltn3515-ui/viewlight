@@ -4130,6 +4130,16 @@ img {
   justify-content: center;
 }
 
+/* 헤더 직하단 full-bleed 이미지 카드 변형 */
+.pd-image-fullbleed {
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  height: 320px;
+  box-shadow: none;
+}
+
 .pd-image-card img {
   width: 100%;
   height: 100%;
