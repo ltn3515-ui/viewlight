@@ -220,10 +220,14 @@
     }
 
     // 10. 기타 일반 버튼 및 링크 텍스트
-    const text = target.textContent.trim();
+    // 아이콘 폰트 문자열(예: auto_awesome, search 등)이 섞이는 것을 원천 방지하기 위해 노드 복제 후 아이콘 요소를 제거하여 텍스트만 추출
+    const clone = target.cloneNode(true);
+    const icons = clone.querySelectorAll('.material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons, i');
+    icons.forEach(icon => icon.remove());
+    
+    const text = clone.textContent.replace(/\s+/g, ' ').trim();
     if (text && text.length < 35) {
-      // 폰트 아이콘 텍스트 제거 및 깔끔하게 줄바꿈 정리
-      return text.replace(/\s+/g, ' ').replace('material-symbols-outlined', '').trim();
+      return text;
     }
 
     // 11. 이미지 alt
