@@ -77,7 +77,7 @@ export const MyPage: React.FC = () => {
           <div
             className="service-content mypage-content"
             style={{
-              padding: '20px 20px 120px 20px',
+              padding: '20px 20px 100px 20px',
               display: 'flex',
               flexDirection: 'column',
               gap: '24px',

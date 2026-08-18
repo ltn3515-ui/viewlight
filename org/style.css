@@ -68,13 +68,12 @@ img {
   width: 100%;
   max-width: 420px;
   margin: 0 auto;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;
   background-color: var(--color-bg-cream);
   box-shadow: 0 0 20px rgba(0,0,0,0.06);
-  overflow: hidden;
 }
 
 .service-header {
@@ -2652,8 +2651,6 @@ img {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  height: calc(100vh - 116px);
-  overflow-y: auto;
 }
 
 /* --- 장바구니 스타일 --- */
