@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ViewLight - Splash</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .splash-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #0F172A;
+      color: #FFFFFF;
+      text-align: center;
+    }
+    .splash-logo {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: #FFAB40;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+      animation: pulse 2s infinite ease-in-out;
+    }
+    .splash-sub {
+      font-size: 1rem;
+      color: #94A3B8;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.03); }
+    }
+  </style>
+</head>
+<body>
+  <div class="splash-container">
+    <div class="splash-logo">ViewLight</div>
+    <div class="splash-sub">당신만을 위한 큐레이션 앰비언트 테크</div>
+  </div>
+  <script>
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 2000);
+  </script>
+</body>
+</html>

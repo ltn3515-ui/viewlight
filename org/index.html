@@ -1,0 +1,2770 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ViewLight - 당신만의 인생 무드등을 찾아보세요</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Material Symbols -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+
+  <!-- 커스텀 커서 요소 -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-glow"></div>
+
+  <div class="app-container">
+
+    <!-- 1. [데스크톱 전용] 좌측 브랜드 소개 영역 -->
+    <aside class="desktop-brand-section">
+      <div class="brand-content-wrapper">
+        <div class="brand-logo">
+          <span class="logo-text">ViewLight</span>
+        </div>
+
+        <div class="brand-header">
+          <h1 class="brand-title">
+            사진 1장, 단 3초 만에<br>
+            당신만의 인생 무드등을<br>
+            <span class="highlight">찾아보세요</span>
+          </h1>
+          <p class="brand-subcopy">
+            당신의 공간을 완성하는 <span class="highlight">큐레이션 앰비언트 테크</span>.<br>
+            AI 비전이 방을 분석하여 최적의 무드와 분위기를 추천해드립니다.
+          </p>
+        </div>
+
+        <div class="brand-btn-group">
+          <a href="#scan" id="btn-desktop-scan" class="btn btn-primary">3초 AI 공간 분석 시작하기</a>
+          <a href="#coupon" id="btn-coupon-download" onclick="openCouponModal(); return false;" class="btn btn-secondary">✨ 첫 방문 15% 세트 할인 쿠폰팩 받기 ➔</a>
+        </div>
+
+        <div class="brand-thumbs-grid">
+          <!-- 카드 1: Luna 원목 탁상 -->
+          <div class="thumb-card" onclick="openProductDetail('luna-table')">
+            <img src="img/Stand02.png" alt="Luna 원목 탁상" class="thumb-img">
+            <div class="thumb-info-row">
+              <span class="thumb-label">Best 판매 1위</span>
+              <button type="button" class="thumb-add-btn" onclick="event.stopPropagation(); window.addProductToCart('Luna Table Lamp', 150000, 'img/Stand02.png');">
+                <span class="material-symbols-outlined">add</span>
+              </button>
+            </div>
+          </div>
+          <!-- 카드 2: 아우라 플로어 램프 -->
+          <div class="thumb-card" onclick="openProductDetail('aura-floor')">
+            <img src="img/img002.png" alt="아우라 플로어 램프" class="thumb-img">
+            <div class="thumb-info-row">
+              <span class="thumb-label">조도 5단계 조절</span>
+              <button type="button" class="thumb-add-btn" onclick="event.stopPropagation(); window.addProductToCart('아우라 플로어 램프', 180000, 'img/img002.png');">
+                <span class="material-symbols-outlined">add</span>
+              </button>
+            </div>
+          </div>
+          <div class="thumb-card" onclick="openProductDetail('ambient-strip')">
+            <img src="img/Stand04.png" alt="엠비언트 스트립" class="thumb-img">
+            <div class="thumb-info-row">
+              <span class="thumb-label">Smart App 연동</span>
+              <button type="button" class="thumb-add-btn" onclick="event.stopPropagation(); window.addProductToCart('엠비언트 스트립', 62000, 'img/Stand04.png');">
+                <span class="material-symbols-outlined">add</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 2. 메인 모바일 서비스 프리뷰 영역 -->
+    <main class="mobile-service-section">
+
+      <!-- [뷰 1] 홈 화면 -->
+      <div id="view-home" class="mobile-view active">
+        <!-- 모바일 상단바 -->
+        <header class="service-header">
+          <button type="button" id="btn-hamburger" class="header-icon-btn"><span class="material-symbols-outlined">menu</span></button>
+          <div class="service-logo">
+
+            <span class="service-logo-text">ViewLight</span>
+          </div>
+          <div class="header-actions">
+            <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+          </div>
+        </header>
+
+      <!-- 모바일 메뉴 드로어 (모달 백드롭) -->
+      <div id="menu-drawer" class="menu-drawer">
+        <div class="menu-modal-card">
+          <div class="menu-drawer-header">
+            <button type="button" id="btn-close-menu" class="close-btn">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+            <button type="button" class="drawer-login-btn btn-header-login" style="background: none; border: none; font-size: 0.88rem; font-weight: 700; color: var(--color-primary); cursor: pointer; padding: 4px 8px;">로그인</button>
+          </div>
+          
+          <nav class="menu-drawer-nav">
+            <div class="main-menu">
+              <a href="#scan" class="menu-item main-item">AI 무드등 공간 분석</a>
+              <a href="#collection" class="menu-item main-item">무드등 둘러보기</a>
+              <a href="#report" class="menu-item main-item">Curation Report</a>
+              <a href="#story" class="menu-item main-item">Viewlight Story</a>
+            </div>
+            
+            <div class="sub-menu">
+              <a href="#notice" class="menu-item sub-item" onclick="closeMenuDrawer(); openInfoModal('notice'); return false;">공지사항</a>
+              <a href="#events" class="menu-item sub-item" onclick="closeMenuDrawer(); openInfoModal('events'); return false;">이벤트</a>
+              <a href="#cs" class="menu-item sub-item" onclick="closeMenuDrawer(); openInfoModal('cs'); return false;">고객센터</a>
+              <a href="#settings" class="menu-item sub-item" onclick="closeMenuDrawer(); showView('settings'); return false;">설정</a>
+            </div>
+          </nav>
+          
+          <div class="menu-drawer-footer">
+            <div class="user-profile">
+              <div class="user-avatar">
+                <img src="img/Stand01.jpg" alt="User Profile" class="avatar-img">
+              </div>
+              <span class="user-name"><strong>'김뷰라이트'</strong>님 환영합니다</span>
+            </div>
+            <button type="button" class="logout-btn">로그아웃</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 모바일 메인 스크롤 콘텐츠 -->
+      <div class="service-content">
+
+        <!-- 최상단 AI 퀵 버튼 -->
+        <section class="section-quick-cta">
+          <a href="#scan" id="btn-mobile-scan" class="quick-cta-badge">
+            <span class="material-symbols-outlined">photo_camera</span>
+            사진 1장으로 내 방 맞춤 무드등 찾기
+          </a>
+        </section>
+
+        <!-- 히어로 섹션 -->
+        <section class="section-hero">
+          <div class="hero-card">
+            <span class="hero-tag">
+              <span class="material-symbols-outlined tag-icon">auto_awesome</span>
+              AI-Driven Vision Tech
+            </span>
+            <h2 class="hero-title">당신만의 인생 무드등을 찾아보세요.</h2>
+            <p class="hero-desc">
+              당신의 공간을 완성하는 <strong class="text-primary">큐레이션 앰비언트 테크</strong>. AI 비전이 방을 분석하여 최적의 무드와 분위기를 추천해드립니다.
+            </p>
+          </div>
+
+          <!-- 메인 조명 대표 컷 -->
+          <div class="main-lamp-card" onclick="openProductDetail('aura-floor')" style="cursor: pointer;">
+            <img src="img/img002.png" alt="아우라 플로어 램프" class="main-lamp-img">
+            <div class="lamp-info-overlay">
+              <div>
+                <div class="lamp-name">아우라 플로어 램프</div>
+                <div class="lamp-sub">따뜻한 앰비언트 광</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 다크 테크 카드 -->
+        <section class="section-dark-tech">
+          <div class="dark-tech-card">
+            <h3 class="dark-tech-title">공간을 위한 <span class="text-primary">앰비언트 테크</span></h3>
+            <p class="dark-tech-desc">
+              뷰라이트는 단순한 무드등을 넘어 인공지능을 통해 당신의 공간에 완벽한 무드를 큐레이션합니다.
+            </p>
+            <button type="button" class="dark-tech-btn" onclick="openAiTechModal(); return false;">
+              AI 공간 분석 설명 알아보기 ➔
+            </button>
+          </div>
+        </section>
+
+        <!-- 추천 카테고리 2x2 그리드 -->
+        <section class="section-categories">
+          <div class="section-header-title">
+            <h3>추천 카테고리</h3>
+            <a href="#category-all" id="btn-categories-all" class="more-link">전체보기 ➔</a>
+          </div>
+          <div class="category-grid-2x2">
+            <a href="#pendant" class="cat-card cat-1 cat-item" onclick="openProductDetail('aurora-brass'); return false;" style="cursor: pointer;">
+              <span class="cat-badge">Popular</span>
+              <span class="cat-label cat-title-text">펜던트 조명</span>
+            </a>
+            <a href="#mood" class="cat-card cat-2 cat-item" onclick="openProductDetail('luna-table'); return false;" style="cursor: pointer;">
+              <span class="cat-label cat-title-text">무드등</span>
+            </a>
+            <a href="#floor" class="cat-card cat-3 cat-item" onclick="openProductDetail('aura-floor'); return false;" style="cursor: pointer;">
+              <span class="cat-label cat-title-text">플로어 무드등</span>
+            </a>
+            <a href="#desk" class="cat-card cat-4 cat-item" onclick="openProductDetail('neo-able'); return false;" style="cursor: pointer;">
+              <span class="cat-label cat-title-text">데스크 램프</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- AI Before & After Gallery -->
+        <section class="section-bna">
+          <div class="section-header-title">
+            <div>
+              <h3>AI Before & After Gallery</h3>
+              <p class="sub-text">AI 큐레이션이 제안하는 놀라운 공간의 변화를 확인해보세요.</p>
+            </div>
+            <a href="#bna-all" id="btn-bna-all" class="more-link">전체보기 ➔</a>
+          </div>
+
+          <div class="bna-list">
+            <!-- B&A 카드 1 -->
+            <div class="bna-item-card">
+              <div class="bna-img-box" onclick="openImageViewer('img/Transformation Card 1.png', '거실 | 아우라 플로어 램프 적용')" style="cursor:pointer;">
+                <img src="img/Transformation Card 1.png" alt="거실 아우라 플로어 램프 적용" class="bna-img">
+                <span class="bna-pill before-pill">BEFORE</span>
+                <span class="bna-pill after-pill">AFTER</span>
+                <div class="bna-zoom-hint"><span class="material-symbols-outlined">zoom_in</span></div>
+              </div>
+              <div class="bna-caption">거실 | 아우라 플로어 램프 적용</div>
+            </div>
+
+            <!-- B&A 카드 2 -->
+            <div class="bna-item-card">
+              <div class="bna-img-box" onclick="openImageViewer('img/Transformation Card 2.png', '다이닝 | 포근한 펜던트 조명 큐레이션')" style="cursor:pointer;">
+                <img src="img/Transformation Card 2.png" alt="다이닝 포근한 펜던트 조명 큐레이션" class="bna-img">
+                <span class="bna-pill before-pill">BEFORE</span>
+                <span class="bna-pill after-pill">AFTER</span>
+                <div class="bna-zoom-hint"><span class="material-symbols-outlined">zoom_in</span></div>
+              </div>
+              <div class="bna-caption">다이닝 | 포근한 펜던트 조명 큐레이션</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Featured Lighting -->
+        <section class="section-featured">
+          <div class="section-header-title">
+            <h3>Featured Lighting</h3>
+            <button type="button" id="btn-featured-more" class="featured-more-btn">
+              <span class="material-symbols-outlined">more_horiz</span>
+            </button>
+          </div>
+          <p class="featured-sub">현대적인 거실에 맞춰 한정수량으로 제작 되었습니다.</p>
+
+          <div class="featured-product-card" onclick="openProductDetail('luna-table')" style="cursor: pointer;">
+            <div class="product-img-box">
+              <img src="img/Stand01.jpg" alt="Luna Table Lamp" class="product-img">
+              <button type="button" id="btn-like" class="like-toggle" onclick="event.stopPropagation();">
+                <span class="material-symbols-outlined like-icon">favorite</span>
+              </button>
+              <div class="spec-tag-group">
+                <span class="spec-tag">AI 매칭률 95%</span>
+                <span class="spec-tag">2700K Warm</span>
+              </div>
+            </div>
+            <div class="product-info">
+              <h4 class="product-title">Luna Table Lamp 150,000원</h4>
+              <p class="product-meta">Matte Charcoal</p>
+              <a href="#add-to-cart" id="btn-cart" class="add-to-cart-btn" onclick="event.stopPropagation(); window.addProductToCart('Luna Table Lamp', 150000, 'img/Stand01.jpg'); return false;">
+                <span class="material-symbols-outlined">shopping_bag</span>
+                ADD TO CART
+              </a>
+            </div>
+          </div>
+        </section>
+
+      </div> <!-- // .service-content -->
+      </div> <!-- // #view-home -->
+
+      <!-- [뷰 2] 뷰라이트 스토리 화면 -->
+      <div id="view-story" class="mobile-view">
+        <!-- 뷰라이트 스토리 상단바 -->
+        <header class="service-header">
+          <button type="button" id="btn-back-to-home" class="header-icon-btn back-btn">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo">
+
+            <span class="service-logo-text">ViewLight</span>
+          </div>
+          <div class="header-actions">
+            <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+
+          </div>
+        </header>
+
+        <!-- 스토리 스크롤 콘텐츠 -->
+        <div class="service-content story-content">
+          <!-- Hero Card -->
+          <div class="story-hero-card" style="background-image: url('img/livingroom.jpg');">
+            <div class="story-hero-text">
+              <h3>공간을 읽는 빛,<br>뷰라이트 스토리</h3>
+              <p>단순히 전구를 파는 것이 아니라, 완벽한 분위기를 연출합니다.</p>
+            </div>
+          </div>
+
+          <!-- Ambient Tech Intro Card -->
+          <div class="story-intro-card">
+            <h4>단순한 조명을 넘어,<br>당신의 삶을 이해하는</h4>
+            <h4 class="text-highlight">AI 앰비언트 테크</h4>
+            <p>우리는 전구를 파는 것이 아닙니다. 당신의 일상 공간을 분석하고, 그 순간에 가장 완벽한 분위기를 선사하는 큐레이터입니다.</p>
+          </div>
+
+          <!-- How it works Title -->
+          <h3 class="story-section-title">How ViewLight Works</h3>
+
+          <!-- Step 1 -->
+          <div class="story-step-card">
+            <div class="step-icon-circle dark-circle">
+              <span class="material-symbols-outlined">center_focus_strong</span>
+            </div>
+            <div class="step-info">
+              <h5>1. Scan</h5>
+              <p>스마트폰 카메라로 당신의 공간을 스캔하세요. 구조, 가구, 자연광을 인식합니다.</p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="story-step-card">
+            <div class="step-icon-circle yellow-circle">
+              <span class="material-symbols-outlined">bar_chart</span>
+            </div>
+            <div class="step-info">
+              <h5>2. Analyze</h5>
+              <p>AI 비전 기술이 공간의 톤앤매너와 현재 시간을 분석하여 최적의 무드등 조도를 계산합니다.</p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="story-step-card">
+            <div class="step-icon-circle dark-circle">
+              <span class="material-symbols-outlined">auto_awesome</span>
+            </div>
+            <div class="step-info">
+              <h5>3. Curate</h5>
+              <p>오직 당신만을 위한 맞춤형 앰비언트 라이팅 프리셋이 완성됩니다.</p>
+            </div>
+          </div>
+
+          <!-- Bottom Gift Card -->
+          <div class="story-gift-card" style="background-image: url('img/livingroom.jpg');">
+            <span class="material-symbols-outlined gift-icon">lightbulb</span>
+            <p>전구가 아닌,<br>당신만의 완벽한 순간을<br>밝힙니다.</p>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- [뷰 3] AI 공간 분석 화면 -->
+      <div id="view-scan" class="mobile-view">
+        <!-- AI 공간 분석 상단바 -->
+        <header class="service-header">
+          <button type="button" id="btn-scan-back" class="header-icon-btn back-btn">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo">
+
+            <span class="service-logo-text">ViewLight</span>
+          </div>
+          <div class="header-actions">
+            <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+
+          </div>
+        </header>
+
+        <!-- 스크롤 콘텐츠 영역 -->
+        <div class="service-content scan-content">
+          <!-- 1단계: 업로드 & 입력 화면 -->
+          <div id="scan-step-upload" class="scan-step active">
+            <div class="scan-header-text">
+              <span class="hero-tag">
+                <span class="material-symbols-outlined tag-icon">auto_awesome</span>
+                AI Vision Tech Curation
+              </span>
+              <h3 class="scan-title">AI 무드등 공간 분석</h3>
+              <p class="scan-desc">내 방 사진을 업로드하거나 아래 추천 샘플 룸을 선택하여 최적의 조명 매칭을 시작해 보세요.</p>
+            </div>
+
+            <!-- 파일 업로드 드롭존 -->
+            <div class="upload-zone" id="upload-zone">
+              <input type="file" id="scan-file-input" accept="image/*" style="display: none;">
+              <div class="upload-inner" id="upload-inner-content">
+                <span class="material-symbols-outlined upload-icon">photo_camera</span>
+                <p class="upload-main-text">방 사진 업로드하기</p>
+                <p class="upload-sub-text">클릭하거나 이미지 파일을 드래그하여 놓으세요</p>
+              </div>
+              <div class="upload-preview-box" id="upload-preview-box" style="display: none;">
+                <img id="upload-preview-img" src="" alt="Room Preview">
+                <button type="button" class="btn-remove-preview" id="btn-remove-preview">
+                  <span class="material-symbols-outlined">close</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 샘플 룸 선택 리스트 -->
+            <div class="sample-rooms-section">
+              <h4 class="sub-section-title">간편 추천 샘플 룸 선택</h4>
+              <div class="sample-grid">
+                <div class="sample-card" data-img="img/livingroom.jpg" data-room-type="living" data-room-name="내추럴 우드 거실">
+                  <img src="img/livingroom.jpg" alt="Natural Wood Living Room">
+                  <span class="sample-badge">거실</span>
+                  <div class="sample-overlay">
+                    <span class="sample-title">내추럴 우드 거실</span>
+                  </div>
+                </div>
+                <div class="sample-card" data-img="img/webpage.png" data-room-type="modern" data-room-name="시티뷰 모던 거실">
+                  <img src="img/webpage.png" alt="City View Modern Living Room">
+                  <span class="sample-badge">거실</span>
+                  <div class="sample-overlay">
+                    <span class="sample-title">시티뷰 모던 거실</span>
+                  </div>
+                </div>
+                <div class="sample-card" data-img="img/Stand01.jpg" data-room-type="bedroom" data-room-name="아늑한 침대 사이드">
+                  <img src="img/Stand01.jpg" alt="Cozy Bedroom Side">
+                  <span class="sample-badge">침실</span>
+                  <div class="sample-overlay">
+                    <span class="sample-title">아늑한 침대 사이드</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 시작 버튼 -->
+            <button type="button" id="btn-start-analysis" class="btn-start-analysis disabled" disabled>
+              3초 AI 공간분석 시작
+            </button>
+          </div>
+
+          <!-- 2단계: 스캐닝 및 카운트다운 로딩 화면 -->
+          <div id="scan-step-loading" class="scan-step">
+            <div class="scanning-wrapper">
+              <div class="scanning-image-container">
+                <img id="scanning-bg-img" src="" alt="Scanning Image">
+                <div class="scan-line"></div>
+                <div class="scan-overlay-glow"></div>
+              </div>
+              <div class="scanning-loader-container">
+                <div class="circular-progress-box">
+                  <svg class="progress-ring" width="120" height="120">
+                    <circle class="progress-ring__circle-bg" stroke="#E5E0D8" stroke-width="6" fill="transparent" r="52" cx="60" cy="60"/>
+                    <circle class="progress-ring__circle" stroke="var(--color-primary)" stroke-width="8" stroke-dasharray="326.72" stroke-dashoffset="326.72" fill="transparent" r="52" cx="60" cy="60"/>
+                  </svg>
+                  <div class="countdown-text" id="countdown-num">3</div>
+                </div>
+                <h4 class="loading-title">AI 공간 분석 중...</h4>
+                <p class="loading-status-text" id="loading-status-text">공간 구조 및 벽면 분석 중...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3단계: 분석 결과 레포트 화면 -->
+          <div id="scan-step-result" class="scan-step">
+            <div class="result-success-badge">
+              <span class="material-symbols-outlined check-icon">verified</span>
+              <span>AI 공간 분석 완료</span>
+            </div>
+
+            <!-- 매칭 결과 요약 카드 -->
+            <div class="result-summary-card">
+              <div class="result-img-box">
+                <img id="result-room-img" src="" alt="Analyzed Room">
+                <div class="result-match-overlay">
+                  <span class="match-score-badge">AI 일치율 <strong id="result-match-percent">98%</strong></span>
+                </div>
+              </div>
+              
+              <!-- 글래스모피즘 리포트 내역 -->
+              <div class="analysis-report-details">
+                <h4 class="details-title">공간 진단 리포트</h4>
+                <div class="detail-row">
+                  <span class="detail-label">감지된 공간 타입</span>
+                  <span class="detail-val" id="result-room-type">거실 (Living Room)</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">조도 강도</span>
+                  <span class="detail-val" id="result-lux-level">아늑한 야간 조도 (Low Ambient)</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">공간 톤앤매너</span>
+                  <span class="detail-val" id="result-tone">내추럴 원목 및 패브릭 톤</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">권장 색온도</span>
+                  <span class="detail-val">2700K ~ 3000K (Warm Warm)</span>
+                </div>
+                <!-- 감지된 컬러 칩 리스트 -->
+                <div class="color-palette-container">
+                  <span class="detail-label">감지된 컬러 맵</span>
+                  <div class="color-palette-bar">
+                    <span class="color-dot" style="background-color: #8C6A5C;"></span>
+                    <span class="color-dot" style="background-color: #D3C5B5;"></span>
+                    <span class="color-dot" style="background-color: #EDE6DE;"></span>
+                    <span class="color-dot" style="background-color: #121826;"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 추천 무드등 큐레이션 상품 카드 -->
+            <div class="curated-product-card">
+              <h4 class="curated-section-title">✨ AI 추천 최적의 앰비언트 등</h4>
+              <div class="recommended-product-inner">
+                <div class="rec-product-img">
+                  <img id="rec-product-img-tag" src="img/Stand03.png" alt="Recommended Lamp">
+                </div>
+                <div class="rec-product-info">
+                  <div class="rec-product-name-price">
+                    <h5 id="rec-product-title">아우라 플로어 램프</h5>
+                    <span class="rec-product-price" id="rec-product-price">180,000원</span>
+                  </div>
+                  <p class="rec-product-desc" id="rec-product-desc">
+                    내추럴한 거실 분위기에 은은하게 매칭되는 앰비언트 램프로, 5단계 조도 조절 기능이 어두운 야간 무드에 최적의 빛을 선사합니다.
+                  </p>
+                </div>
+              </div>
+              <div class="rec-product-actions">
+                <button type="button" id="btn-result-add-cart" class="btn-rec-action secondary">
+                  <span class="material-symbols-outlined">shopping_bag</span> 장바구니 담기
+                </button>
+                <button type="button" id="btn-result-buy" class="btn-rec-action primary">
+                  즉시 구매하기
+                </button>
+              </div>
+            </div>
+
+            <!-- 다시하기 및 홈 이동 버튼 그룹 -->
+            <div class="result-bottom-btn-group">
+              <button type="button" id="btn-re-analyze" class="btn-reset-analysis">
+                <span class="material-symbols-outlined">refresh</span> 다른 방 스캔해보기
+              </button>
+              <button type="button" id="btn-scan-home-go" class="btn-go-home-link">
+                홈으로 돌아가기
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- [뷰 4] 장바구니 화면 -->
+      <div id="view-cart" class="mobile-view">
+        <!-- 장바구니 상단바 -->
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-cart-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo">
+            <span class="service-logo-text">장바구니</span>
+          </div>
+          <div class="header-actions">
+            <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+
+          </div>
+        </header>
+
+        <!-- 스크롤 콘텐츠 영역 -->
+        <div class="service-content cart-content">
+          <div class="cart-items-list" id="cart-items-container">
+            <!-- 장바구니가 비어 있을 때 표시할 메시지 -->
+            <div class="cart-empty-placeholder" id="cart-empty-message" style="text-align: center; padding: 48px 20px; color: var(--color-text-sub);">
+              <span class="material-symbols-outlined" style="font-size: 48px; color: var(--color-border); margin-bottom: 12px; display: block;">shopping_cart</span>
+              <p style="font-size: 0.88rem; font-weight: 500;">장바구니가 비어 있습니다.</p>
+            </div>
+          </div>
+
+          <!-- AI 추천 공간 연출 조합 -->
+          <div class="cart-recommendations-section">
+            <h4 class="cart-rec-title">✨ AI 추천 | 내 공간 연출 200% 활용 조합</h4>
+            <div class="cart-rec-subtitle">20% 세트 할인 혜택</div>
+            
+            <div class="cart-rec-grid">
+              <!-- 추천템 1: 스마트 키트 미니 -->
+              <div class="rec-grid-card" data-name="스마트 키트 미니" data-price="45000" data-img="img/Stand01.jpg" id="rec-item-mini">
+                <div class="rec-card-thumb">
+                  <img src="img/Stand01.jpg" alt="Smart Kit Mini">
+                </div>
+                <h5 class="rec-card-name">스마트 키트 미니</h5>
+                <p class="rec-card-price">45,000원</p>
+                <button type="button" class="btn-rec-add" onclick="addRecommendedToCart('rec-item-mini')">추가</button>
+              </div>
+
+              <!-- 추천템 2: 엠비언트 스트립 -->
+              <div class="rec-grid-card" data-name="엠비언트 스트립" data-price="62000" data-img="img/Stand04.png" id="rec-item-strip">
+                <div class="rec-card-thumb">
+                  <img src="img/Stand04.png" alt="Ambient Strip">
+                </div>
+                <h5 class="rec-card-name">엠비언트 스트립</h5>
+                <p class="rec-card-price">62,000원</p>
+                <button type="button" class="btn-rec-add" onclick="addRecommendedToCart('rec-item-strip')">추가</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 전체 정보 -->
+          <div class="cart-summary-card">
+            <h4 class="summary-title">전체 정보</h4>
+            <div class="summary-row">
+              <span class="summary-label">주문 예상 금액</span>
+              <span class="summary-val" id="cart-subtotal">270,000원</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">배송비</span>
+              <span class="summary-val">무료</span>
+            </div>
+            <hr class="summary-divider">
+            <div class="summary-row total-row">
+              <span class="summary-label">총 결제 금액</span>
+              <span class="summary-val total-price" id="cart-total-price">270,000원</span>
+            </div>
+          </div>
+
+          <!-- 주문하기 버튼 -->
+          <button type="button" class="btn-order-checkout" id="btn-cart-checkout">
+            주문하기 <span class="material-symbols-outlined arrow-icon">chevron_right</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- [뷰 5] 마이페이지 화면 -->
+      <div id="view-mypage" class="mobile-view">
+        <!-- 마이페이지 상단바 -->
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-mypage-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo">
+            <span class="service-logo-text">ViewLight</span>
+          </div>
+          <div class="header-actions">
+            <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+          </div>
+        </header>
+
+        <!-- 스크롤 콘텐츠 영역 -->
+        <div class="service-content mypage-content">
+
+          <!-- 사용자 프로필 카드 -->
+          <div class="user-profile-section">
+            <div class="profile-avatar-box">
+              <img id="profile-avatar-img" src="img/Stand01.jpg" alt="User Profile Image">
+              <button type="button" class="btn-profile-edit-badge" onclick="openEditProfileModal()" title="프로필 수정">
+                <span class="material-symbols-outlined">edit</span>
+              </button>
+            </div>
+            <div class="profile-user-info">
+              <h3 class="profile-username">
+                <span id="profile-name-text">김뷰라이트</span>
+              </h3>
+              <span class="profile-member-badge">
+                <span class="material-symbols-outlined" style="font-size: 11px;">star</span>
+                PREMIUM MEMBER
+              </span>
+            </div>
+          </div>
+
+          <!-- My Ambient Profile 섹션 -->
+          <div class="mypage-section-card">
+            <h4 class="section-card-title">My Ambient Profile</h4>
+            <div class="ambient-profile-banner">
+              <div class="banner-badge">LATEST ANALYSIS</div>
+              <h5 class="banner-headline">내 방 책상 - 우드&크림</h5>
+              <p class="banner-description">
+                따뜻하고 은은한 조명은 나무의 자연스러운 질감과 어우러져 피로를 덜어주고 집중력을 높이는 데 도움이 됩니다.
+              </p>
+              <button type="button" class="btn-view-report" onclick="showView('curation-report')">
+                View Report →
+              </button>
+            </div>
+          </div>
+
+          <!-- Smart Control 기기 제어판 -->
+          <div class="mypage-section-card">
+            <h4 class="section-card-title">⚙️ Smart Control</h4>
+            <div class="smart-devices-list">
+
+              <!-- 기기 1: 루미나 플로어 아크 -->
+              <div class="smart-device-item" id="device-item-lumina">
+                <div class="device-info-row">
+                  <div class="device-icon-circle">
+                    <span class="material-symbols-outlined">lightbulb</span>
+                  </div>
+                  <div class="device-text-meta">
+                    <h5 class="device-name">루미나 플로어 아크</h5>
+                    <p class="device-location">Living Room · 3000K Warm White</p>
+                  </div>
+                  <button type="button" class="btn-device-toggle on" id="toggle-device-lumina" onclick="toggleDevice('device-item-lumina')">ON</button>
+                </div>
+                <div class="device-dim-slider">
+                  <div class="slider-track">
+                    <div class="slider-fill" style="width: 60%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 기기 2: 에코 페블 라이트 -->
+              <div class="smart-device-item offline" id="device-item-neo">
+                <div class="device-info-row">
+                  <div class="device-icon-circle">
+                    <span class="material-symbols-outlined">light</span>
+                  </div>
+                  <div class="device-text-meta">
+                    <h5 class="device-name">에코 페블 라이트</h5>
+                    <p class="device-location">Bedroom · Offline</p>
+                  </div>
+                  <button type="button" class="btn-device-toggle off" id="toggle-device-neo" onclick="toggleDevice('device-item-neo')">OFF</button>
+                </div>
+                <div class="device-dim-slider">
+                  <div class="slider-track">
+                    <div class="slider-fill" style="width: 0%;"></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 설정 메뉴 목록 -->
+          <div class="mypage-menu-list">
+            <a href="#orders" class="menu-list-row" onclick="showView('orders'); return false;">
+              <div class="menu-list-inner">
+                <span class="material-symbols-outlined menu-list-icon">receipt_long</span>
+                <span class="menu-list-label">주문 내역 (Order History)</span>
+              </div>
+              <span class="material-symbols-outlined menu-list-arrow">chevron_right</span>
+            </a>
+
+            <a href="#reviews" class="menu-list-row" onclick="showView('reviews'); return false;">
+              <div class="menu-list-inner">
+                <span class="material-symbols-outlined menu-list-icon">rate_review</span>
+                <span class="menu-list-label">내 리뷰 (My Reviews)</span>
+              </div>
+              <span class="material-symbols-outlined menu-list-arrow">chevron_right</span>
+            </a>
+
+            <a href="#shipping" class="menu-list-row" onclick="showView('shipping'); return false;">
+              <div class="menu-list-inner">
+                <span class="material-symbols-outlined menu-list-icon">local_shipping</span>
+                <span class="menu-list-label">배송지 관리 (Shipping Management)</span>
+              </div>
+              <span class="material-symbols-outlined menu-list-arrow">chevron_right</span>
+            </a>
+
+            <a href="#customer-center" class="menu-list-row" onclick="showView('customer-center'); return false;">
+              <div class="menu-list-inner">
+                <span class="material-symbols-outlined menu-list-icon">support_agent</span>
+                <span class="menu-list-label">고객센터 (Customer Center)</span>
+              </div>
+              <span class="material-symbols-outlined menu-list-arrow">chevron_right</span>
+            </a>
+
+            <a href="#settings" class="menu-list-row menu-list-row--last" onclick="showView('settings'); return false;">
+              <div class="menu-list-inner">
+                <span class="material-symbols-outlined menu-list-icon">settings</span>
+                <span class="menu-list-label">설정 (Settings)</span>
+              </div>
+              <span class="material-symbols-outlined menu-list-arrow">chevron_right</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- [뷰 6] 이달의 추천 조명 상세 화면 -->
+      <div id="view-featured-more" class="mobile-view">
+        <!-- 상단바 -->
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-featured-more-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo">
+
+            <span class="service-logo-text">ViewLight</span>
+          </div>
+          <div class="header-actions">
+            <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+
+          </div>
+        </header>
+
+        <!-- 스크롤 콘텐츠 영역 -->
+        <div class="service-content featured-more-content">
+          <!-- 타이틀 및 설명 -->
+          <div class="featured-rec-header">
+            <h2 class="featured-rec-title">이달의 추천 조명</h2>
+            <p class="featured-rec-desc">
+              빛은 단순한 밝기를 넘어 공간의 온도와 분위기를 결정합니다. 당신의 일상에 따뜻한 위로를 더해줄 프리미엄 조명 셀렉션을 만나보세요.
+            </p>
+          </div>
+
+          <!-- 메인 추천 펜던트 배너 카드 -->
+          <div class="pendant-main-card" onclick="openProductDetail('aurora-brass')" style="cursor: pointer;">
+            <div class="pendant-banner-box">
+              <img src="img/Transformation Card 2.png" alt="오로라 브라스 펜던트">
+            </div>
+            <div class="pendant-info-box">
+              <span class="editors-pick-badge">Editor's Pick</span>
+              <h3 class="pendant-title">오로라 브라스 펜던트</h3>
+              <p class="pendant-price">450,000 원</p>
+              
+              <div class="quote-box-card">
+                <p class="quote-text">
+                  "정제된 황동 소재와 따뜻한 빛의 조화가 다이닝 공간을 클래식하게 연출해줍니다. 시간의 흐름에 따라 깊어지는 질감을 경험해보세요."
+                </p>
+              </div>
+
+              <!-- 속성 태그들 -->
+              <div class="pendant-tags-row">
+                <span class="pendant-tag">2700K~6500K</span>
+                <span class="pendant-tag">Smart Control</span>
+                <span class="pendant-tag">Dimmable</span>
+              </div>
+
+              <!-- 자세히 보기 버튼 -->
+              <button type="button" class="btn-detailed-view" onclick="event.stopPropagation(); openProductDetail('aurora-brass')">
+                자세히 보기 <span class="material-symbols-outlined">arrow_right_alt</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 컬렉션 둘러보기 섹션 -->
+          <div class="collection-explore-section">
+            <div class="collection-header-row">
+              <h4 class="collection-section-title">컬렉션 둘러보기</h4>
+              <div class="carousel-nav-arrows">
+                <button type="button" class="nav-arrow-btn" id="btn-carousel-prev">
+                  <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button type="button" class="nav-arrow-btn" id="btn-carousel-next">
+                  <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 수평 스크롤 캐러셀 컨테이너 -->
+            <div class="collection-carousel-container" id="collection-carousel">
+              
+              <!-- 카드 1: 루미나 플로어 아크 -->
+              <div class="collection-product-card" id="col-card-1" onclick="openProductDetail('lumina-floor')" style="cursor: pointer;">
+                <button type="button" class="col-card-like-btn" onclick="event.stopPropagation(); toggleCollectionLike('col-card-1')">
+                  <span class="material-symbols-outlined col-like-icon">favorite</span>
+                </button>
+                <div class="col-card-thumb">
+                  <img src="img/Stand05.jpg" alt="Lumina Floor Arc">
+                </div>
+                <div class="col-card-info">
+                  <h5 class="col-product-name">루미나 플로어 아크</h5>
+                  <p class="col-product-price">220,000 원</p>
+                  <div class="col-product-tags">
+                    <span class="col-tag">Living</span>
+                    <span class="col-tag">Natural Modern</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 카드 2: 멜로우 스탠드 라이트 -->
+              <div class="collection-product-card" id="col-card-2" onclick="openProductDetail('neo-able')" style="cursor: pointer;">
+                <button type="button" class="col-card-like-btn" onclick="event.stopPropagation(); toggleCollectionLike('col-card-2')">
+                  <span class="material-symbols-outlined col-like-icon">favorite</span>
+                </button>
+                <div class="col-card-thumb">
+                  <img src="img/Stand03.png" alt="Mellow Stand Light">
+                </div>
+                <div class="col-card-info">
+                  <h5 class="col-product-name">네오 에블 라이트</h5>
+                  <p class="col-product-price">180,000 원</p>
+                  <div class="col-product-tags">
+                    <span class="col-tag">Bedroom</span>
+                    <span class="col-tag">Minimalist</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 카드 3: 스마트 App 연동 조명 -->
+              <div class="collection-product-card" id="col-card-3" onclick="openProductDetail('ambient-strip')" style="cursor: pointer;">
+                <button type="button" class="col-card-like-btn" onclick="event.stopPropagation(); toggleCollectionLike('col-card-3')">
+                  <span class="material-symbols-outlined col-like-icon">favorite</span>
+                </button>
+                <div class="col-card-thumb">
+                  <img src="img/Stand04.png" alt="Smart Light">
+                </div>
+                <div class="col-card-info">
+                  <h5 class="col-product-name">엠비언트 스트립</h5>
+                  <p class="col-product-price">62,000 원</p>
+                  <div class="col-product-tags">
+                    <span class="col-tag">Smart IoT</span>
+                    <span class="col-tag">Ambient</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- [뷰 7] 무드등 둘러보기 전체 화면 -->
+      <div id="view-category-all" class="mobile-view">
+        <!-- 상단바 -->
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-categories-all-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo">
+
+            <span class="service-logo-text">ViewLight</span>
+          </div>
+          <div class="header-actions">
+            <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+
+          </div>
+        </header>
+
+        <!-- 스크롤 콘텐츠 영역 -->
+        <div class="service-content category-all-content">
+          <!-- 타이틀 및 설명 -->
+          <div class="category-all-header">
+            <h2 class="category-all-title">제품 둘러보기</h2>
+            <p class="category-all-desc">
+              당신의 공간을 완벽하게 밝혀줄 ViewLight의 프리미엄 무드등 컬렉션을 만나보세요. 빛과 그림자의 조화로움이 선사하는 새로운 차원의 인테리어를 경험하실 수 있습니다.
+            </p>
+          </div>
+
+          <!-- 10종 무드등 카드 목록 -->
+          <div class="category-cards-list">
+            
+            <!-- 카드 1: 원목 감성 무드등 -->
+            <div class="category-list-card" style="background-image: url('img/light001.jpg'); cursor: pointer;" onclick="openProductDetail('explore-wood-hexa')">
+              <div class="category-overlay-box">
+                <div class="cat-card-text">
+                  <h4 class="cat-card-main-title">원목 감성 무드등</h4>
+                  <p class="cat-card-sub-title">Wooden Mood Lights</p>
+                </div>
+                <span class="material-symbols-outlined cat-card-arrow">east</span>
+              </div>
+            </div>
+
+            <!-- 카드 2: 포근한 아크릴 무드등 -->
+            <div class="category-list-card" style="background-image: url('img/light002.jpg'); cursor: pointer;" onclick="openProductDetail('explore-cozy-acrylic')">
+              <div class="category-overlay-box">
+                <div class="cat-card-text">
+                  <h4 class="cat-card-main-title">포근한 아크릴 무드등</h4>
+                  <p class="cat-card-sub-title">Acrylic Mood Lights</p>
+                </div>
+                <span class="material-symbols-outlined cat-card-arrow">east</span>
+              </div>
+            </div>
+
+            <!-- 카드 3: 오로라 웨이브 무드등 -->
+            <div class="category-list-card" style="background-image: url('img/light003.jpg'); cursor: pointer;" onclick="openProductDetail('explore-aurora-wave')">
+              <div class="category-overlay-box">
+                <div class="cat-card-text">
+                  <h4 class="cat-card-main-title">오로라 웨이브 무드등</h4>
+                  <p class="cat-card-sub-title">Aurora Wave Lights</p>
+                </div>
+                <span class="material-symbols-outlined cat-card-arrow">east</span>
+              </div>
+            </div>
+
+            <!-- 카드 4: 스마트 IoT 무드등 -->
+            <div class="category-list-card" style="background-image: url('img/light004.jpg'); cursor: pointer;" onclick="openProductDetail('explore-smart-cube')">
+              <div class="category-overlay-box">
+                <div class="cat-card-text">
+                  <h4 class="cat-card-main-title">스마트 IoT 무드등</h4>
+                  <p class="cat-card-sub-title">Smart Control Lights</p>
+                </div>
+                <span class="material-symbols-outlined cat-card-arrow">east</span>
+              </div>
+            </div>
+
+            <!-- 카드 5: 미니멀 세라믹 무드등 -->
+            <div class="category-list-card" style="background-image: url('img/light005.jpg'); cursor: pointer;" onclick="openProductDetail('explore-minimal-ceramic')">
+              <div class="category-overlay-box">
+                <div class="cat-card-text">
+                  <h4 class="cat-card-main-title">미니멀 세라믹 무드등</h4>
+                  <p class="cat-card-sub-title">Ceramic Table Lamps</p>
+                </div>
+                <span class="material-symbols-outlined cat-card-arrow">east</span>
+              </div>
+            </div>
+
+            <!-- 카드 6: 디자이너 수공예 무드등 -->
+            <div class="category-list-card" style="background-image: url('img/light006.jpg'); cursor: pointer;" onclick="openProductDetail('explore-designer-handcraft')">
+              <div class="category-overlay-box">
+                <div class="cat-card-text">
+                  <h4 class="cat-card-main-title">디자이너 수공예 무드등</h4>
+                  <p class="cat-card-sub-title">Handcrafted Mood Lights</p>
+                </div>
+                <span class="material-symbols-outlined cat-card-arrow">east</span>
+              </div>
+            </div>
+
+            <!-- 카드 7: 크리스탈 아트 무드등 -->
+            <div class="category-list-card" style="background-image: url('img/light007.jpg'); cursor: pointer;" onclick="openProductDetail('explore-crystal-art')">
+              <div class="category-overlay-box">
+                <div class="cat-card-text">
+                  <h4 class="cat-card-main-title">크리스탈 아트 무드등</h4>
+                  <p class="cat-card-sub-title">Glass Art Lamps</p>
+                </div>
+                <span class="material-symbols-outlined cat-card-arrow">east</span>
+              </div>
+            </div>
+
+            <!-- 카드 8: 에코 종이 폴딩 무드등 -->
+            <div class="category-list-card" style="background-image: url('img/light008.jpg'); cursor: pointer;" onclick="openProductDetail('explore-paper-folding')">
+              <div class="category-overlay-box">
+                <div class="cat-card-text">
+                  <h4 class="cat-card-main-title">에코 종이 폴딩 무드등</h4>
+                  <p class="cat-card-sub-title">Paper Origami Lights</p>
+                </div>
+                <span class="material-symbols-outlined cat-card-arrow">east</span>
+              </div>
+            </div>
+
+            <!-- 카드 9: 황동 미니멀 펜던트 무드등 -->
+            <div class="category-list-card" style="background-image: url('img/light009.jpg'); cursor: pointer;" onclick="openProductDetail('explore-brass-pendant')">
+              <div class="category-overlay-box">
+                <div class="cat-card-text">
+                  <h4 class="cat-card-main-title">황동 미니멀 펜던트 무드등</h4>
+                  <p class="cat-card-sub-title">Pendant Mood Lights</p>
+                </div>
+                <span class="material-symbols-outlined cat-card-arrow">east</span>
+              </div>
+            </div>
+
+            <!-- 카드 10: 실외 포터블 캠핑 무드등 -->
+            <div class="category-list-card" style="background-image: url('img/light010.jpg'); cursor: pointer;" onclick="openProductDetail('explore-camping-portable')">
+              <div class="category-overlay-box">
+                <div class="cat-card-text">
+                  <h4 class="cat-card-main-title">실외 포터블 캠핑 무드등</h4>
+                  <p class="cat-card-sub-title">Outdoor Portable Lights</p>
+                </div>
+                <span class="material-symbols-outlined cat-card-arrow">east</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- [뷰 8] AI Before & After 갤러리 전체 화면 -->
+      <div id="view-bna-all" class="mobile-view">
+        <!-- 상단바 -->
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-bna-all-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo">
+
+            <span class="service-logo-text">ViewLight</span>
+          </div>
+          <div class="header-actions">
+            <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+
+          </div>
+        </header>
+
+        <!-- 스크롤 콘텐츠 영역 -->
+        <div class="service-content bna-all-content">
+          <!-- 타이틀 -->
+          <div class="bna-all-header">
+            <h2 class="bna-all-title">AI가 제안하는 공간의 변화</h2>
+          </div>
+
+          <!-- 1. 인터랙티브 스플릿 슬라이더 (거실 공간 비교) -->
+          <div class="bna-slider-wrapper">
+            <div class="bna-comparison-slider" id="main-bna-slider">
+              <!-- Before 이미지 (어두운 기본 배경) -->
+              <div class="bna-image-before">
+                <img src="img/livingroom.jpg" alt="거실 비포">
+                <span class="bna-tag-badge before-badge">Before</span>
+              </div>
+              
+              <!-- After 이미지 (밝은 아프터 오버레이 - width 조절 가능) -->
+              <div class="bna-image-after" id="bna-after-overlay">
+                <img src="img/livingroom.jpg" alt="거실 애프터">
+                <span class="bna-tag-badge after-badge">After</span>
+              </div>
+              
+              <!-- 슬라이더 컨트롤러 핸들 -->
+              <div class="bna-slider-handle" id="bna-slider-handle">
+                <div class="bna-handle-line"></div>
+                <div class="bna-handle-knob">
+                  <span class="material-symbols-outlined">unfold_more</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. 비포 & 애프터 갤러리 리스트 -->
+          <div class="bna-showcase-list">
+            
+            <!-- 쇼케이스 1: 침실 -->
+            <div class="bna-showcase-card">
+              <div class="bna-showcase-imgs">
+                <div class="bna-showcase-img-box before-box">
+                  <img src="img/light002.jpg" alt="침실 비포" class="dark-filter">
+                  <span class="mini-bna-badge before">Before</span>
+                </div>
+                <div class="bna-showcase-img-box after-box">
+                  <img src="img/light002.jpg" alt="침실 애프터" class="warm-filter">
+                  <span class="mini-bna-badge after">After</span>
+                </div>
+              </div>
+              <div class="bna-showcase-info">
+                <h4 class="bna-showcase-title">침실 (Bedroom)</h4>
+                <p class="bna-showcase-desc">따뜻한 3000K 색온도로 아늑해진 휴식 공간</p>
+              </div>
+            </div>
+
+            <!-- 쇼케이스 2: 다이닝룸 -->
+            <div class="bna-showcase-card">
+              <div class="bna-showcase-imgs">
+                <div class="bna-showcase-img-box before-box">
+                  <img src="img/light009.jpg" alt="다이닝룸 비포" class="dark-filter">
+                  <span class="mini-bna-badge before">Before</span>
+                </div>
+                <div class="bna-showcase-img-box after-box">
+                  <img src="img/light009.jpg" alt="다이닝룸 애프터" class="warm-filter">
+                  <span class="mini-bna-badge after">After</span>
+                </div>
+              </div>
+              <div class="bna-showcase-info">
+                <h4 class="bna-showcase-title">다이닝룸 (Dining Room)</h4>
+                <p class="bna-showcase-desc">집중도 있는 포인트 펜던트 조명으로 클래식한 분위기 연출</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 하단 플로팅 CTA 버튼 -->
+        <button type="button" class="bna-float-scan-btn" id="btn-bna-float-scan">
+          <span class="material-symbols-outlined">auto_awesome</span> 내 방도 분석하기
+        </button>
+      </div>
+
+      <!-- [뷰 9] 제품 상세 정보 화면 -->
+      <div id="view-product-detail" class="mobile-view">
+        <!-- 상단바 -->
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-pd-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo" style="margin-left: 20px;">
+            <span class="service-logo-text" id="pd-header-title">제품 상세 정보</span>
+          </div>
+          <button type="button" class="header-icon-btn" id="btn-pd-like" onclick="togglePdLike()"><span class="material-symbols-outlined" id="pd-like-icon">favorite_border</span></button>
+        </header>
+
+        <!-- 1. 제품 대형 이미지 카드 (full-bleed, 헤더 직하단) -->
+        <div class="pd-image-card pd-image-fullbleed">
+          <img src="img/light009.jpg" id="pd-img" alt="제품 이미지">
+          <!-- 매치 매칭 뱃지 -->
+          <span class="pd-match-badge" id="pd-match-badge">
+            <span class="material-symbols-outlined pd-sparkle-icon">auto_awesome</span>
+            <span id="pd-match-val">98% 매칭</span>
+          </span>
+          <!-- 페이지네이션 도트 -->
+          <div class="pd-slider-dots">
+            <span class="pd-dot active"></span>
+            <span class="pd-dot"></span>
+            <span class="pd-dot"></span>
+            <span class="pd-dot"></span>
+          </div>
+        </div>
+
+        <!-- 스크롤 콘텐츠 영역 -->
+        <div class="service-content pd-content">
+
+          <!-- 2. 리뷰 별점 및 제목 정보 -->
+          <div class="pd-meta-row">
+            <span class="pd-stars">⭐⭐⭐⭐⭐</span>
+            <span class="pd-rating-text">4.8 <span class="pd-review-count">(리뷰 245개)</span></span>
+          </div>
+          
+          <h2 class="pd-product-title" id="pd-title">램프 스웜</h2>
+          <p class="pd-product-desc" id="pd-desc">부드럽고 따뜻한 빛을 선사하는 우아한 매트 피니시 펜던트 무드연출 조명입니다.</p>
+
+          <div class="pd-price-row">
+            <span class="pd-price-val" id="pd-price">90,000원</span>
+          </div>
+
+          <!-- 3. 스펙 태그 그룹 -->
+          <div class="pd-specs-row">
+            <span class="pd-spec-tag"><span class="material-symbols-outlined">thermostat</span> <span id="pd-spec-1">2700K~6500K</span></span>
+            <span class="pd-spec-tag"><span class="material-symbols-outlined">light_mode</span> <span id="pd-spec-2">1200 Lux</span></span>
+            <span class="pd-spec-tag"><span class="material-symbols-outlined">settings_input_antenna</span> <span id="pd-spec-3">스마트 App 연동</span></span>
+          </div>
+
+          <!-- 4. AI 큐레이터 인사이트 -->
+          <div class="pd-insight-card">
+            <div class="pd-insight-header">
+              <div class="pd-insight-bulb">
+                <span class="material-symbols-outlined">lightbulb</span>
+              </div>
+              <span class="pd-insight-title">AI 큐레이터 인사이트</span>
+            </div>
+            <p class="pd-insight-desc" id="pd-insight-desc">
+              이 조명은 구석의 그림자를 부드럽게 만들어주어 기존의 '미드나잇 네이비' 소파와 완벽하게 어울립니다.
+            </p>
+          </div>
+
+          <!-- 5. 색상 선택 -->
+          <div class="pd-color-section">
+            <h4 class="pd-section-title">색상 선택</h4>
+            <div class="pd-color-palette" id="pd-color-container">
+              <span class="pd-color-circle active" style="background-color: #E5C7B2;" onclick="selectPdColor(this)"></span>
+              <span class="pd-color-circle" style="background-color: #3E4C5E;" onclick="selectPdColor(this)"></span>
+              <span class="pd-color-circle" style="background-color: #1C1D1F;" onclick="selectPdColor(this)"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. 하단 고정 액션바 -->
+        <div class="pd-footer-actions">
+          <button type="button" class="pd-cart-btn" id="btn-pd-add-cart">
+            <span class="material-symbols-outlined">shopping_bag</span>
+            <span>장바구니</span>
+          </button>
+          <button type="button" class="pd-buy-btn" id="btn-pd-buy">
+            <span>바로 구매</span>
+          </button>
+        </div>
+      </div>
+
+
+      <!-- [뷰 10] 결제하기 화면 -->
+      <div id="view-checkout" class="mobile-view">
+        <!-- 상단바 -->
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-checkout-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo" style="margin-left: 20px;">
+            <span class="service-logo-text">결제하기</span>
+          </div>
+          <div style="width: 40px;"></div> <!-- 공백 정렬용 -->
+        </header>
+
+        <!-- 스크롤 콘텐츠 영역 -->
+        <div class="service-content checkout-content">
+          <!-- 1. 단품 가격 뱃지 (대표 상품) -->
+          <div class="checkout-price-badge-row">
+            <span class="checkout-item-price-badge" id="checkout-main-price-badge">90,000원</span>
+          </div>
+
+          <!-- 2. 대표 조명 이미지 -->
+          <div class="checkout-gallery-row">
+            <div class="checkout-thumb-main">
+              <img src="img/light009.jpg" id="checkout-main-img" alt="대표 조명">
+            </div>
+          </div>
+
+          <!-- 3. 대표 상품 타이틀 및 서브 설명 -->
+          <div class="checkout-product-info">
+            <h3 class="checkout-product-title" id="checkout-main-title">램프 스웜</h3>
+            <p class="checkout-product-sub" id="checkout-main-sub">우아한 액세서리</p>
+          </div>
+
+          <!-- 4. 조명 연출 공간 드롭다운 -->
+          <div class="checkout-space-select-row">
+            <span class="checkout-space-label">이 조명을 연출할 공간:</span>
+            <div class="checkout-dropdown" id="checkout-dropdown-btn">
+              <span id="checkout-selected-dropdown-text">내방 책상</span>
+              <span class="material-symbols-outlined dropdown-arrow">expand_more</span>
+            </div>
+            <!-- 드롭다운 리스트 옵션 -->
+            <div class="checkout-dropdown-options" id="checkout-dropdown-options-box">
+              <div class="option-item" onclick="selectCheckoutDropdownOption('내방 책상')">내방 책상</div>
+              <div class="option-item" onclick="selectCheckoutDropdownOption('침실 협탁')">침실 협탁</div>
+              <div class="option-item" onclick="selectCheckoutDropdownOption('거실 거실장')">거실 거실장</div>
+              <div class="option-item" onclick="selectCheckoutDropdownOption('다이닝 식탁')">다이닝 식탁</div>
+            </div>
+          </div>
+
+          <!-- 5. 결제 정보 검은색 하단 시트 (통합 레이아웃) -->
+          <div class="checkout-dark-sheet">
+            <div class="sheet-drag-handle"></div>
+
+            <!-- 총 결제 금액 및 수량 -->
+            <div class="sheet-summary-row">
+              <div class="sheet-price-box">
+                <h2 class="sheet-total-price" id="checkout-total-price">280,000원</h2>
+                <span class="sheet-price-label">총 결제 금액</span>
+              </div>
+              <div class="sheet-qty-badge">
+                <span>총 <strong id="checkout-total-qty">5</strong>개 제품</span>
+              </div>
+            </div>
+
+            <!-- 공간 선택 텍스트 필드 -->
+            <div class="sheet-input-section">
+              <label class="sheet-input-label">조명 연출 공간 선택 (예: 내 방 책상, 침실 협탁)</label>
+              <input type="text" class="sheet-text-input" id="checkout-space-input" placeholder="공간을 입력해주세요" autocomplete="off">
+            </div>
+
+            <!-- 결제 수단 선택 -->
+            <div class="sheet-pay-methods-row">
+              <div class="pay-method-card active" id="pay-method-card" onclick="selectPayMethod('card')">
+                <div class="method-header">
+                  <span class="method-name">신용카드</span>
+                  <span class="material-symbols-outlined add-icon">add</span>
+                </div>
+                <p class="method-desc">카드 등록</p>
+              </div>
+              
+              <div class="pay-method-card" id="pay-method-check" onclick="selectPayMethod('check')">
+                <div class="method-header">
+                  <span class="method-name">체크카드</span>
+                </div>
+                <p class="method-desc">등록 카드 없음</p>
+              </div>
+            </div>
+
+            <!-- 할인 혜택 안내 뱃지 -->
+            <div id="checkout-discount-info" class="checkout-discount-info" style="display: none;">
+              <span class="material-symbols-outlined" style="font-size: 16px;">stars</span>
+              <span id="checkout-discount-text">20% 세트 할인 혜택 적용됨</span>
+            </div>
+
+            <!-- 결제 승인 버튼 -->
+            <button type="button" class="sheet-submit-pay-btn" id="btn-checkout-submit">
+              <span class="material-symbols-outlined">payment</span>
+              <span id="btn-checkout-submit-text">280,000원 결제하기</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- [뷰 11] AI Curation Report 화면 -->
+      <div id="view-curation-report" class="mobile-view">
+        <!-- 상단바 -->
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-report-back" onclick="handleReportBack()">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo" style="margin-left: 20px;">
+            <span class="service-logo-text" id="report-view-title">AI 큐레이션 리포트</span>
+          </div>
+          <div class="header-actions">
+            <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+          </div>
+        </header>
+
+        <!-- [화면 A] 리포트 목록 -->
+        <div id="report-list-panel" class="service-content report-content" style="padding-top: 12px;">
+
+          <!-- 페이지 타이틀 -->
+          <div class="report-list-hero">
+            <span class="report-list-hero-badge">✨ AI ANALYSIS</span>
+            <h3 class="report-list-hero-title">나의 큐레이션 리포트</h3>
+            <p class="report-list-hero-sub">AI가 분석한 공간별 맞춤 조명 큐레이션 기록</p>
+          </div>
+
+          <!-- 리포트 카드 1: 내 방 책상 - 우드&크림 -->
+          <div class="report-list-card" onclick="openReportDetail('wood-cream')">
+            <div class="report-list-card-img" style="background-image: url('img/livingroom.jpg');"></div>
+            <div class="report-list-card-info">
+              <span class="report-list-badge">LATEST</span>
+              <h4 class="report-list-card-title">내 방 책상 - 우드&크림</h4>
+              <p class="report-list-card-meta">따뜻한 웜 미니멀리스트 · 베이지 톤</p>
+              <p class="report-list-card-date">2026.08.10 분석</p>
+            </div>
+            <span class="material-symbols-outlined report-list-chevron">chevron_right</span>
+          </div>
+
+          <!-- 리포트 카드 2: 거실 소파 - 다크 앰비언트 -->
+          <div class="report-list-card" onclick="openReportDetail('dark-ambient')">
+            <div class="report-list-card-img" style="background-image: url('img/light009.jpg');"></div>
+            <div class="report-list-card-info">
+              <span class="report-list-badge report-list-badge--prev">PREVIOUS</span>
+              <h4 class="report-list-card-title">거실 소파 - 다크 앰비언트</h4>
+              <p class="report-list-card-meta">다크 무드 · 하이 컨트라스트</p>
+              <p class="report-list-card-date">2026.07.22 분석</p>
+            </div>
+            <span class="material-symbols-outlined report-list-chevron">chevron_right</span>
+          </div>
+
+          <!-- 리포트 카드 3: 침실 - 나이트 릴렉스 -->
+          <div class="report-list-card" onclick="openReportDetail('night-relax')">
+            <div class="report-list-card-img" style="background-image: url('img/light001.jpg');"></div>
+            <div class="report-list-card-info">
+              <span class="report-list-badge report-list-badge--prev">PREVIOUS</span>
+              <h4 class="report-list-card-title">침실 - 나이트 릴렉스</h4>
+              <p class="report-list-card-meta">소프트 라이트 · 로우 컨트라스트</p>
+              <p class="report-list-card-date">2026.07.05 분석</p>
+            </div>
+            <span class="material-symbols-outlined report-list-chevron">chevron_right</span>
+          </div>
+
+          <!-- 리포트 카드 4: 홈 오피스 - 포커스 모드 -->
+          <div class="report-list-card" onclick="openReportDetail('focus-mode')">
+            <div class="report-list-card-img" style="background-image: url('img/light004.jpg');"></div>
+            <div class="report-list-card-info">
+              <span class="report-list-badge report-list-badge--prev">PREVIOUS</span>
+              <h4 class="report-list-card-title">홈 오피스 - 포커스 모드</h4>
+              <p class="report-list-card-meta">쿨 화이트 · 고집중 셋업</p>
+              <p class="report-list-card-date">2026.06.18 분석</p>
+            </div>
+            <span class="material-symbols-outlined report-list-chevron">chevron_right</span>
+          </div>
+
+        </div>
+
+        <!-- [화면 B] 리포트 상세 -->
+        <div id="report-detail-panel" class="service-content report-content" style="display:none; padding-top: 12px;">
+
+          <!-- 1. 상단 공간 이미지 히어로 -->
+          <div class="report-hero-image" id="report-hero-img">
+            <div class="report-hero-overlay">
+              <span class="room-top-tag" id="report-hero-tag">ORIGINAL</span>
+              <h3 class="room-main-title" id="report-hero-title">Living Room</h3>
+              <p class="report-hero-sub-label" id="report-hero-date">2026.08.10 AI 분석</p>
+            </div>
+            <button type="button" class="room-ar-btn">
+              <span class="material-symbols-outlined">center_focus_strong</span> AR 체험
+            </button>
+          </div>
+
+          <!-- 2. AI 공간 분석 요약 카드 -->
+          <div class="report-summary-card">
+            <h4 class="report-summary-title">🧠 AI 공간 분석 요약</h4>
+            <p class="report-summary-desc" id="report-detail-desc">
+              분석된 공간은 부드러운 자연광과 뉴트럴한 색조가 돋보입니다. 이에 어울리는 조명 무드를 제안합니다.
+            </p>
+            <div class="report-tag-list" id="report-detail-tags">
+              <span class="report-summary-tag">따뜻한 웜 미니멀리스트</span>
+              <span class="report-summary-tag">부드러운 베이지 톤</span>
+              <span class="report-summary-tag">로우 컨트라스트</span>
+            </div>
+          </div>
+
+          <!-- 3. AI 매칭 스코어 바 -->
+          <div class="report-score-card">
+            <div class="report-score-row">
+              <span class="report-score-label">AI 매칭 신뢰도</span>
+              <span class="report-score-value" id="report-score-val">98%</span>
+            </div>
+            <div class="report-score-track">
+              <div class="report-score-fill" id="report-score-fill" style="width: 98%;"></div>
+            </div>
+            <p class="report-score-hint">분석 이미지와 조명 팔레트의 색온도 일치율을 기반으로 산출되었습니다.</p>
+          </div>
+
+          <!-- 4. 추천 무드등 가로 캐러셀 -->
+          <div class="report-rec-section">
+            <div class="report-rec-header">
+              <h4 class="report-rec-title">✨ 추천 무드등</h4>
+              <button type="button" class="report-list-see-all" onclick="openRecAllModal()">전체보기</button>
+            </div>
+
+            <div class="report-carousel-container" id="report-carousel">
+              <!-- 카드 1 -->
+              <div class="report-rec-card" onclick="openProductDetail('aurora-brass')">
+                <div class="report-card-img-box">
+                  <img src="img/light009.jpg" alt="집중된 안락함">
+                  <span class="scene-badge">SCENE 01</span>
+                </div>
+                <div class="report-card-body">
+                  <h5 class="report-card-title">집중된 안락함</h5>
+                  <p class="report-card-desc">드라마틱하고 낮게 드리워진 펜던트 조명</p>
+                  <span class="report-card-price">490,000원</span>
+                </div>
+              </div>
+              <!-- 카드 2 -->
+              <div class="report-rec-card" onclick="openProductDetail('neo-able')">
+                <div class="report-card-img-box">
+                  <img src="img/Stand03.png" alt="앰비언트 모드">
+                  <span class="scene-badge">SCENE 02</span>
+                </div>
+                <div class="report-card-body">
+                  <h5 class="report-card-title">앰비언트 모드</h5>
+                  <p class="report-card-desc">부드럽고 자연스럽게 스며드는 간접 조명</p>
+                  <span class="report-card-price">200,000원</span>
+                </div>
+              </div>
+              <!-- 카드 3 -->
+              <div class="report-rec-card" onclick="openProductDetail('wood-hexa')">
+                <div class="report-card-img-box">
+                  <img src="img/light001.jpg" alt="자연광 시너지">
+                  <span class="scene-badge">SCENE 03</span>
+                </div>
+                <div class="report-card-body">
+                  <h5 class="report-card-title">자연광 시너지</h5>
+                  <p class="report-card-desc">천연 우드 결이 자연광 반사 무드와 극치 융합</p>
+                  <span class="report-card-price">75,000원</span>
+                </div>
+              </div>
+              <!-- 카드 4 -->
+              <div class="report-rec-card" onclick="openProductDetail('smart-cube')">
+                <div class="report-card-img-box">
+                  <img src="img/light004.jpg" alt="스마트 큐브 셋업">
+                  <span class="scene-badge">SCENE 04</span>
+                </div>
+                <div class="report-card-body">
+                  <h5 class="report-card-title">스마트 큐브 셋업</h5>
+                  <p class="report-card-desc">다채로운 색조 조합을 모바일로 실시간 컨트롤</p>
+                  <span class="report-card-price">49,000원</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 추천 무드등 일괄 담기 버튼 -->
+            <button type="button" class="btn-report-bulk-cart" id="btn-report-bulk-cart">
+              <span class="material-symbols-outlined">shopping_bag</span>
+              추천 무드등 일괄 담기 (814,000원)
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- [뷰 12] 주문 내역 (Order History) 화면 -->
+      <div id="view-orders" class="mobile-view">
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-orders-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo" style="margin-left: 20px;">
+            <span class="service-logo-text">주문 내역</span>
+          </div>
+          <div class="header-actions">
+            <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+
+          </div>
+        </header>
+
+        <div class="service-content orders-content">
+          <!-- 기간 필터 탭 -->
+          <div class="orders-filter-row">
+            <button type="button" class="order-filter-btn active" onclick="filterOrders('1m', this)">1개월</button>
+            <button type="button" class="order-filter-btn" onclick="filterOrders('3m', this)">3개월</button>
+            <button type="button" class="order-filter-btn" onclick="filterOrders('6m', this)">6개월</button>
+            <button type="button" class="order-filter-btn" onclick="filterOrders('all', this)">전체</button>
+          </div>
+
+          <!-- 주문 카드리스트 -->
+          <div class="orders-list">
+            <!-- 주문 1 -->
+            <div class="order-card" data-period="1m">
+              <div class="order-card-header">
+                <div>
+                  <span class="order-date">2026.08.14</span>
+                  <span class="order-number">VL-20260814-082</span>
+                </div>
+                <span class="order-status-badge badge-delivered">배송 완료</span>
+              </div>
+              <div class="order-product-row">
+                <img src="img/Stand02.png" alt="Luna Table Lamp" class="order-prod-img">
+                <div class="order-prod-info">
+                  <h4 class="order-prod-title">Luna Table Lamp</h4>
+                  <p class="order-prod-option">원목 내추럴 | 3000K Warm White</p>
+                  <div class="order-prod-price-qty">
+                    <span class="price">150,000원</span>
+                    <span class="qty">1개</span>
+                  </div>
+                </div>
+              </div>
+              <div class="order-card-actions">
+                <button type="button" class="btn-order-sub" onclick="openTrackingModal('CJ대한통운 582-9102-11')">배송 조회</button>
+                <button type="button" class="btn-order-main" onclick="openWriteReviewModal('Luna Table Lamp', 'img/Stand02.png')">✨ 리뷰 작성하기</button>
+              </div>
+            </div>
+
+            <!-- 주문 2 -->
+            <div class="order-card" data-period="1m">
+              <div class="order-card-header">
+                <div>
+                  <span class="order-date">2026.08.02</span>
+                  <span class="order-number">VL-20260802-041</span>
+                </div>
+                <span class="order-status-badge badge-shipping">배송중</span>
+              </div>
+              <div class="order-product-row">
+                <img src="img/img002.png" alt="아우라 플로어 램프" class="order-prod-img">
+                <div class="order-prod-info">
+                  <h4 class="order-prod-title">아우라 플로어 램프</h4>
+                  <p class="order-prod-option">매트 블랙 | Dimmable Ambient</p>
+                  <div class="order-prod-price-qty">
+                    <span class="price">180,000원</span>
+                    <span class="qty">1개</span>
+                  </div>
+                </div>
+              </div>
+              <div class="order-card-actions">
+                <button type="button" class="btn-order-main" onclick="openTrackingModal('우체국택배 6092-3811-921')">배송 추적 (우체국택배)</button>
+              </div>
+            </div>
+
+            <!-- 주문 3 -->
+            <div class="order-card" data-period="3m">
+              <div class="order-card-header">
+                <div>
+                  <span class="order-date">2026.07.20</span>
+                  <span class="order-number">VL-20260720-019</span>
+                </div>
+                <span class="order-status-badge badge-confirmed">구매 확정</span>
+              </div>
+              <div class="order-product-row">
+                <img src="img/Stand04.png" alt="엠비언트 스트립" class="order-prod-img">
+                <div class="order-prod-info">
+                  <h4 class="order-prod-title">엠비언트 스트립</h4>
+                  <p class="order-prod-option">Smart App 연동 | 5M 셋업 키트</p>
+                  <div class="order-prod-price-qty">
+                    <span class="price">124,000원</span>
+                    <span class="qty">2개</span>
+                  </div>
+                </div>
+              </div>
+              <div class="order-card-actions">
+                <button type="button" class="btn-order-sub" onclick="window.addProductToCart('엠비언트 스트립', 62000, 'img/Stand04.png'); showView('cart');">재구매 하기</button>
+                <button type="button" class="btn-order-sub" onclick="showView('reviews');">작성한 리뷰 보기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- [뷰 13] 내 리뷰 (My Reviews) 화면 -->
+      <div id="view-reviews" class="mobile-view">
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-reviews-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo" style="margin-left: 20px;">
+            <span class="service-logo-text">내 리뷰</span>
+          </div>
+          <div class="header-actions">
+            <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+
+          </div>
+        </header>
+
+        <div class="service-content reviews-content">
+          <!-- 탭 헤더 -->
+          <div class="reviews-tab-nav">
+            <button type="button" class="review-tab-btn active" id="tab-btn-writeable" onclick="switchReviewTab('writeable')">작성 가능한 리뷰 <span class="count-badge">1</span></button>
+            <button type="button" class="review-tab-btn" id="tab-btn-written" onclick="switchReviewTab('written')">작성한 리뷰 <span class="count-badge">2</span></button>
+          </div>
+
+          <!-- 탭 1: 작성 가능 리뷰 리스트 -->
+          <div id="review-panel-writeable" class="review-tab-panel active">
+            <div class="writeable-card">
+              <div class="writeable-prod-row">
+                <img src="img/Stand02.png" alt="Luna Table Lamp" class="review-prod-img">
+                <div class="review-prod-info">
+                  <span class="purchased-date">2026.08.14 배송 완료</span>
+                  <h4 class="review-prod-title">Luna Table Lamp</h4>
+                  <p class="review-reward-tag">✍️ 리뷰 작성 시 최대 1,000P 즉시 적립</p>
+                </div>
+              </div>
+              <button type="button" class="btn-write-review-cta" onclick="openWriteReviewModal('Luna Table Lamp', 'img/Stand02.png')">
+                <span class="material-symbols-outlined">edit_note</span>
+                리뷰 작성하기
+              </button>
+            </div>
+          </div>
+
+          <!-- 탭 2: 작성한 리뷰 리스트 -->
+          <div id="review-panel-written" class="review-tab-panel">
+            <div class="written-review-card">
+              <div class="written-header">
+                <img src="img/img002.png" alt="아우라 플로어 램프" class="review-prod-thumb">
+                <div class="written-title-box">
+                  <h4 class="written-prod-name">아우라 플로어 램프</h4>
+                  <div class="star-rating-display">★★★★★ <span class="rating-num">5.0</span></div>
+                </div>
+                <span class="written-date">2026.08.05</span>
+              </div>
+              <p class="written-body">
+                거실 분위기가 완전히 달라졌어요! AI 분석 추천대로 3000K로 맞춰 사용 중인데 은은하고 눈도 안 아프네요. 디자인이 인테리어 포인트가 됩니다.
+              </p>
+              <div class="written-photo-list">
+                <img src="img/img002.png" alt="리뷰 사진 1" onclick="openImageViewer('img/img002.png', '아우라 플로어 램프 실구매 설치샷')">
+              </div>
+              <div class="written-actions">
+                <button type="button" class="btn-review-edit" onclick="alert('리뷰 수정 기능 준비 중입니다.')">수정</button>
+                <button type="button" class="btn-review-del" onclick="deleteReviewCard(this)">삭제</button>
+              </div>
+            </div>
+
+            <div class="written-review-card">
+              <div class="written-header">
+                <img src="img/Stand04.png" alt="엠비언트 스트립" class="review-prod-thumb">
+                <div class="written-title-box">
+                  <h4 class="written-prod-name">엠비언트 스트립</h4>
+                  <div class="star-rating-display">★★★★★ <span class="rating-num">5.0</span></div>
+                </div>
+                <span class="written-date">2026.07.25</span>
+              </div>
+              <p class="written-body">
+                모바일 앱 연동이 진짜 빠르고 부드러워요. 밤에 미디어룸 감성 낼 때 앰비언트 모드로 키면 최고입니다.
+              </p>
+              <div class="written-actions">
+                <button type="button" class="btn-review-edit" onclick="alert('리뷰 수정 기능 준비 중입니다.')">수정</button>
+                <button type="button" class="btn-review-del" onclick="deleteReviewCard(this)">삭제</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- [뷰 14] 배송지 관리 (Shipping Management) 화면 -->
+      <div id="view-shipping" class="mobile-view">
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-shipping-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo" style="margin-left: 20px;">
+            <span class="service-logo-text">배송지 관리</span>
+          </div>
+          <div class="header-actions">
+            <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+
+          </div>
+        </header>
+
+        <div class="service-content shipping-content">
+          <!-- 새 배송지 추가 CTA 버튼 -->
+          <button type="button" class="btn-add-shipping" onclick="openAddShippingModal()">
+            <span class="material-symbols-outlined">add</span>
+            새 배송지 추가
+          </button>
+
+          <!-- 배송지 리스트 -->
+          <div class="shipping-list" id="shipping-list-container">
+            <!-- 기본 배송지 -->
+            <div class="shipping-card default-card">
+              <div class="shipping-card-header">
+                <div class="shipping-recipient">
+                  <strong class="name">김뷰라이트</strong>
+                  <span class="badge-default">기본 배송지</span>
+                </div>
+                <span class="phone">010-1234-5678</span>
+              </div>
+              <p class="shipping-address">
+                (06123) 서울특별시 강남구 테헤란로 123 뷰라이트 타워 802호
+              </p>
+              <p class="shipping-memo">📌 메모: 부재 시 문 앞에 놓고 벨 눌러주세요.</p>
+              <div class="shipping-card-actions">
+                <button type="button" class="btn-shipping-action" onclick="openAddShippingModal('edit', '김뷰라이트', '010-1234-5678', '06123', '서울특별시 강남구 테헤란로 123 뷰라이트 타워 802호', '부재 시 문 앞에 놓고 벨 눌러주세요.')">수정</button>
+              </div>
+            </div>
+
+            <!-- 추가 배송지 -->
+            <div class="shipping-card">
+              <div class="shipping-card-header">
+                <div class="shipping-recipient">
+                  <strong class="name">김뷰라이트 (회사)</strong>
+                </div>
+                <span class="phone">010-1234-5678</span>
+              </div>
+              <p class="shipping-address">
+                (06543) 서울특별시 서초구 서초대로 456 판교IT밸리 3층 뷰라이트 Lab
+              </p>
+              <p class="shipping-memo">📌 메모: 경비실에 맡겨주세요.</p>
+              <div class="shipping-card-actions">
+                <button type="button" class="btn-shipping-set-default" onclick="setDefaultShipping(this)">기본 배송지로 설정</button>
+                <button type="button" class="btn-shipping-action" onclick="openAddShippingModal('edit', '김뷰라이트 (회사)', '010-1234-5678', '06543', '서울특별시 서초구 서초대로 456 판교IT밸리 3층', '경비실에 맡겨주세요.')">수정</button>
+                <button type="button" class="btn-shipping-action del" onclick="deleteShippingCard(this)">삭제</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- [뷰 15] 고객센터 (Customer Center) 화면 -->
+      <div id="view-customer-center" class="mobile-view">
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-cs-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo" style="margin-left: 20px;">
+            <span class="service-logo-text">고객센터</span>
+          </div>
+          <div class="header-actions">
+            <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+
+          </div>
+        </header>
+
+        <div class="service-content cs-content">
+          <!-- 검색바 -->
+          <div class="cs-search-box">
+            <span class="material-symbols-outlined search-icon">search</span>
+            <input type="text" class="cs-search-input" id="cs-search-input" placeholder="궁금하신 내용을 검색해보세요 (예: 배송, 교환)" oninput="filterFaqItems(this.value)">
+          </div>
+
+          <!-- FAQ 카테고리 칩 -->
+          <div class="cs-category-row">
+            <button type="button" class="cs-cat-chip active" onclick="filterFaqCategory('all', this)">전체</button>
+            <button type="button" class="cs-cat-chip" onclick="filterFaqCategory('delivery', this)">배송/주문</button>
+            <button type="button" class="cs-cat-chip" onclick="filterFaqCategory('return', this)">반품/교환</button>
+            <button type="button" class="cs-cat-chip" onclick="filterFaqCategory('product', this)">상품/AS</button>
+            <button type="button" class="cs-cat-chip" onclick="filterFaqCategory('app', this)">스마트App</button>
+          </div>
+
+          <!-- FAQ 아코디언 리스트 -->
+          <div class="faq-accordion-list">
+            <h4 class="cs-section-title">자주 묻는 질문 (FAQ)</h4>
+
+            <div class="faq-item" data-category="app">
+              <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="badge-q">Q</span>
+                <span class="q-text">AI 공간 분석 서비스는 어떻게 이용하나요?</span>
+                <span class="material-symbols-outlined faq-arrow">expand_more</span>
+              </div>
+              <div class="faq-answer">
+                <p>홈 화면 상단의 '3초 AI 공간 분석' 버튼을 누른 후, 카메라로 방 전체 모습을 촬영하거나 기존 사진을 업로드하시면 인공지능 비전 기술이 공간의 수평과 조도를 정밀 분석하여 최적의 무드등을 추천합니다.</p>
+              </div>
+            </div>
+
+            <div class="faq-item" data-category="delivery">
+              <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="badge-q">Q</span>
+                <span class="q-text">배송 소요 기간은 얼마나 걸리나요?</span>
+                <span class="material-symbols-outlined faq-arrow">expand_more</span>
+              </div>
+              <div class="faq-answer">
+                <p>평일 오후 2시 이전 주문건은 당일 출고되며, 일반 택배는 1~2일 소요됩니다. 수공예 디자이너 무드등 제품은 제작 및 품질 검수 과정을 거쳐 3~5일 소요될 수 있습니다.</p>
+              </div>
+            </div>
+
+            <div class="faq-item" data-category="return">
+              <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="badge-q">Q</span>
+                <span class="q-text">무료 교환 및 반품 신청 절차는?</span>
+                <span class="material-symbols-outlined faq-arrow">expand_more</span>
+              </div>
+              <div class="faq-answer">
+                <p>상품 수령 후 7일 이내 마이페이지 주문 내역 또는 1:1 문의를 통해 신청하실 수 있습니다. 단순 변심인 경우라도 파손 없는 미개봉 제품에 한해 무료 회수 택배 배차를 지원합니다.</p>
+              </div>
+            </div>
+
+            <div class="faq-item" data-category="product">
+              <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="badge-q">Q</span>
+                <span class="q-text">조명 무상 A/S 기간은 어떻게 되나요?</span>
+                <span class="material-symbols-outlined faq-arrow">expand_more</span>
+              </div>
+              <div class="faq-answer">
+                <p>ViewLight 전 제품은 구매일로부터 2년간 무상 품질 보증(A/S)을 제공합니다. LED 어댑터 및 센서 부품 하차 시 100% 1:1 새제품 무상 교환 처리해드립니다.</p>
+              </div>
+            </div>
+
+            <div class="faq-item" data-category="app">
+              <div class="faq-question" onclick="toggleFaq(this)">
+                <span class="badge-q">Q</span>
+                <span class="q-text">스마트 App 연동 기기가 검색되지 않을 때 해결법</span>
+                <span class="material-symbols-outlined faq-arrow">expand_more</span>
+              </div>
+              <div class="faq-answer">
+                <p>스마트폰의 블루투스 및 2.4GHz Wi-Fi가 켜져 있는지 확인하세요. 무드등 전원 버튼을 5초간 길게 눌러 램프가 빠르게 점멸하는 페어링 상태를 만든 후 앱에서 재검색 바랍니다.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1:1 문의 하단 카드 -->
+          <div class="cs-contact-card">
+            <div class="cs-contact-header">
+              <span class="material-symbols-outlined cs-icon">headset_mic</span>
+              <div>
+                <h4 class="cs-contact-title">1:1 맞춤 상담이 필요하신가요?</h4>
+                <p class="cs-contact-sub">뷰라이트 전문 라이팅 컨설턴트가 친절하게 답해드립니다.</p>
+              </div>
+            </div>
+            <button type="button" class="btn-cs-inquiry" onclick="openCsInquiryModal()">
+              <span class="material-symbols-outlined">chat</span>
+              1:1 문의 작성하기
+            </button>
+            <div class="cs-hotline-info">
+              <span>📞 고객센터: <strong>1588-0000</strong></span>
+              <span class="hours">(평일 09:00 ~ 18:00 / 주말·공휴일 휴무)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- [뷰 16] 설정 (Settings) 화면 -->
+      <div id="view-settings" class="mobile-view">
+        <header class="service-header">
+          <button type="button" class="header-icon-btn back-btn" id="btn-settings-back">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="service-logo" style="margin-left: 20px;">
+            <span class="service-logo-text">설정</span>
+          </div>
+          <div class="header-actions">
+            <a href="#notifications" class="header-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
+
+          </div>
+        </header>
+
+        <div class="service-content settings-content">
+          <!-- 설정 그룹 1: 계정 & 프로필 -->
+          <div class="settings-group">
+            <h4 class="settings-group-title">계정 관리</h4>
+            <div class="settings-row" onclick="alert('프로필 및 비밀번호 변경 페이지는 개발 중입니다.')">
+              <span class="settings-label">프로필 정보 수정</span>
+              <div class="settings-right">
+                <span class="settings-value">김뷰라이트</span>
+                <span class="material-symbols-outlined arrow">chevron_right</span>
+              </div>
+            </div>
+            <div class="settings-row" onclick="alert('결제 수단 관리 페이지로 이동합니다.')">
+              <span class="settings-label">등록된 결제 수단</span>
+              <div class="settings-right">
+                <span class="settings-value">신용카드 1건</span>
+                <span class="material-symbols-outlined arrow">chevron_right</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 설정 그룹 2: 푸시 알림 -->
+          <div class="settings-group">
+            <h4 class="settings-group-title">알림 설정</h4>
+            <div class="settings-row">
+              <div>
+                <span class="settings-label">주문 / 배송 알림</span>
+                <p class="settings-subtext">주문 처리 및 배송 추적 상태 알림</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked onchange="toggleSettingState('주문/배송 알림', this.checked)">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="settings-row">
+              <div>
+                <span class="settings-label">AI 앰비언트 케어 알림</span>
+                <p class="settings-subtext">공간 조도 변화 및 추천 무드 팁 알림</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked onchange="toggleSettingState('AI 앰비언트 케어 알림', this.checked)">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="settings-row">
+              <div>
+                <span class="settings-label">혜택 및 이벤트 알림</span>
+                <p class="settings-subtext">쿠폰팩 및 신제품 얼리버드 혜택</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" onchange="toggleSettingState('혜택/이벤트 알림', this.checked)">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 설정 그룹 3: 디스플레이 & 화면 효과 -->
+          <div class="settings-group">
+            <h4 class="settings-group-title">화면 & 효과</h4>
+            <div class="settings-row">
+              <div>
+                <span class="settings-label">앰비언트 GLOW 커서 효과</span>
+                <p class="settings-subtext">마우스 마이크로 빛 커서 반응 효과</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="setting-glow-cursor" onchange="toggleGlowCursorSetting(this.checked)">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="settings-row">
+              <div>
+                <span class="settings-label">다크 앰비언트 모드</span>
+                <p class="settings-subtext">눈이 편안한 프리미엄 다크 테마</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" onchange="toggleSettingState('다크 모드', this.checked)">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 설정 그룹 4: 앱 정보 및 약관 -->
+          <div class="settings-group">
+            <h4 class="settings-group-title">정보 & 지원</h4>
+            <div class="settings-row" onclick="openInfoModal('notice')">
+              <span class="settings-label">서비스 이용약관</span>
+              <span class="material-symbols-outlined arrow">chevron_right</span>
+            </div>
+            <div class="settings-row" onclick="openInfoModal('notice')">
+              <span class="settings-label">개인정보 처리방침</span>
+              <span class="material-symbols-outlined arrow">chevron_right</span>
+            </div>
+            <div class="settings-row">
+              <span class="settings-label">앱 버전</span>
+              <span class="settings-value version">v2.4.0 (최신 버전)</span>
+            </div>
+          </div>
+
+          <!-- 탈퇴 / 로그아웃 -->
+          <div class="settings-footer-actions">
+            <button type="button" class="btn-settings-logout" onclick="alert('로그아웃 되었습니다.')">로그아웃</button>
+            <button type="button" class="btn-settings-withdraw" onclick="confirm('정말 회원 탈퇴를 진행하시겠습니까?')">회원 탈퇴</button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- [고정 하단 탭바] -->
+      <nav class="mobile-bottom-tabbar">
+        <a href="#home" class="tab-item active">
+          <span class="material-symbols-outlined">home</span>
+          <span class="tab-label">홈</span>
+        </a>
+        <a href="#search" class="tab-item">
+          <span class="material-symbols-outlined">search</span>
+          <span class="tab-label">검색</span>
+        </a>
+        <a href="#ai" class="tab-item">
+          <span class="material-symbols-outlined">auto_awesome</span>
+          <span class="tab-label">AI 큐레이션</span>
+        </a>
+        <a href="#cart" class="tab-item" id="tab-cart">
+          <span class="tab-icon-wrap">
+            <span class="material-symbols-outlined">shopping_bag</span>
+            <span class="cart-badge" id="cart-badge" style="display:none;">0</span>
+          </span>
+          <span class="tab-label">장바구니</span>
+        </a>
+        <a href="#mypage" class="tab-item">
+          <span class="material-symbols-outlined">person</span>
+          <span class="tab-label">마이페이지</span>
+        </a>
+      </nav>
+
+      <!-- 1. AI 공간 분석 가이드 모달 -->
+      <div id="scan-guide-modal" class="modal-wrapper">
+        <div class="modal-backdrop" id="guide-backdrop"></div>
+        <div class="modal-card guide-card">
+          <button type="button" class="modal-close-btn" id="btn-guide-close-top">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+          
+          <div class="guide-header">
+            <h3 class="guide-title">AI 공간 분석 가이드</h3>
+            <p class="guide-subtitle">더 정확한 조명 추천을 위해<br>아래 가이드에 따라 촬영해 주세요.</p>
+          </div>
+
+          <div class="guide-list">
+            <div class="guide-item">
+              <div class="guide-icon-box">
+                <span class="material-symbols-outlined">photo_camera_back</span>
+              </div>
+              <div class="guide-info">
+                <h4 class="guide-item-title">공간 전체 촬영</h4>
+                <p class="guide-item-desc">방 전체가 잘 보이도록 구도를 잡고 촬영해 주세요.</p>
+              </div>
+            </div>
+
+            <div class="guide-item">
+              <div class="guide-icon-box">
+                <span class="material-symbols-outlined">crop_free</span>
+              </div>
+              <div class="guide-info">
+                <h4 class="guide-item-title">수평 맞추기</h4>
+                <p class="guide-item-desc">카메라를 수평으로 유지하면 더 정확한 분석이 가능합니다.</p>
+              </div>
+            </div>
+
+            <div class="guide-item">
+              <div class="guide-icon-box">
+                <span class="material-symbols-outlined">cleaning_services</span>
+              </div>
+              <div class="guide-info">
+                <h4 class="guide-item-title">불필요한 장애물 제거</h4>
+                <p class="guide-item-desc">분석을 방해하는 작은 물건들은 치워주시는 것이 좋습니다.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="guide-actions">
+            <button type="button" id="btn-guide-start" class="btn btn-primary btn-guide-cta">
+              <span class="material-symbols-outlined">photo_camera</span> 스캔 시작하기
+            </button>
+            <div class="guide-links-row">
+              <button type="button" id="btn-guide-cancel" class="btn-guide-cancel-link">나중에 하기</button>
+              <button type="button" id="btn-guide-skip" class="btn-guide-skip-link">생략하기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 카메라 스캔 시뮬레이션 모달 -->
+      <div id="camera-scan-modal" class="modal-wrapper">
+        <div class="camera-viewfinder" style="background-image: url('img/livingroom.jpg');">
+          <!-- 상단 툴바 -->
+          <div class="camera-header">
+            <button type="button" id="btn-camera-close" class="camera-icon-btn">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="camera-status-pill">
+              <span class="status-dot-blink"></span>
+              <span>AI 카메라 활성화 중</span>
+            </div>
+            <button type="button" class="camera-icon-btn">
+              <span class="material-symbols-outlined">grid_on</span>
+            </button>
+          </div>
+
+          <!-- 수평 및 대상 감지 가이드 오버레이 -->
+          <div class="viewfinder-ar-overlay">
+            <div class="horizontal-level-indicator">
+              <span class="level-badge" id="level-badge-text">수평 맞추는 중</span>
+              <div class="level-line">
+                <div class="level-center-dot"></div>
+              </div>
+            </div>
+
+            <div class="ar-target-box" id="ar-target-box">
+              <div class="ar-corner tl"></div>
+              <div class="ar-corner tr"></div>
+              <div class="ar-corner bl"></div>
+              <div class="ar-corner br"></div>
+              <span class="ar-target-label">공간 감지 영역</span>
+              
+              <!-- 추천 설치 위치 오커스 가이드 -->
+              <div class="ar-lamp-pin" id="ar-lamp-pin">
+                <div class="pin-ring"></div>
+                <div class="pin-dot">
+                  <span class="material-symbols-outlined">lightbulb</span>
+                </div>
+                <div class="pin-label-box">
+                  <span class="pin-title">추천 설치 위치</span>
+                  <span class="pin-subtitle">이곳에 조명을 두면 어떨까요?</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="ar-hint-text">카메라 수평이 맞춰지면 자동으로 스캔이 시작됩니다.</div>
+          </div>
+
+          <!-- 하단 제어 바텀시트 -->
+          <div class="camera-bottom-sheet">
+            <div class="sheet-drag-handle"></div>
+            
+            <div class="sheet-progress-section">
+              <div class="progress-info-row">
+                <div class="progress-badge">AI 큐레이션</div>
+                <div class="progress-pct" id="camera-progress-pct">0%</div>
+              </div>
+              <div class="sheet-progress-bar-container">
+                <div class="sheet-progress-bar-fill" id="camera-progress-fill" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <!-- 진단 내역 -->
+            <div class="scanning-logs-box">
+              <div class="log-item" id="log-item-1">
+                <span class="material-symbols-outlined log-status-icon">circle</span>
+                <span class="log-text">가구 배치 구조 감지...</span>
+              </div>
+              <div class="log-item" id="log-item-2">
+                <span class="material-symbols-outlined log-status-icon">circle</span>
+                <span class="log-text">사물 조도(밝기) 분석...</span>
+              </div>
+              <div class="log-item" id="log-item-3">
+                <span class="material-symbols-outlined log-status-icon">circle</span>
+                <span class="log-text">인테리어 분위기 매칭...</span>
+              </div>
+            </div>
+
+            <!-- 하단 버튼 세트 -->
+            <div class="camera-actions-row">
+              <button type="button" id="btn-camera-retake" class="btn-camera-action secondary">다시 촬영</button>
+              <button type="button" id="btn-camera-view-result" class="btn-camera-action primary disabled" disabled>
+                <span class="material-symbols-outlined">bar_chart</span> AI 분석 결과 보기
+              </button>
+            </div>
+          </div>
+
+    </main>
+
+    <!-- 3. 검색 모달창 (fixed — 뷰포트 전체 오버레이) -->
+    <div id="search-modal" class="fixed-modal-wrapper">
+      <div class="modal-backdrop" id="search-backdrop"></div>
+      <div class="modal-card search-card">
+        <!-- 상단 검색창 로우 -->
+        <div class="search-bar-row">
+          <div class="search-input-box">
+            <span class="material-symbols-outlined search-bar-icon">search</span>
+            <input type="text" id="search-input" placeholder="무드등이나 원하는 기능을 검색해 보세요..." autocomplete="off">
+          </div>
+          <button type="button" id="btn-search-cancel" class="btn-search-cancel-link">취소</button>
+        </div>
+
+        <!-- 인기 검색어 섹션 -->
+        <div class="search-section">
+          <h4 class="search-section-title">🔥 인기 검색어</h4>
+          <div class="trending-tags">
+            <button type="button" class="trend-tag" onclick="clickSearchKeyword('원목 무드등')">원목 무드등</button>
+            <button type="button" class="trend-tag" onclick="clickSearchKeyword('오로라 조명')">오로라 조명</button>
+            <button type="button" class="trend-tag" onclick="clickSearchKeyword('공간 분석')">공간 분석</button>
+            <button type="button" class="trend-tag" onclick="clickSearchKeyword('아우라 램프')">아우라 램프</button>
+            <button type="button" class="trend-tag" onclick="clickSearchKeyword('장바구니')">장바구니</button>
+            <button type="button" class="trend-tag" onclick="clickSearchKeyword('마이페이지')">마이페이지</button>
+          </div>
+        </div>
+
+        <!-- 최근 검색어 섹션 -->
+        <div class="search-section">
+          <h4 class="search-section-title">🕒 최근 검색어</h4>
+          <div class="recent-search-list" id="recent-search-container">
+            <div class="search-empty-text" id="recent-search-empty">최근 검색한 내역이 없습니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 알림 모달창 (fixed — 뷰포트 전체 오버레이) -->
+    <div id="notification-modal" class="fixed-modal-wrapper">
+      <div class="modal-backdrop" id="noti-backdrop"></div>
+      <div class="modal-card noti-card">
+        <!-- 헤더 -->
+        <div class="noti-modal-header">
+          <h3 class="noti-modal-title">🔔 실시간 알림 센터</h3>
+          <button type="button" id="btn-noti-close" class="noti-modal-close-btn">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+
+        <!-- 알림 리스트 -->
+        <div class="noti-modal-body">
+          <!-- 알림 1: 공간분석 완성 -->
+          <div class="noti-item new" onclick="showView('curation-report'); document.getElementById('notification-modal').classList.remove('active');">
+            <span class="material-symbols-outlined noti-item-icon color-primary">auto_awesome</span>
+            <div class="noti-item-content">
+              <h4 class="noti-item-title">[AI 큐레이션] 방 분석 완료!</h4>
+              <p class="noti-item-text">당신의 거실 공간 분석 리포트가 발급되었습니다. 지금 바로 확인해 보세요.</p>
+              <span class="noti-item-time">방금 전</span>
+            </div>
+          </div>
+
+          <!-- 알림 2: 첫 가입 쿠폰 -->
+          <div class="noti-item" onclick="showView('mypage'); document.getElementById('notification-modal').classList.remove('active');">
+            <span class="material-symbols-outlined noti-item-icon color-blue">local_activity</span>
+            <div class="noti-item-content">
+              <h4 class="noti-item-title">[웰컴 혜택] 15% 할인 세트 쿠폰 발급</h4>
+              <p class="noti-item-text">가구 매칭 조명 세트 구매 시 사용 가능한 15% 할인 웰컴 쿠폰이 쿠폰함에 보관되었습니다.</p>
+              <span class="noti-item-time">2시간 전</span>
+            </div>
+          </div>
+
+          <!-- 알림 3: 배송 알림 -->
+          <div class="noti-item" onclick="showView('mypage'); document.getElementById('notification-modal').classList.remove('active');">
+            <span class="material-symbols-outlined noti-item-icon color-green">local_shipping</span>
+            <div class="noti-item-content">
+              <h4 class="noti-item-title">[주문 배송] 배송 출발 안내</h4>
+              <p class="noti-item-text">주문하신 '오로라 브라스 펜던트' 상품의 배송 차량 배차가 완료되어 안전하게 출발했습니다.</p>
+              <span class="noti-item-time">어제</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 전체 지우기 버튼 -->
+        <div class="noti-modal-footer">
+          <button type="button" class="btn-noti-clear-all" onclick="clearAllNotifications()">모든 알림 읽음 처리</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. 이미지 뷰어 모달 (BNA 이미지 클릭 시 노출) -->
+    <div id="image-viewer-modal" class="fixed-modal-wrapper" onclick="closeImageViewer()">
+      <div class="img-viewer-backdrop"></div>
+      <div class="img-viewer-card" onclick="event.stopPropagation()">
+        <button type="button" class="img-viewer-close-btn" onclick="closeImageViewer()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+        <div class="img-viewer-body">
+          <img id="img-viewer-src" src="" alt="" class="img-viewer-img">
+        </div>
+        <div class="img-viewer-caption" id="img-viewer-caption"></div>
+      </div>
+    </div>
+
+    <!-- 6. 15% 쿠폰팩 즉시 다운로드 모달 (fixed — 뷰포트 전체 오버레이) -->
+    <div id="coupon-modal" class="fixed-modal-wrapper">
+      <div class="modal-backdrop" id="coupon-backdrop"></div>
+      <div class="modal-card coupon-modal-card">
+        <button type="button" class="coupon-modal-close-btn" id="btn-coupon-close">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+        
+        <div class="coupon-modal-header">
+          <div class="coupon-badge-top">✨ WELCOME GIFT PACK</div>
+          <h3 class="coupon-modal-title">뷰라이트 15% 웰컴 쿠폰팩</h3>
+          <p class="coupon-modal-sub">첫 방문 고객님을 위한 특별 혜택! 한 번의 클릭으로 3종 쿠폰을 모두 받아보세요.</p>
+        </div>
+
+        <div class="coupon-modal-body">
+          <!-- 쿠폰 카드 1: 15% 세트 할인 -->
+          <div class="coupon-ticket-card">
+            <div class="ticket-cutout cutout-top"></div>
+            <div class="ticket-cutout cutout-bottom"></div>
+            <div class="ticket-left disc-15">
+              <div class="ticket-disc-val">15<span class="unit">%</span></div>
+              <div class="ticket-disc-type">OFF</div>
+            </div>
+            <div class="ticket-divider"></div>
+            <div class="ticket-right">
+              <div class="ticket-header-row">
+                <span class="ticket-tag tag-primary">BEST</span>
+                <span class="ticket-status-badge" id="badge-status-1">미발급</span>
+              </div>
+              <h4 class="ticket-title">첫 방문 15% 세트 할인 쿠폰</h4>
+              <p class="ticket-desc">가구 매칭 조명 세트 구매 시 15% 즉시 할인 (최대 5만원)</p>
+              <div class="ticket-expiry">유효기간: 발급일로부터 30일 이내</div>
+            </div>
+          </div>
+
+          <!-- 쿠폰 카드 2: 전상품 무료 배송 -->
+          <div class="coupon-ticket-card">
+            <div class="ticket-cutout cutout-top"></div>
+            <div class="ticket-cutout cutout-bottom"></div>
+            <div class="ticket-left free-ship">
+              <div class="ticket-disc-val">FREE</div>
+              <div class="ticket-disc-type">DELIVERY</div>
+            </div>
+            <div class="ticket-divider"></div>
+            <div class="ticket-right">
+              <div class="ticket-header-row">
+                <span class="ticket-tag tag-blue">전고객</span>
+                <span class="ticket-status-badge" id="badge-status-2">미발급</span>
+              </div>
+              <h4 class="ticket-title">전 상품 무료 배송 혜택</h4>
+              <p class="ticket-desc">구매 금액 상관없이 전국 무료 배송 제공</p>
+              <div class="ticket-expiry">유효기간: 발급일로부터 30일 이내</div>
+            </div>
+          </div>
+
+          <!-- 쿠폰 카드 3: AI 공간 분석 감사 5,000원 추가 할인 -->
+          <div class="coupon-ticket-card">
+            <div class="ticket-cutout cutout-top"></div>
+            <div class="ticket-cutout cutout-bottom"></div>
+            <div class="ticket-left extra-disc">
+              <div class="ticket-disc-val">5,000<span class="unit">원</span></div>
+              <div class="ticket-disc-type">BONUS</div>
+            </div>
+            <div class="ticket-divider"></div>
+            <div class="ticket-right">
+              <div class="ticket-header-row">
+                <span class="ticket-tag tag-purple">AI 큐레이션</span>
+                <span class="ticket-status-badge" id="badge-status-3">미발급</span>
+              </div>
+              <h4 class="ticket-title">AI 공간 분석 감사 5,000원 추가 할인</h4>
+              <p class="ticket-desc">3초 AI 공간 분석 서비스 이용 시 중복 적용 가능</p>
+              <div class="ticket-expiry">유효기간: 발급일로부터 30일 이내</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="coupon-modal-footer">
+          <button type="button" class="btn-claim-coupons" id="btn-claim-coupons">
+            <span class="material-symbols-outlined icon-claim">download</span>
+            <span id="claim-btn-text">✨ 15% 쿠폰팩 받기</span>
+          </button>
+          <div id="coupon-toast-msg" class="coupon-toast-msg">
+            <span class="material-symbols-outlined">check_circle</span>
+            쿠폰팩 3종이 쿠폰함에 정상 발급되었습니다!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI 공간 분석 설명 모달 -->
+    <div id="ai-tech-modal" class="fixed-modal-wrapper">
+      <div class="modal-backdrop" onclick="closeAiTechModal();"></div>
+      <div class="ai-tech-modal-card">
+        <button type="button" class="modal-close-btn" onclick="closeAiTechModal();">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+        
+        <div class="ai-tech-modal-header">
+          <span class="ai-tech-modal-badge">✨ AMBIENT TECH</span>
+          <h3 class="ai-tech-modal-title">ViewLight AI 공간 분석</h3>
+          <p class="ai-tech-modal-sub">인공지능 비전 기술로 완성하는 최적의 라이팅 큐레이션</p>
+        </div>
+
+        <div class="ai-tech-step-list">
+          <div class="ai-tech-step-item">
+            <div class="step-num-badge">01</div>
+            <div class="step-content">
+              <h4>공간 구조 & 비전 3초 분석</h4>
+              <p>방의 크기, 천장 높이, 가구 배치 및 벽면의 빛 반사율을 실시간 AI 컴퓨터 비전으로 정밀 파악합니다.</p>
+            </div>
+          </div>
+
+          <div class="ai-tech-step-item">
+            <div class="step-num-badge">02</div>
+            <div class="step-content">
+              <h4>맞춤형 앰비언트 무드 큐레이션</h4>
+              <p>휴식, 수면, 집중, 독서 등 사용자의 라이프스타일에 맞춘 2,700K~6,500K 맞춤 조도를 자동 설계합니다.</p>
+            </div>
+          </div>
+
+          <div class="ai-tech-step-item">
+            <div class="step-num-badge">03</div>
+            <div class="step-content">
+              <h4>Before & After 시뮬레이션</h4>
+              <p>조명 설치 전후의 드라마틱한 분위기 변화를 AR 및 3D 렌더링으로 미리 확인하고 선택할 수 있습니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-tech-modal-actions">
+          <button type="button" id="btn-tech-modal-bna" class="btn-tech-modal-bna" onclick="closeAiTechModal(); showView('bna-all');">
+            <span class="material-symbols-outlined">compare</span>
+            <span>Before & After 바로가기 ➔</span>
+          </button>
+          <button type="button" id="btn-tech-modal-scan" class="btn-tech-modal-scan" onclick="closeAiTechModal(); showView('scan');">
+            <span>3초 AI 분석 시작하기</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 공지사항 / 이벤트 / 고객센터 심플 모달 -->
+    <div id="simple-info-modal" class="fixed-modal-wrapper">
+      <div class="modal-backdrop" onclick="closeInfoModal();"></div>
+      <div class="simple-info-modal-card">
+        <button type="button" class="modal-close-btn" onclick="closeInfoModal();">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+
+        <div class="simple-info-header">
+          <span id="info-modal-badge" class="info-modal-badge">NOTICE</span>
+          <h3 id="info-modal-title" class="info-modal-title">공지사항</h3>
+        </div>
+
+        <div id="info-modal-body" class="simple-info-body">
+          <!-- Dynamic Content -->
+        </div>
+
+        <div class="simple-info-footer">
+          <button type="button" class="btn-info-modal-confirm" onclick="closeInfoModal();">확인</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 리뷰 작성 서브 모달 -->
+    <div id="write-review-modal" class="fixed-modal-wrapper">
+      <div class="modal-backdrop" onclick="closeWriteReviewModal();"></div>
+      <div class="write-review-modal-card">
+        <button type="button" class="modal-close-btn" onclick="closeWriteReviewModal();">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+        
+        <div class="review-modal-header">
+          <h3 class="review-modal-title">리뷰 작성하기</h3>
+          <p class="review-modal-sub" id="review-modal-target-name">Luna Table Lamp</p>
+        </div>
+
+        <div class="review-modal-body">
+          <div class="star-rating-picker">
+            <span class="rating-label">만족도 평가</span>
+            <div class="stars-row" id="review-star-picker">
+              <span class="material-symbols-outlined star-icon active" onclick="setReviewRating(1)">star</span>
+              <span class="material-symbols-outlined star-icon active" onclick="setReviewRating(2)">star</span>
+              <span class="material-symbols-outlined star-icon active" onclick="setReviewRating(3)">star</span>
+              <span class="material-symbols-outlined star-icon active" onclick="setReviewRating(4)">star</span>
+              <span class="material-symbols-outlined star-icon active" onclick="setReviewRating(5)">star</span>
+            </div>
+          </div>
+
+          <div class="review-input-group">
+            <label class="review-label">솔직한 후기를 남겨주세요</label>
+            <textarea class="review-textarea" id="review-input-text" placeholder="공간 분위기가 어떻게 바뀌었는지, 조도 및 사용감에 대해 자세히 적어주시면 다른 고객분들께 큰 도움이 됩니다." rows="4"></textarea>
+          </div>
+
+          <div class="review-photo-upload-box" onclick="document.getElementById('review-image-input').click();">
+            <input type="file" id="review-image-input" accept="image/*" style="display: none;" onchange="window.handleReviewImageUpload(event)">
+            <span class="material-symbols-outlined upload-icon">add_a_photo</span>
+            <span class="upload-text" id="upload-box-text">사진 첨부하기 (선택)</span>
+          </div>
+          <div class="review-image-preview-container" id="review-image-preview-container">
+            <img id="review-image-preview" src="" alt="Preview">
+            <button type="button" class="preview-remove-btn" onclick="window.clearReviewImage(event)">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="review-modal-footer">
+          <button type="button" class="btn-submit-review" onclick="submitReviewForm()">✨ 리뷰 등록하고 1,000P 받기</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 새 배송지 추가 모달 -->
+    <div id="add-shipping-modal" class="fixed-modal-wrapper">
+      <div class="modal-backdrop" onclick="closeAddShippingModal();"></div>
+      <div class="shipping-modal-card">
+        <button type="button" class="modal-close-btn" onclick="closeAddShippingModal();">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+        
+        <div class="shipping-modal-header">
+          <h3 class="shipping-modal-title" id="shipping-modal-title">새 배송지 추가</h3>
+        </div>
+
+        <div class="shipping-modal-body">
+          <div class="form-group">
+            <label>받는 분</label>
+            <input type="text" id="ship-input-name" placeholder="이름을 입력하세요" class="modal-input">
+          </div>
+          <div class="form-group">
+            <label>연락처</label>
+            <input type="tel" id="ship-input-phone" placeholder="010-0000-0000" class="modal-input">
+          </div>
+          <div class="form-group">
+            <label>주소</label>
+            <div class="zipcode-row">
+              <input type="text" id="ship-input-zip" placeholder="우편번호" class="modal-input zip" readonly value="06123">
+              <button type="button" class="btn-zip-search" onclick="alert('우편번호 검색 서비스가 호출되었습니다.')">우편번호 검색</button>
+            </div>
+            <input type="text" id="ship-input-addr" placeholder="기본 주소 입력" class="modal-input addr">
+          </div>
+          <div class="form-group">
+            <label>배송 요청사항</label>
+            <input type="text" id="ship-input-memo" placeholder="예: 부재 시 문 앞에 놓아주세요" class="modal-input">
+          </div>
+        </div>
+
+        <div class="shipping-modal-footer">
+          <button type="button" class="btn-save-shipping" onclick="saveShippingAddress()">배송지 저장</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1:1 문의 작성 모달 -->
+    <div id="cs-inquiry-modal" class="fixed-modal-wrapper">
+      <div class="modal-backdrop" onclick="closeCsInquiryModal();"></div>
+      <div class="cs-inquiry-modal-card">
+        <button type="button" class="modal-close-btn" onclick="closeCsInquiryModal();">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+
+        <div class="cs-modal-header">
+          <h3 class="cs-modal-title">1:1 문의 작성하기</h3>
+          <p class="cs-modal-sub">궁금하신 사항을 남겨주시면 담당자가 빠른 시일 내에 답변 드립니다.</p>
+        </div>
+
+        <div class="cs-modal-body">
+          <div class="form-group">
+            <label>문의 유형</label>
+            <select id="cs-inquiry-type" class="modal-select">
+              <option value="delivery">배송 / 주문 문의</option>
+              <option value="product">상품 사용 / AS 문의</option>
+              <option value="return">교환 / 반품 문의</option>
+              <option value="other">기타 문의</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>문의 내용</label>
+            <textarea id="cs-inquiry-text" class="modal-textarea" rows="4" placeholder="문의하실 내용을 상세히 기재해 주세요."></textarea>
+          </div>
+        </div>
+
+        <div class="cs-modal-footer">
+          <button type="button" class="btn-submit-inquiry" onclick="submitCsInquiry()">문의 제출하기</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 로그인 / 회원가입 모달 -->
+    <div id="login-modal" class="fixed-modal-wrapper">
+      <div class="modal-backdrop" onclick="closeLoginModal();"></div>
+      <div class="login-modal-card">
+        <button type="button" class="modal-close-btn" onclick="closeLoginModal();">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+
+        <div class="login-modal-header">
+          <div class="login-logo">
+            <span class="login-logo-text">ViewLight</span>
+          </div>
+          <h3 class="login-modal-title" id="login-modal-title">로그인</h3>
+          <p class="login-modal-sub" id="login-modal-sub">ViewLight 회원만을 위한 특별한 조명 제어 혜택을 누리세요.</p>
+        </div>
+
+        <!-- 1. 소셜 로그인 버튼 영역 -->
+        <div class="social-login-group">
+          <button type="button" class="btn-social btn-kakao" onclick="handleSocialLogin('Kakao')">
+            <img src="img/카카오톡이미지.jpg" alt="Kakao Logo" class="social-icon-img">
+            <span class="social-text">카카오로 3초 만에 시작하기</span>
+          </button>
+          <button type="button" class="btn-social btn-google" onclick="handleSocialLogin('Google')">
+            <svg class="google-icon" viewBox="0 0 24 24" width="18" height="18">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l3.66-2.85z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.85c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            <span class="social-text">Google 계정으로 시작하기</span>
+          </button>
+          <button type="button" class="btn-social btn-apple" onclick="handleSocialLogin('Apple')">
+            <svg class="apple-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-.96.04-2.13.64-2.82 1.45-.6.69-1.12 1.83-1.0 2.94.9.07 2.01-.52 2.83-1.33z"/>
+            </svg>
+            <span class="social-text">Apple로 로그인</span>
+          </button>
+        </div>
+
+        <div class="login-divider">
+          <span>또는 이메일로 시작하기</span>
+        </div>
+
+        <!-- 2. 이메일 로그인 폼 -->
+        <div id="login-form-wrapper" class="login-form-wrapper">
+          <form id="form-email-login" onsubmit="handleEmailLogin(event)">
+            <div class="form-group">
+              <label for="login-email">이메일 주소</label>
+              <input type="email" id="login-email" class="modal-input" placeholder="example@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="login-password">비밀번호</label>
+              <input type="password" id="login-password" class="modal-input" placeholder="비밀번호를 입력하세요" required>
+            </div>
+            <div id="password-find-wrapper" style="display: none; margin-bottom: 12px; text-align: right;">
+              <button type="button" class="btn-find-password" onclick="switchLoginTab('find-password')" style="background: none; border: none; color: #FF9800; font-size: 0.8rem; font-weight: 700; text-decoration: underline; cursor: pointer;">비밀번호 찾기 / 변경하기</button>
+            </div>
+            <button type="submit" class="btn-login-submit">로그인</button>
+          </form>
+          <div class="login-switch-prompt">
+            아직 회원이 아니신가요? 
+            <button type="button" class="btn-switch-tab" onclick="switchLoginTab('signup')">이메일로 가입하기</button>
+          </div>
+        </div>
+
+        <!-- 3. 이메일 회원가입 폼 (기본 숨김) -->
+        <div id="signup-form-wrapper" class="login-form-wrapper" style="display: none;">
+          <form id="form-email-signup" onsubmit="handleEmailSignup(event)">
+            <div class="form-group">
+              <label for="signup-email">이메일 주소</label>
+              <input type="email" id="signup-email" class="modal-input" placeholder="example@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="signup-password">비밀번호</label>
+              <input type="password" id="signup-password" class="modal-input" placeholder="8자 이상 입력하세요" minlength="8" required>
+            </div>
+            <div class="form-group">
+              <label for="signup-password-confirm">비밀번호 확인</label>
+              <input type="password" id="signup-password-confirm" class="modal-input" placeholder="비밀번호를 한번 더 입력하세요" required>
+            </div>
+            <button type="submit" class="btn-login-submit btn-signup-submit">가입하기</button>
+          </form>
+          <div class="login-switch-prompt">
+            이미 계정이 있으신가요? 
+            <button type="button" class="btn-switch-tab" onclick="switchLoginTab('login')">로그인하기</button>
+          </div>
+        </div>
+
+        <!-- 4. 이메일 비밀번호 찾기/변경 폼 (기본 숨김) -->
+        <div id="find-password-form-wrapper" class="login-form-wrapper" style="display: none;">
+          <form id="form-email-find-password" onsubmit="handleResetPassword(event)">
+            <div class="form-group">
+              <label for="find-email">가입된 이메일 주소</label>
+              <input type="email" id="find-email" class="modal-input" placeholder="example@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="find-new-password">새 비밀번호</label>
+              <input type="password" id="find-new-password" class="modal-input" placeholder="새 비밀번호 (8자 이상)" minlength="8" required>
+            </div>
+            <div class="form-group">
+              <label for="find-new-password-confirm">새 비밀번호 확인</label>
+              <input type="password" id="find-new-password-confirm" class="modal-input" placeholder="새 비밀번호를 한번 더 입력하세요" required>
+            </div>
+            <button type="submit" class="btn-login-submit btn-find-submit">비밀번호 변경 완료</button>
+          </form>
+          <div class="login-switch-prompt">
+            다시 로그인 화면으로 돌아가시겠습니까? 
+            <button type="button" class="btn-switch-tab" onclick="switchLoginTab('login')">로그인하기</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 19. 추천 무드등 전체보기 모달 -->
+    <div id="rec-all-modal" class="fixed-modal-wrapper">
+      <div class="modal-backdrop" onclick="closeRecAllModal()"></div>
+      <div class="rec-all-modal-card">
+        <!-- 모달 헤더 -->
+        <div class="rec-all-modal-header">
+          <div>
+            <h3 class="rec-all-modal-title">✨ 추천 무드등 전체</h3>
+            <p class="rec-all-modal-sub" id="rec-all-sub-text">리포트의 모든 추천 조명을 확인하고 선택하세요</p>
+          </div>
+          <button type="button" class="modal-close-btn" style="position: static; margin: 0;" onclick="closeRecAllModal()">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+
+        <!-- 선택 통계 바 -->
+        <div class="rec-all-select-bar">
+          <span class="rec-all-select-count" id="rec-all-select-count">0개 선택됨</span>
+          <button type="button" class="rec-all-select-all-btn" id="rec-all-toggle-all" onclick="toggleSelectAllRec()">전체 선택</button>
+        </div>
+
+        <!-- 아이템 리스트 스크롤 영역 -->
+        <div class="rec-all-list" id="rec-all-list">
+          <!-- JavaScript로 동적 생성 -->
+        </div>
+
+        <!-- 하단 선택 담기 버튼 -->
+        <div class="rec-all-footer">
+          <button type="button" class="rec-all-cart-btn" id="rec-all-cart-btn" onclick="addSelectedRecToCart()">
+            <span class="material-symbols-outlined">shopping_bag</span>
+            <span id="rec-all-cart-btn-text">선택 항목 장바구니에 담기</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 18. 프로필 수정 모달 -->
+    <div id="edit-profile-modal" class="fixed-modal-wrapper">
+      <div class="modal-backdrop" onclick="closeEditProfileModal();"></div>
+      <div class="login-modal-card" style="max-width: 340px;">
+        <button type="button" class="modal-close-btn" onclick="closeEditProfileModal();">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+        <div class="login-modal-header" style="margin-bottom: 20px;">
+          <h3 class="login-modal-title">프로필 수정</h3>
+          <p class="login-modal-sub">이름(닉네임)과 프로필 이미지를 설정해보세요.</p>
+        </div>
+        <form id="form-edit-profile" onsubmit="handleSaveProfile(event)" style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="form-group">
+            <label for="edit-profile-name">닉네임</label>
+            <input type="text" id="edit-profile-name" class="modal-input" placeholder="닉네임을 입력하세요" required>
+          </div>
+          
+          <div class="form-group">
+            <label style="color: var(--color-text-main, #121826) !important; font-weight: 800; display: block; margin-bottom: 6px;">프로필 아바타 선택</label>
+            <div class="avatar-presets-grid" style="display: flex; gap: 12px; margin-top: 8px;">
+              <div class="avatar-preset-item active" onclick="selectAvatarPreset('img/Stand01.jpg', this)" style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid var(--color-primary); transition: all 0.2s; flex-shrink: 0;">
+                <img src="img/Stand01.jpg" alt="Avatar 1" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <div class="avatar-preset-item" onclick="selectAvatarPreset('img/Stand02.png', this)" style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; flex-shrink: 0;">
+                <img src="img/Stand02.png" alt="Avatar 2" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <div class="avatar-preset-item" onclick="selectAvatarPreset('img/Stand03.png', this)" style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; flex-shrink: 0;">
+                <img src="img/Stand03.png" alt="Avatar 3" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <!-- 파일 업로드 아이콘 버튼 -->
+              <div class="avatar-preset-item custom-upload-btn-wrapper" style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px dashed #bbb; background-color: #f7f7f7; color: #666; transition: all 0.2s; position: relative; flex-shrink: 0;">
+                <span class="material-symbols-outlined" style="font-size: 20px;">add_a_photo</span>
+                <input type="file" id="avatar-file-input" accept="image/*" onchange="handleAvatarFileSelect(event)" style="position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 10;">
+              </div>
+            </div>
+          </div>
+          
+          <button type="submit" class="btn-login-submit" style="margin-top: 12px;">변경사항 저장</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+  <script src="cursor.js"></script>
+</body>
+</html>
