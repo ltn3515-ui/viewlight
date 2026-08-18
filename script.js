@@ -35,8 +35,48 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewProductDetail = document.getElementById('view-product-detail');
   const viewCheckout = document.getElementById('view-checkout');
   const viewCurationReport = document.getElementById('view-curation-report');
+  
+  // 마이페이지 서브 뷰
+  const viewOrders = document.getElementById('view-orders');
+  const viewReviews = document.getElementById('view-reviews');
+  const viewShipping = document.getElementById('view-shipping');
+  const viewCustomerCenter = document.getElementById('view-customer-center');
+  const viewSettings = document.getElementById('view-settings');
+
+  const viewHistoryStack = ['home'];
+  let isNavigatingBack = false;
+
+  window.goBack = function() {
+    if (viewHistoryStack.length > 1) {
+      isNavigatingBack = true;
+      viewHistoryStack.pop();
+      const prevView = viewHistoryStack[viewHistoryStack.length - 1];
+      window.directCheckoutItem = null;
+      showView(prevView);
+      isNavigatingBack = false;
+    } else {
+      showView('home');
+    }
+  };
+
+  let previousActiveView = 'home';
+  let currentActiveView = 'home';
 
   function showView(viewId) {
+    if (!isNavigatingBack) {
+      if (viewId === 'home') {
+        viewHistoryStack.length = 0;
+        viewHistoryStack.push('home');
+      } else {
+        if (viewHistoryStack[viewHistoryStack.length - 1] !== viewId) {
+          viewHistoryStack.push(viewId);
+        }
+      }
+    }
+
+    currentActiveView = viewId;
+    previousActiveView = viewHistoryStack.length > 1 ? viewHistoryStack[viewHistoryStack.length - 2] : 'home';
+
     // Hide all views
     if (viewHome) viewHome.classList.remove('active');
     if (viewStory) viewStory.classList.remove('active');
@@ -49,6 +89,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (viewProductDetail) viewProductDetail.classList.remove('active');
     if (viewCheckout) viewCheckout.classList.remove('active');
     if (viewCurationReport) viewCurationReport.classList.remove('active');
+    if (viewOrders) viewOrders.classList.remove('active');
+    if (viewReviews) viewReviews.classList.remove('active');
+    if (viewShipping) viewShipping.classList.remove('active');
+    if (viewCustomerCenter) viewCustomerCenter.classList.remove('active');
+    if (viewSettings) viewSettings.classList.remove('active');
     
     // Show selected view
     if (viewId === 'home') {
@@ -96,6 +141,26 @@ document.addEventListener('DOMContentLoaded', () => {
       if (viewCurationReport) viewCurationReport.classList.add('active');
       const reportScrollContent = document.querySelector('.report-content');
       if (reportScrollContent) reportScrollContent.scrollTop = 0;
+    } else if (viewId === 'orders') {
+      if (viewOrders) viewOrders.classList.add('active');
+      const ordersScrollContent = document.querySelector('.orders-content');
+      if (ordersScrollContent) ordersScrollContent.scrollTop = 0;
+    } else if (viewId === 'reviews') {
+      if (viewReviews) viewReviews.classList.add('active');
+      const reviewsScrollContent = document.querySelector('.reviews-content');
+      if (reviewsScrollContent) reviewsScrollContent.scrollTop = 0;
+    } else if (viewId === 'shipping') {
+      if (viewShipping) viewShipping.classList.add('active');
+      const shippingScrollContent = document.querySelector('.shipping-content');
+      if (shippingScrollContent) shippingScrollContent.scrollTop = 0;
+    } else if (viewId === 'customer-center') {
+      if (viewCustomerCenter) viewCustomerCenter.classList.add('active');
+      const csScrollContent = document.querySelector('.cs-content');
+      if (csScrollContent) csScrollContent.scrollTop = 0;
+    } else if (viewId === 'settings') {
+      if (viewSettings) viewSettings.classList.add('active');
+      const settingsScrollContent = document.querySelector('.settings-content');
+      if (settingsScrollContent) settingsScrollContent.scrollTop = 0;
     }
     
     // Update bottom tab items active state
@@ -105,9 +170,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if ((viewId === 'home' || viewId === 'featured-more' || viewId === 'category-all' || viewId === 'bna-all' || viewId === 'product-detail' || viewId === 'checkout' || viewId === 'curation-report') && href === '#home') item.classList.add('active');
       if (viewId === 'scan' && href === '#ai') item.classList.add('active');
       if (viewId === 'cart' && href === '#cart') item.classList.add('active');
-      if (viewId === 'mypage' && href === '#mypage') item.classList.add('active');
+      if ((viewId === 'mypage' || viewId === 'orders' || viewId === 'reviews' || viewId === 'shipping' || viewId === 'customer-center' || viewId === 'settings') && href === '#mypage') item.classList.add('active');
     });
   }
+
+  window.showView = showView;
 
   // AI 스캔 시작 버튼 이벤트 바인딩
   const btnDesktopScan = document.getElementById('btn-desktop-scan');
@@ -140,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
   catItems.forEach(item => {
     item.addEventListener('click', () => {
       const categoryName = item.querySelector('.cat-label').textContent;
-      alert(`[${categoryName}] 카테고리 목록으로 이동합니다.`);
+      alert(`[${categoryName}] 제품 상세페이지로 넘어갑니다.`);
     });
   });
 
@@ -204,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (backToHomeBtn) {
     backToHomeBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      showView('home');
+      window.goBack();
     });
   }
 
@@ -212,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (scanBackBtn) {
     scanBackBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      showView('home');
+      window.goBack();
     });
   }
 
@@ -220,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (scanHomeGoBtn) {
     scanHomeGoBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      showView('home');
+      window.goBack();
     });
   }
 
@@ -276,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (cartBackBtn) {
     cartBackBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      showView('home');
+      window.goBack();
     });
   }
 
@@ -284,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (mypageBackBtn) {
     mypageBackBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      showView('home');
+      window.goBack();
     });
   }
 
@@ -300,7 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (featuredMoreBackBtn) {
     featuredMoreBackBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      showView('home');
+      window.goBack();
     });
   }
 
@@ -316,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (categoriesAllBackBtn) {
     categoriesAllBackBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      showView('home');
+      window.goBack();
     });
   }
 
@@ -332,7 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (bnaAllBackBtn) {
     bnaAllBackBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      showView('home');
+      window.goBack();
     });
   }
 
@@ -996,8 +1063,7 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('🛒 장바구니가 비어 있습니다. 제품을 담은 후 주문해 주세요!');
         return;
       }
-      const totalPriceText = document.getElementById('cart-total-price').textContent;
-      alert(`💳 총 결제 금액 [${totalPriceText}] 결제페이지로 이동하겠습니다`);
+      window.directCheckoutItem = null; // 장바구니 전체 결제 모드
       showView('checkout');
     });
   }
@@ -1398,8 +1464,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 13.3. 상세 정보 화면에 제품 바인딩 및 노출
   window.openProductDetail = function(productKey) {
-    const data = productsData[productKey];
-    if (!data) return;
+    let data = productsData[productKey];
+    if (!data) {
+      data = productsData["aurora-brass"];
+      productKey = "aurora-brass";
+    }
     
     activeProductKey = productKey;
     
@@ -1422,18 +1491,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pdPrice) pdPrice.textContent = data.price.toLocaleString() + '원';
     if (pdImg) pdImg.src = data.img;
     if (pdMatchVal) pdMatchVal.textContent = data.match + ' 매칭';
-    if (pdSpec1) pdSpec1.textContent = data.specs[0];
-    if (pdSpec2) pdSpec2.textContent = data.specs[1];
-    if (pdSpec3) pdSpec3.textContent = data.specs[2];
+    if (pdSpec1) pdSpec1.textContent = (data.specs && data.specs[0]) ? data.specs[0] : '';
+    if (pdSpec2) pdSpec2.textContent = (data.specs && data.specs[1]) ? data.specs[1] : '';
+    if (pdSpec3) pdSpec3.textContent = (data.specs && data.specs[2]) ? data.specs[2] : '';
     if (pdInsightDesc) pdInsightDesc.textContent = data.insight;
     
     // 컬러 파레트 채우기
     if (pdColorContainer) {
       let colorHtml = '';
-      data.colors.forEach((color, idx) => {
-        const activeClass = (idx === 0) ? 'active' : '';
-        colorHtml += `<span class="pd-color-circle ${activeClass}" style="background-color: ${color};" onclick="selectPdColor(this)"></span>`;
-      });
+      if (data.colors && data.colors.length) {
+        data.colors.forEach((color, idx) => {
+          const activeClass = (idx === 0) ? 'active' : '';
+          colorHtml += `<span class="pd-color-circle ${activeClass}" style="background-color: ${color};" onclick="selectPdColor(this)"></span>`;
+        });
+      }
       pdColorContainer.innerHTML = colorHtml;
     }
     
@@ -1478,7 +1549,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnPdBack) {
     btnPdBack.addEventListener('click', (e) => {
       e.preventDefault();
-      showView('home');
+      window.goBack();
     });
   }
 
@@ -1514,8 +1585,15 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const data = productsData[activeProductKey];
       if (data) {
-        alert(`🛍️ [${data.name}] 바로 구매 페이지로 이동합니다.`);
+        // 단품 바로 구매 모드 세팅 (기존 장바구니 아이템과 섞이지 않음)
+        window.directCheckoutItem = {
+          name: data.name,
+          price: data.price,
+          img: data.img,
+          qty: 1
+        };
       }
+      showView('checkout');
     });
   }
 
@@ -1674,9 +1752,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 14.3. 결제 화면 초기 진입 및 장바구니 매핑
   let currentCheckoutTotalPrice = "280,000원";
-  
+  window.directCheckoutItem = null; // 단품 바로 구매 정보 보관용
+
   window.initCheckoutView = function() {
-    // 장바구니 아이템들을 검사하여 대표 이미지 및 가격 등을 로드
+    const mainImg = document.getElementById('checkout-main-img');
+    const mainTitle = document.getElementById('checkout-main-title');
+    const mainPriceBadge = document.getElementById('checkout-main-price-badge');
+    const sideLeftImg = document.getElementById('checkout-side-img-left');
+    const sideRightImg = document.getElementById('checkout-side-img-right');
+    const checkoutTotalPrice = document.getElementById('checkout-total-price');
+    const checkoutTotalQty = document.getElementById('checkout-total-qty');
+    const btnSubmitText = document.getElementById('btn-checkout-submit-text');
+    const checkoutDiscBox = document.getElementById('checkout-discount-info');
+
+    // 1. 단품 바로 구매 모드 (상세페이지에서 바로 구매 클릭 시)
+    if (window.directCheckoutItem) {
+      const item = window.directCheckoutItem;
+      const formattedPrice = item.price.toLocaleString() + '원';
+
+      if (mainImg) mainImg.src = item.img;
+      if (mainTitle) mainTitle.textContent = item.name;
+      if (mainPriceBadge) mainPriceBadge.textContent = formattedPrice;
+
+      if (sideLeftImg) sideLeftImg.src = "img/light005.jpg";
+      if (sideRightImg) sideRightImg.src = "img/light006.jpg";
+
+      if (checkoutTotalPrice) checkoutTotalPrice.textContent = formattedPrice;
+      if (checkoutTotalQty) checkoutTotalQty.textContent = "1";
+      if (btnSubmitText) btnSubmitText.textContent = `${formattedPrice} 결제하기`;
+      if (checkoutDiscBox) checkoutDiscBox.style.display = 'none';
+
+      currentCheckoutTotalPrice = formattedPrice;
+
+      // 입력 필드 및 드롭다운 초기화
+      const spaceInput = document.getElementById('checkout-space-input');
+      if (spaceInput) spaceInput.value = '내방 책상';
+      const dropdownText = document.getElementById('checkout-selected-dropdown-text');
+      if (dropdownText) dropdownText.textContent = '내방 책상';
+
+      window.selectPayMethod('card');
+      return;
+    }
+
+    // 2. 일반 장바구니 결제 모드 (장바구니에서 주문하기 클릭 시)
     const itemCards = document.querySelectorAll('.cart-item-card');
     const totalQtyVal = document.getElementById('cart-total-count') ? parseInt(document.getElementById('cart-total-count').textContent) : 0;
     const totalPriceVal = document.getElementById('cart-total-price') ? document.getElementById('cart-total-price').textContent : "0원";
@@ -1689,19 +1807,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const priceLabel = firstCard.querySelector('.cart-item-price-label');
       
       if (imgTag && nameTag && priceLabel) {
-        // 대표 뷰 세팅
-        const mainImg = document.getElementById('checkout-main-img');
-        const mainTitle = document.getElementById('checkout-main-title');
-        const mainPriceBadge = document.getElementById('checkout-main-price-badge');
-        
         if (mainImg) mainImg.src = imgTag.src;
         if (mainTitle) mainTitle.textContent = nameTag.textContent;
         if (mainPriceBadge) mainPriceBadge.textContent = priceLabel.textContent;
       }
-      
-      // 양 옆 플랭크 이미지 썸네일 세팅
-      const sideLeftImg = document.getElementById('checkout-side-img-left');
-      const sideRightImg = document.getElementById('checkout-side-img-right');
       
       if (itemCards.length > 1) {
         const secondCard = itemCards[1];
@@ -1719,25 +1828,26 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sideRightImg) sideRightImg.src = "img/light006.jpg";
       }
     } else {
-      // 장바구니가 비어 있을 시 기본 셋업 복귀
-      const mainImg = document.getElementById('checkout-main-img');
-      const mainTitle = document.getElementById('checkout-main-title');
-      const mainPriceBadge = document.getElementById('checkout-main-price-badge');
       if (mainImg) mainImg.src = "img/light009.jpg";
       if (mainTitle) mainTitle.textContent = "램프 스웜";
       if (mainPriceBadge) mainPriceBadge.textContent = "90,000원";
     }
 
-    // 총 금액 및 총 개수 동기화
-    const checkoutTotalPrice = document.getElementById('checkout-total-price');
-    const checkoutTotalQty = document.getElementById('checkout-total-qty');
-    const btnSubmitText = document.getElementById('btn-checkout-submit-text');
+    // 총 금액 및 총 개수 동기화 (괄호 설명 문구 분리 처리)
+    const cleanPrice = totalPriceVal ? totalPriceVal.split('(')[0].trim() : '0원';
     
-    if (checkoutTotalPrice) checkoutTotalPrice.textContent = totalPriceVal;
+    if (checkoutTotalPrice) checkoutTotalPrice.textContent = cleanPrice;
     if (checkoutTotalQty) checkoutTotalQty.textContent = totalQtyVal;
-    if (btnSubmitText) btnSubmitText.textContent = `${totalPriceVal} 결제하기`;
+    if (btnSubmitText) btnSubmitText.textContent = `${cleanPrice} 결제하기`;
     
-    currentCheckoutTotalPrice = totalPriceVal;
+    // 할인 혜택 포함 시 상단 전용 뱃지로 깔끔하게 분리 노출
+    if (totalPriceVal.includes('할인') || totalPriceVal.includes('혜택')) {
+      if (checkoutDiscBox) checkoutDiscBox.style.display = 'flex';
+    } else {
+      if (checkoutDiscBox) checkoutDiscBox.style.display = 'none';
+    }
+    
+    currentCheckoutTotalPrice = cleanPrice;
     
     // 입력 필드 및 드롭다운 초기화
     const spaceInput = document.getElementById('checkout-space-input');
@@ -1754,7 +1864,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnCheckoutBack) {
     btnCheckoutBack.addEventListener('click', (e) => {
       e.preventDefault();
-      showView('cart');
+      window.goBack();
     });
   }
 
@@ -1770,34 +1880,25 @@ document.addEventListener('DOMContentLoaded', () => {
       
       alert(`🎉 [${currentCheckoutTotalPrice}] 결제가 성공적으로 완료되었습니다!\n\n📍 배송 장소: ${spaceDisplayName}\n💳 결제 수단: ${methodText}\n\n감사합니다! 주문하신 조명과 함께 최적의 AI 스페이스 셋업 가이드가 배송 차량을 통해 전달됩니다.`);
       
-      // 장바구니 비우기
-      const container = document.getElementById('cart-items-container');
-      if (container) {
-        container.innerHTML = '';
+      // 장바구니 결제였던 경우에만 장바구니 비우기
+      if (!window.directCheckoutItem) {
+        const container = document.getElementById('cart-items-container');
+        if (container) {
+          container.innerHTML = '';
+        }
+        if (window.updateCartTotals) window.updateCartTotals();
       }
-      
-      // 장바구니 갱신 및 홈으로 이동
-      if (window.updateCartTotals) window.updateCartTotals();
+
+      window.directCheckoutItem = null; // 단품 결제 정보 리셋
       showView('home');
     });
   }
 
-  // 14.6. 홈 화면 대표 아우라 플로어 램프 카드 클릭 및 장바구니 연동
+  // 14.6. 홈 화면 대표 아우라 플로어 램프 카드 클릭 연동
   const mainLampCard = document.querySelector('.main-lamp-card');
   if (mainLampCard) {
     mainLampCard.addEventListener('click', (e) => {
-      // + 버튼을 누른 경우 상세페이지로 이동하지 않음
-      if (e.target.closest('.arrow-btn')) return;
       window.openProductDetail('aura-floor');
-    });
-  }
-
-  const mainLampAddBtn = document.querySelector('.main-lamp-card .arrow-btn');
-  if (mainLampAddBtn) {
-    mainLampAddBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      window.addProductToCart("아우라 플로어 램프", 180000, "img/img002.png");
     });
   }
 
@@ -1810,7 +1911,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnReportBack) {
     btnReportBack.addEventListener('click', (e) => {
       e.preventDefault();
-      showView('home');
+      window.goBack();
     });
   }
 
@@ -1912,6 +2013,133 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('🔔 새로 온 미확인 알림이 없습니다.');
     }
   };
+
+  // ==========================================
+  // 17. 15% 쿠폰팩 모달 제어 로직
+  // ==========================================
+  // 쿠폰 모달 열기
+  window.openCouponModal = function() {
+    const couponModal = document.getElementById('coupon-modal');
+    if (!couponModal) return;
+    
+    // 이미 쿠폰을 다운로드 받았는지 확인
+    const isClaimed = localStorage.getItem('viewlight_coupon_claimed') === 'true';
+    updateCouponUIState(isClaimed);
+
+    couponModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  // 쿠폰 모달 닫기
+  window.closeCouponModal = function() {
+    const couponModal = document.getElementById('coupon-modal');
+    if (!couponModal) return;
+    couponModal.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  // 쿠폰 UI 상태 업데이트
+  function updateCouponUIState(isClaimed) {
+    const badges = [
+      document.getElementById('badge-status-1'),
+      document.getElementById('badge-status-2'),
+      document.getElementById('badge-status-3')
+    ];
+    const claimBtnText = document.getElementById('claim-btn-text');
+    const claimCouponsBtn = document.getElementById('btn-claim-coupons');
+    const couponToastMsg = document.getElementById('coupon-toast-msg');
+
+    if (isClaimed) {
+      badges.forEach(badge => {
+        if (badge) {
+          badge.classList.add('claimed');
+          badge.textContent = '✅ 발급완료';
+        }
+      });
+      if (claimCouponsBtn) {
+        claimCouponsBtn.classList.add('claimed');
+      }
+      if (claimBtnText) {
+        claimBtnText.textContent = '✅ 쿠폰팩 발급 완료 (쿠폰함 보관됨)';
+      }
+      if (couponToastMsg) {
+        couponToastMsg.classList.add('show');
+      }
+    } else {
+      badges.forEach(badge => {
+        if (badge) {
+          badge.classList.remove('claimed');
+          badge.textContent = '미발급';
+        }
+      });
+      if (claimCouponsBtn) {
+        claimCouponsBtn.classList.remove('claimed');
+      }
+      if (claimBtnText) {
+        claimBtnText.textContent = '✨ 15% 쿠폰팩 받기';
+      }
+      if (couponToastMsg) {
+        couponToastMsg.classList.remove('show');
+      }
+    }
+  }
+
+  // 쿠폰 다운로드 실행
+  window.claimCoupons = function() {
+    const claimCouponsBtn = document.getElementById('btn-claim-coupons');
+    localStorage.setItem('viewlight_coupon_claimed', 'true');
+    updateCouponUIState(true);
+
+    // 버튼 임팩트 애니메이션
+    if (claimCouponsBtn) {
+      claimCouponsBtn.style.transform = 'scale(0.96)';
+      setTimeout(() => {
+        claimCouponsBtn.style.transform = '';
+      }, 150);
+    }
+  };
+
+  // 쿠폰 열기 트리거 바인딩 (desktop button, event banner, all href="#coupon")
+  const couponTriggers = document.querySelectorAll('a[href="#coupon"], #btn-coupon-download, #btn-brand-event-coupon');
+  couponTriggers.forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.openCouponModal();
+    });
+  });
+
+  const couponCloseBtn = document.getElementById('btn-coupon-close');
+  const couponBackdrop = document.getElementById('coupon-backdrop');
+  const claimCouponsBtn = document.getElementById('btn-claim-coupons');
+
+  if (couponCloseBtn) {
+    couponCloseBtn.addEventListener('click', window.closeCouponModal);
+  }
+  if (couponBackdrop) {
+    couponBackdrop.addEventListener('click', window.closeCouponModal);
+  }
+  if (claimCouponsBtn) {
+    claimCouponsBtn.addEventListener('click', window.claimCoupons);
+  }
+
+  // AI 공간 분석 모달 액션 버튼 바인딩
+  const btnTechModalBna = document.getElementById('btn-tech-modal-bna');
+  if (btnTechModalBna) {
+    btnTechModalBna.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.closeAiTechModal();
+      showView('bna-all');
+    });
+  }
+
+  const btnTechModalScan = document.getElementById('btn-tech-modal-scan');
+  if (btnTechModalScan) {
+    btnTechModalScan.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.closeAiTechModal();
+      showView('scan');
+    });
+  }
 });
 
 /* ==========================================
@@ -1933,14 +2161,568 @@ window.openImageViewer = function(src, caption) {
 
 window.closeImageViewer = function() {
   const modal = document.getElementById('image-viewer-modal');
-  if (!modal) return;
-  modal.classList.remove('active');
+  if (modal) modal.classList.remove('active');
   document.body.style.overflow = '';
 };
 
-/* ESC 키로도 닫기 */
+/* ==========================================
+   AI 공간 분석 설명 모달 — 전역 함수
+   ========================================== */
+window.openAiTechModal = function() {
+  const modal = document.getElementById('ai-tech-modal');
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+window.closeAiTechModal = function() {
+  const modal = document.getElementById('ai-tech-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+};
+
+/* ==========================================
+   공지사항 / 이벤트 / 고객센터 심플 모달 — 전역 함수
+   ========================================== */
+const infoModalData = {
+  notice: {
+    badge: '📢 NOTICE',
+    title: '공지사항',
+    html: `
+      <div class="info-list-group">
+        <div class="info-list-item">
+          <span class="info-date">2026.08.15</span>
+          <h4 class="info-item-title">[안내] ViewLight 2.0 AI 비전 큐레이션 업데이트</h4>
+          <p class="info-item-desc">사진 1장으로 조도와 공간 분위기를 분석하는 AI 엔진이 더욱 정밀해졌습니다.</p>
+        </div>
+        <div class="info-list-item">
+          <span class="info-date">2026.08.10</span>
+          <h4 class="info-item-title">[필독] 첫 구매 웰컴 15% 쿠폰팩 사용 안내</h4>
+          <p class="info-item-desc">발급받으신 쿠폰은 세트 할인 혜택과 함께 중복 적용이 가능합니다.</p>
+        </div>
+        <div class="info-list-item">
+          <span class="info-date">2026.08.01</span>
+          <h4 class="info-item-title">[안내] 전 상품 무료 배송 & 무상 AS 1년 개시</h4>
+          <p class="info-item-desc">ViewLight의 모든 무드등 라인업은 무상 1년 보증을 지원합니다.</p>
+        </div>
+      </div>
+    `
+  },
+  events: {
+    badge: '🎉 EVENT',
+    title: '이벤트',
+    html: `
+      <div class="info-list-group">
+        <div class="info-list-item highlight">
+          <span class="info-badge-tag">진행중</span>
+          <h4 class="info-item-title">✨ 웰컴 15% 쿠폰팩 즉시 발급</h4>
+          <p class="info-item-desc">뷰라이트 첫 방문 고객님께 3종 티켓 패키지를 드립니다.</p>
+        </div>
+        <div class="info-list-item highlight">
+          <span class="info-badge-tag">진행중</span>
+          <h4 class="info-item-title">⚡ AI 큐레이션 세트 구매 시 20% 자동 할인</h4>
+          <p class="info-item-desc">3개 이상 조명 일괄 구매 시 세트 특가 할인이 적용됩니다.</p>
+        </div>
+        <div class="info-list-item">
+          <span class="info-badge-tag secondary">상시</span>
+          <h4 class="info-item-title">📸 포토 리뷰 작성 시 5,000원 적립금</h4>
+          <p class="info-item-desc">마이페이지 리뷰 작성 고객 전원에게 현금성 포인트를 증정합니다.</p>
+        </div>
+      </div>
+    `
+  },
+  cs: {
+    badge: '🎧 CUSTOMER CENTER',
+    title: '고객센터',
+    html: `
+      <div class="cs-info-box">
+        <div class="cs-phone-section">
+          <span class="cs-phone-num">1588-0000</span>
+          <span class="cs-time">평일 09:00 ~ 18:00 (점심 12:00 ~ 13:00)</span>
+        </div>
+        <div class="cs-detail-list">
+          <div class="cs-detail-item">
+            <span class="material-symbols-outlined">chat</span>
+            <div>
+              <strong>카카오톡 상담</strong>
+              <p>@뷰라이트_VIEWLIGHT (24시간 AI 실시간 상담)</p>
+            </div>
+          </div>
+          <div class="cs-detail-item">
+            <span class="material-symbols-outlined">mail</span>
+            <div>
+              <strong>이메일 문의</strong>
+              <p>support@viewlight.co.kr</p>
+            </div>
+          </div>
+          <div class="cs-detail-item">
+            <span class="material-symbols-outlined">local_shipping</span>
+            <div>
+              <strong>교환 / 반품 주소</strong>
+              <p>서울특별시 강남구 테헤란로 뷰라이트 타워 5F CS센터</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+  }
+};
+
+window.openInfoModal = function(type) {
+  const modal = document.getElementById('simple-info-modal');
+  const badgeEl = document.getElementById('info-modal-badge');
+  const titleEl = document.getElementById('info-modal-title');
+  const bodyEl = document.getElementById('info-modal-body');
+
+  const data = infoModalData[type] || infoModalData.notice;
+  if (badgeEl) badgeEl.textContent = data.badge;
+  if (titleEl) titleEl.textContent = data.title;
+  if (bodyEl) bodyEl.innerHTML = data.html;
+
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+window.closeInfoModal = function() {
+  const modal = document.getElementById('simple-info-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+};
+
+window.closeMenuDrawer = function() {
+  const menuDrawer = document.getElementById('menu-drawer');
+  if (menuDrawer) {
+    menuDrawer.classList.remove('open');
+  }
+};
+
+/* ESC 키로도 모달 닫기 */
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     window.closeImageViewer();
+    if (window.closeCouponModal) window.closeCouponModal();
+    if (window.closeNotificationModal) window.closeNotificationModal();
+    if (window.closeAiTechModal) window.closeAiTechModal();
+    if (window.closeInfoModal) window.closeInfoModal();
+    if (window.closeWriteReviewModal) window.closeWriteReviewModal();
+    if (window.closeAddShippingModal) window.closeAddShippingModal();
+    if (window.closeCsInquiryModal) window.closeCsInquiryModal();
   }
 });
+
+/* ==========================================================================
+   마이페이지 서브 메뉴 5종 인터랙션 핸들러 (Order History, Reviews, Shipping, CS, Settings)
+   ========================================================================== */
+
+// 서브 뷰 상단 뒤로가기 버튼 바인딩
+document.addEventListener('DOMContentLoaded', () => {
+  const backButtons = ['orders', 'reviews', 'shipping', 'cs', 'settings'];
+  backButtons.forEach(id => {
+    const btn = document.getElementById(`btn-${id}-back`);
+    if (btn) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.goBack();
+      });
+    }
+  });
+});
+
+// 1. 주문 내역 필터링
+window.filterOrders = function(period, btn) {
+  const filterBtns = document.querySelectorAll('.order-filter-btn');
+  filterBtns.forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  const cards = document.querySelectorAll('.order-card');
+  cards.forEach(card => {
+    if (period === 'all' || card.getAttribute('data-period') === period) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+};
+
+// 2. 배송 추적 알림
+window.openTrackingModal = function(info) {
+  alert(`📦 [실시간 배송 추적 정보]\n\n운송장: ${info}\n현재 상태: [서울강남HUB] 배송 출발 (오늘 16:00~18:00 도착 예정)`);
+};
+
+// 3. 내 리뷰 탭 전환
+window.switchReviewTab = function(tabName) {
+  const btnWriteable = document.getElementById('tab-btn-writeable');
+  const btnWritten = document.getElementById('tab-btn-written');
+  const panelWriteable = document.getElementById('review-panel-writeable');
+  const panelWritten = document.getElementById('review-panel-written');
+
+  if (tabName === 'writeable') {
+    if (btnWriteable) btnWriteable.classList.add('active');
+    if (btnWritten) btnWritten.classList.remove('active');
+    if (panelWriteable) panelWriteable.classList.add('active');
+    if (panelWritten) panelWritten.classList.remove('active');
+  } else {
+    if (btnWritten) btnWritten.classList.add('active');
+    if (btnWriteable) btnWriteable.classList.remove('active');
+    if (panelWritten) panelWritten.classList.add('active');
+    if (panelWriteable) panelWriteable.classList.remove('active');
+  }
+};
+
+// 4. 리뷰 작성 모달 제어 및 제출
+let currentReviewRating = 5;
+let currentReviewProduct = { name: '', imgUrl: '' };
+let currentUploadedImageBase64 = null;
+
+window.handleReviewImageUpload = function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    currentUploadedImageBase64 = e.target.result;
+    
+    // Show preview
+    const previewContainer = document.getElementById('review-image-preview-container');
+    const previewImg = document.getElementById('review-image-preview');
+    if (previewImg) previewImg.src = e.target.result;
+    if (previewContainer) previewContainer.style.display = 'block';
+
+    // Update upload box text
+    const uploadText = document.getElementById('upload-box-text');
+    if (uploadText) uploadText.textContent = '사진 변경하기';
+  };
+  reader.readAsDataURL(file);
+};
+
+window.clearReviewImage = function(event) {
+  if (event) {
+    event.stopPropagation();
+  }
+  currentUploadedImageBase64 = null;
+
+  const fileInput = document.getElementById('review-image-input');
+  if (fileInput) fileInput.value = '';
+
+  const previewContainer = document.getElementById('review-image-preview-container');
+  if (previewContainer) previewContainer.style.display = 'none';
+
+  const previewImg = document.getElementById('review-image-preview');
+  if (previewImg) previewImg.src = '';
+
+  const uploadText = document.getElementById('upload-box-text');
+  if (uploadText) uploadText.textContent = '사진 첨부하기 (선택)';
+};
+
+// 4. 리뷰 작성 모달 제어 및 제출
+window.openWriteReviewModal = function(prodName, imgUrl) {
+  currentReviewProduct = { name: prodName || 'Luna Table Lamp', imgUrl: imgUrl || 'img/Stand02.png' };
+  
+  const targetName = document.getElementById('review-modal-target-name');
+  if (targetName) targetName.textContent = currentReviewProduct.name;
+  
+  // Reset rating to 5
+  window.setReviewRating(5);
+  
+  // Reset textarea
+  const textInput = document.getElementById('review-input-text');
+  if (textInput) textInput.value = '';
+  
+  // Reset image
+  window.clearReviewImage();
+  
+  const modal = document.getElementById('write-review-modal');
+  if (modal) modal.classList.add('open');
+};
+
+window.closeWriteReviewModal = function() {
+  const modal = document.getElementById('write-review-modal');
+  if (modal) modal.classList.remove('open');
+};
+
+window.setReviewRating = function(rating) {
+  currentReviewRating = rating;
+  const stars = document.querySelectorAll('#review-star-picker .star-icon');
+  stars.forEach((s, idx) => {
+    if (idx < rating) {
+      s.classList.add('active');
+    } else {
+      s.classList.remove('active');
+    }
+  });
+};
+
+window.submitReviewForm = function() {
+  const text = document.getElementById('review-input-text')?.value;
+  if (!text || text.trim().length === 0) {
+    alert('리뷰 내용을 기재해 주세요.');
+    return;
+  }
+  
+  // 1. Generate Star display rating HTML string
+  const starString = '★'.repeat(currentReviewRating) + '☆'.repeat(5 - currentReviewRating);
+  const ratingNum = currentReviewRating.toFixed(1);
+
+  // 2. Generate date string (YYYY.MM.DD)
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const date = String(today.getDate()).padStart(2, '0');
+  const dateString = `${year}.${month}.${date}`;
+
+  // 3. Create review card element
+  const card = document.createElement('div');
+  card.className = 'written-review-card';
+  
+  let photoListHtml = '';
+  if (currentUploadedImageBase64) {
+    photoListHtml = `
+      <div class="written-photo-list">
+        <img src="${currentUploadedImageBase64}" alt="리뷰 사진" onclick="openImageViewer('${currentUploadedImageBase64}', '${currentReviewProduct.name} 실구매 설치샷')">
+      </div>
+    `;
+  }
+
+  card.innerHTML = `
+    <div class="written-header">
+      <img src="${currentReviewProduct.imgUrl}" alt="${currentReviewProduct.name}" class="review-prod-thumb">
+      <div class="written-title-box">
+        <h4 class="written-prod-name">${currentReviewProduct.name}</h4>
+        <div class="star-rating-display">${starString} <span class="rating-num">${ratingNum}</span></div>
+      </div>
+      <span class="written-date">${dateString}</span>
+    </div>
+    <p class="written-body">${text.replace(/\n/g, '<br>')}</p>
+    ${photoListHtml}
+    <div class="written-actions">
+      <button type="button" class="btn-review-edit" onclick="alert('리뷰 수정 기능 준비 중입니다.')">수정</button>
+      <button type="button" class="btn-review-del" onclick="deleteReviewCard(this)">삭제</button>
+    </div>
+  `;
+
+  // 4. Prepend review card to written panel
+  const panelWritten = document.getElementById('review-panel-written');
+  if (panelWritten) {
+    panelWritten.insertBefore(card, panelWritten.firstChild);
+  }
+
+  // 5. Remove matching writable card
+  const writeableCards = document.querySelectorAll('#review-panel-writeable .writeable-card');
+  writeableCards.forEach(card => {
+    const titleEl = card.querySelector('.review-prod-title');
+    if (titleEl && titleEl.textContent.trim() === currentReviewProduct.name) {
+      card.remove();
+    }
+  });
+
+  // 6. Update counts and handle placeholder if no writable cards left
+  const remainingWriteableCount = document.querySelectorAll('#review-panel-writeable .writeable-card').length;
+  const writeableBadge = document.querySelector('#tab-btn-writeable .count-badge');
+  if (writeableBadge) {
+    writeableBadge.textContent = remainingWriteableCount;
+  }
+
+  if (remainingWriteableCount === 0 && !document.getElementById('no-writeable-reviews-placeholder')) {
+    const emptyPlaceholder = document.createElement('div');
+    emptyPlaceholder.id = 'no-writeable-reviews-placeholder';
+    emptyPlaceholder.className = 'empty-reviews-placeholder';
+    emptyPlaceholder.style.textAlign = 'center';
+    emptyPlaceholder.style.padding = '40px 20px';
+    emptyPlaceholder.style.color = '#94A3B8';
+    emptyPlaceholder.style.fontWeight = '700';
+    emptyPlaceholder.style.fontSize = '0.95rem';
+    emptyPlaceholder.innerHTML = `
+      <span class="material-symbols-outlined" style="font-size: 48px; margin-bottom: 8px; color: #475569; display: block;">rate_review</span>
+      작성 가능한 리뷰가 없습니다.
+    `;
+    const panelWriteable = document.getElementById('review-panel-writeable');
+    if (panelWriteable) {
+      panelWriteable.appendChild(emptyPlaceholder);
+    }
+  }
+
+  const currentWrittenCount = document.querySelectorAll('#review-panel-written .written-review-card').length;
+  const writtenBadge = document.querySelector('#tab-btn-written .count-badge');
+  if (writtenBadge) {
+    writtenBadge.textContent = currentWrittenCount;
+  }
+
+  alert('✨ 리뷰가 등록되었습니다!\n포인트 1,000P가 마일리지로 적립되었습니다.');
+  closeWriteReviewModal();
+  switchReviewTab('written');
+};
+
+window.deleteReviewCard = function(btn) {
+  if (confirm('작성하신 리뷰를 삭제하시겠습니까?')) {
+    const card = btn.closest('.written-review-card');
+    if (card) {
+      card.remove();
+      // Update badge count
+      const writtenBadge = document.querySelector('#tab-btn-written .count-badge');
+      if (writtenBadge) {
+        const currentWrittenCount = document.querySelectorAll('#review-panel-written .written-review-card').length;
+        writtenBadge.textContent = currentWrittenCount;
+      }
+    }
+  }
+};
+
+// 5. 배송지 관리 모달 & 카드 동작
+window.openAddShippingModal = function(mode, name, phone, zip, addr, memo) {
+  const title = document.getElementById('shipping-modal-title');
+  if (title) title.textContent = mode === 'edit' ? '배송지 수정' : '새 배송지 추가';
+  
+  if (mode === 'edit') {
+    if (document.getElementById('ship-input-name')) document.getElementById('ship-input-name').value = name || '';
+    if (document.getElementById('ship-input-phone')) document.getElementById('ship-input-phone').value = phone || '';
+    if (document.getElementById('ship-input-zip')) document.getElementById('ship-input-zip').value = zip || '06123';
+    if (document.getElementById('ship-input-addr')) document.getElementById('ship-input-addr').value = addr || '';
+    if (document.getElementById('ship-input-memo')) document.getElementById('ship-input-memo').value = memo || '';
+  } else {
+    if (document.getElementById('ship-input-name')) document.getElementById('ship-input-name').value = '';
+    if (document.getElementById('ship-input-phone')) document.getElementById('ship-input-phone').value = '';
+    if (document.getElementById('ship-input-addr')) document.getElementById('ship-input-addr').value = '';
+    if (document.getElementById('ship-input-memo')) document.getElementById('ship-input-memo').value = '';
+  }
+
+  const modal = document.getElementById('add-shipping-modal');
+  if (modal) modal.classList.add('open');
+};
+
+window.closeAddShippingModal = function() {
+  const modal = document.getElementById('add-shipping-modal');
+  if (modal) modal.classList.remove('open');
+};
+
+window.saveShippingAddress = function() {
+  const name = document.getElementById('ship-input-name')?.value;
+  const addr = document.getElementById('ship-input-addr')?.value;
+  if (!name || !addr) {
+    alert('받는 분 이름과 기본 주소를 입력해 주세요.');
+    return;
+  }
+  alert('배송지가 정상적으로 저장되었습니다.');
+  closeAddShippingModal();
+};
+
+window.setDefaultShipping = function(btn) {
+  const container = document.getElementById('shipping-list-container');
+  if (!container) return;
+  const cards = container.querySelectorAll('.shipping-card');
+  cards.forEach(c => {
+    c.classList.remove('default-card');
+    const badge = c.querySelector('.badge-default');
+    if (badge) badge.remove();
+    const actions = c.querySelector('.shipping-card-actions');
+    if (actions && !actions.querySelector('.btn-shipping-set-default')) {
+      const setDefBtn = document.createElement('button');
+      setDefBtn.className = 'btn-shipping-set-default';
+      setDefBtn.setAttribute('onclick', 'setDefaultShipping(this)');
+      setDefBtn.textContent = '기본 배송지로 설정';
+      actions.insertBefore(setDefBtn, actions.firstChild);
+    }
+  });
+
+  const targetCard = btn.closest('.shipping-card');
+  targetCard.classList.add('default-card');
+  const recipientBox = targetCard.querySelector('.shipping-recipient');
+  if (recipientBox) {
+    const badge = document.createElement('span');
+    badge.className = 'badge-default';
+    badge.textContent = '기본 배송지';
+    recipientBox.appendChild(badge);
+  }
+  btn.remove();
+  alert('기본 배송지로 변경되었습니다.');
+};
+
+window.deleteShippingCard = function(btn) {
+  if (confirm('이 배송지를 삭제하시겠습니까?')) {
+    const card = btn.closest('.shipping-card');
+    if (card) card.remove();
+  }
+};
+
+// 6. 고객센터 (CS) FAQ & 1:1 문의
+window.filterFaqItems = function(query) {
+  const items = document.querySelectorAll('.faq-item');
+  const q = query.toLowerCase().trim();
+  items.forEach(item => {
+    const text = item.textContent.toLowerCase();
+    if (text.includes(q)) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+};
+
+window.filterFaqCategory = function(cat, btn) {
+  const chips = document.querySelectorAll('.cs-cat-chip');
+  chips.forEach(c => c.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  const items = document.querySelectorAll('.faq-item');
+  items.forEach(item => {
+    if (cat === 'all' || item.getAttribute('data-category') === cat) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+};
+
+window.toggleFaq = function(element) {
+  const faqItem = element.closest('.faq-item');
+  if (faqItem) {
+    faqItem.classList.toggle('open');
+  }
+};
+
+window.openCsInquiryModal = function() {
+  const modal = document.getElementById('cs-inquiry-modal');
+  if (modal) modal.classList.add('open');
+};
+
+window.closeCsInquiryModal = function() {
+  const modal = document.getElementById('cs-inquiry-modal');
+  if (modal) modal.classList.remove('open');
+};
+
+window.submitCsInquiry = function() {
+  const text = document.getElementById('cs-inquiry-text')?.value;
+  if (!text || text.trim().length === 0) {
+    alert('문의 내용을 입력해주세요.');
+    return;
+  }
+  alert('1:1 문의가 제출되었습니다.\n담당자 확인 후 등록된 연락처로 답변을 드립니다.');
+  closeCsInquiryModal();
+};
+
+// 7. 설정 (Settings) 토글 동작
+window.toggleSettingState = function(settingName, isChecked) {
+  alert(`[${settingName}] 설정이 ${isChecked ? 'ON(켜짐)' : 'OFF(꺼짐)'}으로 변경되었습니다.`);
+};
+
+window.toggleGlowCursorSetting = function(isChecked) {
+  const dot = document.getElementById('cursor-dot');
+  const glow = document.getElementById('cursor-glow');
+  if (dot && glow) {
+    dot.style.display = isChecked ? 'block' : 'none';
+    glow.style.display = isChecked ? 'block' : 'none';
+  }
+  if (isChecked) {
+    document.body.classList.add('custom-cursor-active');
+  } else {
+    document.body.classList.remove('custom-cursor-active');
+  }
+  alert(`커스텀 GLOW 커서 효과가 ${isChecked ? '활성화' : '비활성화'}되었습니다.`);
+};
+
