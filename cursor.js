@@ -1,6 +1,6 @@
 /**
- * ViewLight — Custom Cursor Interaction
- * 앰비언트 조명 테마: 발광 오브 도트 + 지연 트레일링 글로우 링
+ * ViewLight — Custom Cursor & Interactive Tooltip
+ * 앰비언트 조명 테마: 발광 오브 도트 + 지연 트레일링 글로우 링 + 프리미엄 플로팅 툴팁
  */
 (function () {
   'use strict';
@@ -16,6 +16,11 @@
     glow.style.display = 'none';
     return;
   }
+
+  // 동적 플로팅 툴팁 요소 생성 및 추가
+  const tooltip = document.createElement('div');
+  tooltip.id = 'custom-tooltip';
+  document.body.appendChild(tooltip);
 
   let mouseX = -200, mouseY = -200;
   let glowX  = -200, glowY  = -200;
@@ -44,6 +49,7 @@
     dot.style.opacity  = '0';
     glow.style.opacity = '0';
     isHidden = true;
+    tooltip.classList.remove('visible');
   }
 
   function showCursor() {
@@ -78,6 +84,11 @@
         dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
       }
     }
+
+    // 툴팁 위치 실시간 추적 (마우스 포인터 위쪽에 뜨도록 Y축 -22px 오프셋)
+    if (tooltip && !isHidden && tooltip.classList.contains('visible')) {
+      tooltip.style.transform = `translate(${mouseX}px, ${mouseY - 22px}) scale(1)`;
+    }
   });
 
   // 클릭 펄스 효과
@@ -90,20 +101,144 @@
     glow.classList.remove('cursor-click');
   });
 
-  // 인터랙티브 요소 호버 감지
-  const INTERACTIVE = 'a, button, [onclick], input, select, textarea, .tab-item, .trend-tag, .report-rec-card, .thumb-card, .main-lamp-card, .noti-item, label, [role="button"]';
+  // 인터랙티브 요소 호버 감지 및 툴팁 바인딩
+  const INTERACTIVE = 'a, button, [onclick], input, select, textarea, .tab-item, .trend-tag, .report-rec-card, .thumb-card, .main-lamp-card, .noti-item, label, [role="button"], .category-list-card, .sample-card, .cat-item';
+
+  // 툴팁 노출을 위한 텍스트 추출 헬퍼 함수
+  function getTooltipText(target) {
+    if (target.hasAttribute('data-tooltip')) {
+      return target.getAttribute('data-tooltip');
+    }
+
+    // 1. 썸네일 카드 요소
+    if (target.classList.contains('thumb-card') || target.closest('.thumb-card')) {
+      const card = target.closest('.thumb-card');
+      const label = card.querySelector('.thumb-label');
+      const img = card.querySelector('.thumb-img');
+      if (img && img.getAttribute('alt')) {
+        return img.getAttribute('alt');
+      }
+      if (label) return label.textContent.trim();
+    }
+    
+    // 2. 메인 배너 카드
+    if (target.closest('.main-lamp-card')) {
+      const card = target.closest('.main-lamp-card');
+      const name = card.querySelector('.lamp-name');
+      if (name) return name.textContent.trim();
+    }
+    
+    // 3. Featured 조명 상품 카드
+    if (target.closest('.featured-product-card')) {
+      const card = target.closest('.featured-product-card');
+      const title = card.querySelector('.product-title');
+      if (title) {
+        // 금액 단위 텍스트 제외하고 오직 상품명만 툴팁화
+        return title.textContent.replace(/[\d,]+원/g, '').trim();
+      }
+    }
+    
+    // 4. 컬렉션 리스트 상품 카드
+    if (target.closest('.collection-product-card')) {
+      const card = target.closest('.collection-product-card');
+      const name = card.querySelector('.col-product-name');
+      if (name) return name.textContent.trim();
+    }
+
+    // 5. 카테고리 2x2 그리드
+    if (target.closest('.cat-item')) {
+      const cat = target.closest('.cat-item');
+      const label = cat.querySelector('.cat-title-text');
+      if (label) return label.textContent.trim() + ' 카테고리';
+    }
+
+    // 6. 카테고리 리스트 카드
+    if (target.closest('.category-list-card')) {
+      const card = target.closest('.category-list-card');
+      const onclickAttr = card.getAttribute('onclick');
+      if (onclickAttr && onclickAttr.includes('openProductDetail')) {
+        const key = onclickAttr.match(/'([^']+)'/)?.[1];
+        if (key && window.productsData && window.productsData[key]) {
+          return window.productsData[key].name;
+        }
+      }
+    }
+
+    // 7. Curation 리포트 추천 카드
+    if (target.closest('.report-rec-card')) {
+      const card = target.closest('.report-rec-card');
+      const name = card.querySelector('.rec-name');
+      if (name) return name.textContent.trim();
+    }
+
+    // 8. 룸 샘플 카드
+    if (target.closest('.sample-card')) {
+      const card = target.closest('.sample-card');
+      const title = card.querySelector('.sample-title');
+      if (title) return title.textContent.trim();
+    }
+
+    // 9. 헤더 전용 특수 아이콘 버튼 의미 매핑
+    const iconSpan = target.querySelector('.material-symbols-outlined');
+    if (iconSpan) {
+      const iconName = iconSpan.textContent.trim();
+      const iconMap = {
+        'menu': '전체 메뉴',
+        'close': '닫기',
+        'notifications': '알림',
+        'person': '로그인',
+        'add': '자세히 보기',
+        'favorite': '좋아요',
+        'favorite_border': '좋아요 추가',
+        'chevron_left': '뒤로 가기',
+        'photo_camera': 'AI 공간 분석 카메라',
+        'shopping_bag': '장바구니 담기',
+        'zoom_in': '이미지 확대'
+      };
+      if (iconMap[iconName]) return iconMap[iconName];
+    }
+
+    // 10. 기타 일반 버튼 및 링크 텍스트
+    const text = target.textContent.trim();
+    if (text && text.length < 35) {
+      // 폰트 아이콘 텍스트 제거 및 깔끔하게 줄바꿈 정리
+      return text.replace(/\s+/g, ' ').replace('material-symbols-outlined', '').trim();
+    }
+
+    // 11. 이미지 alt
+    const img = target.querySelector('img');
+    if (img && img.getAttribute('alt')) {
+      return img.getAttribute('alt');
+    }
+
+    return null;
+  }
 
   document.addEventListener('mouseover', (e) => {
-    if (e.target.closest(INTERACTIVE)) {
+    const target = e.target.closest(INTERACTIVE);
+    if (target) {
       dot.classList.add('cursor-hover');
       glow.classList.add('cursor-hover');
+
+      // 툴팁 텍스트 노출
+      const text = getTooltipText(target);
+      if (text) {
+        tooltip.textContent = text;
+        tooltip.style.transform = `translate(${mouseX}px, ${mouseY - 22px}) scale(0.85)`;
+        // 다음 프레임에서 애니메이션 동작하게 하여 부드럽게 출력
+        requestAnimationFrame(() => {
+          tooltip.classList.add('visible');
+        });
+      }
     }
   });
 
   document.addEventListener('mouseout', (e) => {
-    if (e.target.closest(INTERACTIVE)) {
+    const target = e.target.closest(INTERACTIVE);
+    if (target) {
       dot.classList.remove('cursor-hover');
       glow.classList.remove('cursor-hover');
+      tooltip.classList.remove('visible');
     }
   });
 
