@@ -1807,7 +1807,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. 일반 장바구니 결제 모드 (장바구니에서 주문하기 클릭 시)
     const itemCards = document.querySelectorAll('.cart-item-card');
-    const totalQtyVal = document.getElementById('cart-total-count') ? parseInt(document.getElementById('cart-total-count').textContent) : 0;
+    let totalQtyVal = 0;
+    itemCards.forEach(card => {
+      const qtyValEl = card.querySelector('.qty-val');
+      const qtyVal = qtyValEl ? (parseInt(qtyValEl.textContent) || 0) : 0;
+      totalQtyVal += qtyVal;
+    });
     const totalPriceVal = document.getElementById('cart-total-price') ? document.getElementById('cart-total-price').textContent : "0원";
     
     // 대표 상품 로드
