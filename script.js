@@ -1405,12 +1405,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // 13. 제품 상세보기 & 장바구니 실시간 연동
   // ==========================================
 
-  // 13.1. 제품 데이터 목록 정의
   const productsData = {
+    // 1. 홈 화면 & 컬렉션 & 큐레이션용 오리지널 상품 정보 (홈페이지 비주얼 일치)
     "aurora-brass": {
       name: "오로라 브라스 펜던트",
       price: 450000,
-      img: "img/light003.jpg",
+      img: "img/light009.jpg",
       match: "98%",
       desc: "정제된 황동 소재와 따뜻한 빛의 조화가 다이닝 공간을 클래식하게 연출해줍니다. 시간의 흐름에 따라 깊어지는 질감을 경험해보세요.",
       specs: ["2700K~6500K", "Smart Control", "Dimmable"],
@@ -1427,6 +1427,16 @@ document.addEventListener('DOMContentLoaded', () => {
       insight: "침대 머리맡에 배치하여 은은한 독서등으로 제격이며, 우드 톤의 프레임 가구와 조화롭게 매칭됩니다.",
       colors: ["#8D5B4C", "#D2B48C", "#FFFFFF"]
     },
+    "neo-able": {
+      name: "네오 에블 라이트",
+      price: 180000,
+      img: "img/Stand03.png",
+      match: "94%",
+      desc: "컴팩트한 라인에 마그네틱 회전식 관절 헤드를 탑재하여 침실 벽면 간접 조명이나 집중 독서등으로 활용 가능한 신개념 램프입니다.",
+      specs: ["3000K 단일", "900 Lux", "3단계 터치디밍"],
+      insight: "자석 헤드가 360도 회전하여 눈부심을 방지하고 벽을 향해 비춤으로써 극도의 안락함을 도모합니다.",
+      colors: ["#1C1D1F", "#E5C7B2", "#FFFFFF"]
+    },
     "smart-cube": {
       name: "스마트 미니 큐브 무드등",
       price: 49000,
@@ -1436,16 +1446,6 @@ document.addEventListener('DOMContentLoaded', () => {
       specs: ["RGB Full Color", "500 Lux", "스마트 App 연동"],
       insight: "이 조명은 다채로운 분위기를 원스톱으로 연출할 수 있어, 파티션 공간이나 게이밍 데스크 분위기 조성에 탁월합니다.",
       colors: ["#FFFFFF", "#000000", "#CCCCCC"]
-    },
-    "aura-floor": {
-      name: "아우라 플로어 램프",
-      price: 180000,
-      img: "img/img002.png",
-      match: "98%",
-      desc: "내추럴한 거실 분위기에 은은하게 매칭되는 앰비언트 램프로, 5단계 조도 조절 기능이 어두운 야간 무드에 최적의 빛을 선사합니다.",
-      specs: ["2200K~4000K", "1500 Lux", "터치식 무단계 조절"],
-      insight: "거실 소파 옆이나 빈 벽면 구석 코너에 빛을 쏘아 올려 벽면 반사광을 통한 따뜻하고 깊은 입체감을 줍니다.",
-      colors: ["#3A3B3C", "#C0C0C0", "#EBEBEB"]
     },
     "luna-table": {
       name: "Luna Table Lamp",
@@ -1477,16 +1477,6 @@ document.addEventListener('DOMContentLoaded', () => {
       insight: "이 스탠드는 긴 아치 곡선으로 소파 위를 부드럽게 감싸안는 세련된 라인감을 선사합니다.",
       colors: ["#C0C0C0", "#1C1D1F", "#FFFFFF"]
     },
-    "neo-able": {
-      name: "네오 에블 라이트",
-      price: 180000,
-      img: "img/Stand03.png",
-      match: "94%",
-      desc: "컴팩트한 라인에 마그네틱 회전식 관절 헤드를 탑재하여 침실 벽면 간접 조명이나 집중 독서등으로 활용 가능한 신개념 램프입니다.",
-      specs: ["3000K 단일", "900 Lux", "3단계 터치디밍"],
-      insight: "자석 헤드가 360도 회전하여 눈부심을 방지하고 벽을 향해 비춤으로써 극도의 안락함을 도모합니다.",
-      colors: ["#1C1D1F", "#E5C7B2", "#FFFFFF"]
-    },
     "ambient-strip": {
       name: "엠비언트 스트립",
       price: 62000,
@@ -1495,6 +1485,117 @@ document.addEventListener('DOMContentLoaded', () => {
       desc: "TV 배후나 침대 헤드 뒤에 부착하여 미세한 색상 조절로 공간의 깊이감을 더해주는 부착형 스마트 LED 라이트 스트립입니다.",
       specs: ["RGBIC 멀티컬러", "600 Lux", "스마트 App & 소리반응"],
       insight: "음악이나 소리에 맞춰 반응하는 인터랙티브 모션 라이팅으로 홈시네마 분위기를 한 차원 업그레이드합니다.",
+      colors: ["#FFFFFF", "#000000"]
+    },
+    "aura-floor": {
+      name: "아우라 플로어 램프",
+      price: 180000,
+      img: "img/img002.png",
+      match: "98%",
+      desc: "내추럴한 거실 분위기에 은은하게 매칭되는 앰비언트 램프로, 5단계 조도 조절 기능이 어두운 야간 무드에 최적의 빛을 선사합니다.",
+      specs: ["2200K~4000K", "1500 Lux", "터치식 무단계 조절"],
+      insight: "거실 소파 옆이나 빈 벽면 구석 코너에 빛을 쏘아 올려 벽면 반사광을 통한 따뜻하고 깊은 입체감을 줍니다.",
+      colors: ["#3A3B3C", "#C0C0C0", "#EBEBEB"]
+    },
+
+    // 2. [제품 둘러보기] 10종 전용 상품 정보 (둘러보기 목록 이미지와 100% 일치)
+    "explore-wood-hexa": {
+      name: "원목 감성 무드등",
+      price: 75000,
+      img: "img/light001.jpg",
+      match: "92%",
+      desc: "천연 무늬목의 결을 그대로 살려 자연스럽고 아늑한 침실 분위기를 만드는 헥사 쉐이프 테이블 스탠드입니다.",
+      specs: ["3000K 단일", "800 Lux", "원터치 토글스위치"],
+      insight: "침대 머리맡에 배치하여 은은한 독서등으로 제격이며, 우드 톤의 프레임 가구와 조화롭게 매칭됩니다.",
+      colors: ["#8D5B4C", "#D2B48C", "#FFFFFF"]
+    },
+    "explore-cozy-acrylic": {
+      name: "포근한 아크릴 무드등",
+      price: 180000,
+      img: "img/light002.jpg",
+      match: "94%",
+      desc: "수려한 라인의 아크릴 바디가 공간 전체에 부드러운 간접 빛을 고루 전파하는 모던 디자인 램프입니다.",
+      specs: ["3000K 단일", "900 Lux", "3단계 터치디밍"],
+      insight: "자석 헤드가 360도 회전하여 눈부심을 방지하고 벽을 향해 비춤으로써 극도의 안락함을 도모합니다.",
+      colors: ["#1C1D1F", "#E5C7B2", "#FFFFFF"]
+    },
+    "explore-aurora-wave": {
+      name: "오로라 웨이브 무드등",
+      price: 90000,
+      img: "img/light003.jpg",
+      match: "96%",
+      desc: "신비롭고 다채로운 오로라 파동의 빛을 공간에 수놓아 감각적인 분위기를 자아내는 프리미어 테이블 조명입니다.",
+      specs: ["Aurora Light", "700 Lux", "USB 전원구동"],
+      insight: "밋밋한 벽면에 투사하여 물결치는 파동 효과를 연출함으로써 깊고 화려한 무드를 완성합니다.",
+      colors: ["#E5C7B2", "#3E4C5E", "#1C1D1F"]
+    },
+    "explore-smart-cube": {
+      name: "스마트 IoT 무드등",
+      price: 49000,
+      img: "img/light004.jpg",
+      match: "95%",
+      desc: "1600만 가지 RGB 컬러 표현과 스마트폰 App 스케줄링으로 나만의 테마 분위기를 커스텀하는 스마트 무드등입니다.",
+      specs: ["RGB Full Color", "500 Lux", "스마트 App 연동"],
+      insight: "이 조명은 다채로운 분위기를 원스톱으로 연출할 수 있어, 파티션 공간이나 게이밍 데스크 분위기 조성에 탁월합니다.",
+      colors: ["#FFFFFF", "#000000", "#CCCCCC"]
+    },
+    "explore-minimal-ceramic": {
+      name: "미니멀 세라믹 무드등",
+      price: 150000,
+      img: "img/light005.jpg",
+      match: "97%",
+      desc: "정제된 점토로 수공예 제작되어 아늑하고 포근한 감성을 선사하는 미니멀한 라운드 세라믹 램프입니다.",
+      specs: ["2700K 단일", "550 Lux", "아날로그 스위치"],
+      insight: "우아하고 깨끗한 화이트 톤 가구 및 원목 베드 헤드보드 위에 따뜻한 분위기 메이커로 조화롭습니다.",
+      colors: ["#FAF6EE", "#E5DCD0", "#FFFFFF"]
+    },
+    "explore-designer-handcraft": {
+      name: "디자이너 수공예 무드등",
+      price: 165000,
+      img: "img/light006.jpg",
+      match: "97%",
+      desc: "수공예 유리 블로잉 아트로 제작되어 신비롭고 영롱한 투명 질감을 선사하는 디자이너 시그니처 조명입니다.",
+      specs: ["3000K~5000K", "1000 Lux", "스마트 디밍 모드"],
+      insight: "어느 각도에서 보아도 수려한 원목 곡선 프레임이 공간의 조형미를 극대화하며, 은은하게 흩어지는 잔잔한 빛이 매력적입니다.",
+      colors: ["#8B4513", "#CD853F", "#FFF8DC"]
+    },
+    "explore-crystal-art": {
+      name: "크리스탈 아트 무드등",
+      price: 220000,
+      img: "img/light007.jpg",
+      match: "96%",
+      desc: "기하학적 크리스탈 컷팅을 통과해 사방으로 번지는 화려한 보석 빛 반사 효과를 자아내는 거실 인테리어 포인트 등입니다.",
+      specs: ["2700K~4000K", "1400 Lux", "풋스위치 컨트롤"],
+      insight: "이 스탠드는 긴 아치 곡선으로 소파 위를 부드럽게 감싸안는 세련된 라인감을 선사합니다.",
+      colors: ["#C0C0C0", "#1C1D1F", "#FFFFFF"]
+    },
+    "explore-paper-folding": {
+      name: "에코 종이 폴딩 무드등",
+      price: 62000,
+      img: "img/light008.jpg",
+      match: "97%",
+      desc: "에코 친화적인 한지 및 폴딩 디자인으로 동양적인 부드러운 감성을 뿜어내는 수공예 종이 펜던트 램프입니다.",
+      specs: ["2700K 단일", "500 Lux", "패브릭 케이블 스위치"],
+      insight: "빛이 한지를 통과하며 산란되어 눈이 편안하며 한옥 감성이나 내추럴 모던 가구와 융합도가 높습니다.",
+      colors: ["#FAF6EE", "#FFFFFF"]
+    },
+    "explore-brass-pendant": {
+      name: "황동 미니멀 펜던트 무드등",
+      price: 450000,
+      img: "img/light009.jpg",
+      match: "98%",
+      desc: "정제된 황동 소재와 따뜻한 빛의 조화가 다이닝 공간을 클래식하게 연출해줍니다. 시간의 흐름에 따라 깊어지는 질감을 경험해보세요.",
+      specs: ["2700K~6500K", "Smart Control", "Dimmable"],
+      colors: ["#E5C7B2", "#3E4C5E", "#1C1D1F"]
+    },
+    "explore-camping-portable": {
+      name: "실외 포터블 캠핑 무드등",
+      price: 49000,
+      img: "img/light010.jpg",
+      match: "95%",
+      desc: "1600만 가지 RGB 컬러 표현과 컴팩트 핸들 탑재로 실외나 캠핑 텐트 안에서 다채롭게 활용하는 방수형 스마트 아웃도어 무드등입니다.",
+      specs: ["RGB Full Color", "450 Lux", "IP65 방수방진"],
+      insight: "방수 규격 설계 및 컴팩트 핸들 탑재로 캠핑 텐트 내부나 아웃도어 환경에서 매우 활용도가 높습니다.",
       colors: ["#FFFFFF", "#000000"]
     }
   };
