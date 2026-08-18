@@ -8498,5 +8498,11 @@ body.dark-mode .bna-card {
   max-width: 380px !important;
 }
 
+#view-mypage {
+  height: 100vh !important;
+  height: 100dvh !important;
+  overflow: hidden !important;
+}
+
 
 
