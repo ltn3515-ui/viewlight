@@ -131,11 +131,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentActiveView = 'home';
 
   function showView(viewId) {
-    // 로그인 체크 인터셉터 (비로그인 상태에서 장바구니 및 마이페이지 하위 경로 차단)
-    if (['cart', 'mypage', 'orders', 'reviews', 'shipping', 'customer-center', 'settings'].includes(viewId)) {
+    // 로그인 체크 인터셉터 (공지사항, 이벤트, 비포 에프터 및 홈을 제외한 모든 메뉴/뷰 차단)
+    const publicViews = ['home', 'bna-all', 'featured-more'];
+    if (!publicViews.includes(viewId)) {
       const isLoggedIn = localStorage.getItem('viewlight_logged_in') === 'true';
       if (!isLoggedIn) {
-        if (window.showToast) window.showToast('로그인이 필요합니다.', 'error');
+        if (window.showToast) window.showToast('로그인 후 사용해 주세요.', 'error');
         if (window.openLoginModal) window.openLoginModal();
         return;
       }
@@ -1614,6 +1615,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 13.2. 실시간 장바구니 추가 로직
   window.addProductToCart = function(name, price, img) {
+    const isLoggedIn = localStorage.getItem('viewlight_logged_in') === 'true';
+    if (!isLoggedIn) {
+      if (window.showToast) window.showToast('로그인 후 사용해 주세요.', 'error');
+      if (window.openLoginModal) window.openLoginModal();
+      return;
+    }
     const newId = 'cart-item-' + Date.now();
     const newCardHtml = `
       <div class="cart-item-card" data-price="${price}" id="${newId}" style="opacity: 0; transform: scale(0.9); transition: all 0.25s;">
@@ -1658,6 +1665,11 @@ document.addEventListener('DOMContentLoaded', () => {
   window.updateCartBadge = function() {
     const badge = document.getElementById('cart-badge');
     if (!badge) return;
+    const isLoggedIn = localStorage.getItem('viewlight_logged_in') === 'true';
+    if (!isLoggedIn) {
+      badge.style.display = 'none';
+      return;
+    }
     let total = 0;
     document.querySelectorAll('.cart-item-card').forEach(card => {
       const qtyValEl = card.querySelector('.qty-val');
@@ -2239,6 +2251,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // 쿠폰 모달 열기
   window.openCouponModal = function() {
+    const isLoggedIn = localStorage.getItem('viewlight_logged_in') === 'true';
+    if (!isLoggedIn) {
+      if (window.showToast) window.showToast('로그인 후 사용해 주세요.', 'error');
+      if (window.openLoginModal) window.openLoginModal();
+      return;
+    }
     const couponModal = document.getElementById('coupon-modal');
     if (!couponModal) return;
     
@@ -2502,6 +2520,14 @@ const infoModalData = {
 };
 
 window.openInfoModal = function(type) {
+  if (type !== 'notice' && type !== 'events') {
+    const isLoggedIn = localStorage.getItem('viewlight_logged_in') === 'true';
+    if (!isLoggedIn) {
+      if (window.showToast) window.showToast('로그인 후 사용해 주세요.', 'error');
+      if (window.openLoginModal) window.openLoginModal();
+      return;
+    }
+  }
   const modal = document.getElementById('simple-info-modal');
   const badgeEl = document.getElementById('info-modal-badge');
   const titleEl = document.getElementById('info-modal-title');
@@ -3005,6 +3031,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (drawerLoginBtn) drawerLoginBtn.style.display = 'block';
       if (drawerFooter) drawerFooter.style.display = 'none';
     }
+
+    // 로그인 상태 변경에 따른 장바구니 뱃지 즉시 동기화
+    if (window.updateCartBadge) window.updateCartBadge();
   };
 
   // 로그아웃 버튼 이벤트 바인딩
@@ -3015,6 +3044,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('viewlight_logged_in', 'false');
       window.updateLoginUI();
       if (window.showToast) window.showToast('로그아웃 되었습니다.');
+      showView('home'); // 비로그인 전용 화면으로 롤백
     });
   }
 
