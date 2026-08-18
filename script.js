@@ -1410,7 +1410,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "aurora-brass": {
       name: "오로라 브라스 펜던트",
       price: 450000,
-      img: "img/Transformation Card 2.png",
+      img: "img/light003.jpg",
       match: "98%",
       desc: "정제된 황동 소재와 따뜻한 빛의 조화가 다이닝 공간을 클래식하게 연출해줍니다. 시간의 흐름에 따라 깊어지는 질감을 경험해보세요.",
       specs: ["2700K~6500K", "Smart Control", "Dimmable"],
