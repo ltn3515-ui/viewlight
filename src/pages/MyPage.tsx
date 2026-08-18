@@ -77,8 +77,6 @@ export const MyPage: React.FC = () => {
           <div
             className="service-content mypage-content"
             style={{
-              height: 'calc(100vh - 120px)',
-              overflowY: 'auto',
               padding: '20px 20px 120px 20px',
               display: 'flex',
               flexDirection: 'column',
