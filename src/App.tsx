@@ -14,6 +14,7 @@ import { SplashPage } from './pages/SplashPage';
 import { CategoryAllPage } from './pages/CategoryAllPage';
 import { FeaturedMorePage } from './pages/FeaturedMorePage';
 import { MyPage } from './pages/MyPage';
+import { BnaAllPage } from './pages/BnaAllPage';
 
 import { AuthModal } from './components/modals/AuthModal';
 import { CartDrawer } from './components/modals/CartDrawer';
@@ -30,6 +31,7 @@ import { CameraScanModal } from './components/modals/CameraScanModal';
 import { EditProfileModal } from './components/modals/EditProfileModal';
 import { OrderHistoryModal } from './components/modals/OrderHistoryModal';
 import { MyReviewsModal } from './components/modals/MyReviewsModal';
+import { ImageViewerModal } from './components/modals/ImageViewerModal';
 
 export const App: React.FC = () => {
   return (
@@ -48,6 +50,7 @@ export const App: React.FC = () => {
                   <Route path="/category-all" element={<CategoryAllPage />} />
                   <Route path="/featured-more" element={<FeaturedMorePage />} />
                   <Route path="/mypage" element={<MyPage />} />
+                  <Route path="/bna-all" element={<BnaAllPage />} />
                 </Routes>
 
                 {/* Modals & Drawers must be inside BrowserRouter for useNavigate to work! */}
@@ -66,6 +69,7 @@ export const App: React.FC = () => {
                 <EditProfileModal />
                 <OrderHistoryModal />
                 <MyReviewsModal />
+                <ImageViewerModal />
               </BrowserRouter>
             </ModalProvider>
           </AuthProvider>
