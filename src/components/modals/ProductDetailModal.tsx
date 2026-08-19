@@ -2,23 +2,33 @@ import React, { useState } from 'react';
 import { useModal } from '../../context/ModalContext';
 import { useCart } from '../../context/CartContext';
 import { useToast } from '../../context/ToastContext';
+import { useAuth } from '../../context/AuthContext';
 
 export const ProductDetailModal: React.FC = () => {
   const { activeModal, selectedProduct, closeModal, openModal } = useModal();
   const { addToCart } = useCart();
   const { showToast } = useToast();
+  const { isLoggedIn } = useAuth();
   const [isLiked, setIsLiked] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
 
   if (activeModal !== 'productDetail' || !selectedProduct) return null;
 
   const handleAddToCart = () => {
+    if (!isLoggedIn) {
+      showToast('⚠️ 로그인이 필요한 서비스입니다.');
+      return;
+    }
     addToCart(selectedProduct.name, selectedProduct.price, selectedProduct.img, selectedProduct.id);
     showToast(`🛒 [${selectedProduct.name}]가 장바구니에 담겼습니다!`);
     closeModal();
   };
 
   const handleBuyNow = () => {
+    if (!isLoggedIn) {
+      showToast('⚠️ 로그인이 필요한 서비스입니다.');
+      return;
+    }
     addToCart(selectedProduct.name, selectedProduct.price, selectedProduct.img, selectedProduct.id);
     closeModal();
     openModal('cart');

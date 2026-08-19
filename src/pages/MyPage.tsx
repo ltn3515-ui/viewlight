@@ -176,9 +176,17 @@ export const MyPage: React.FC = () => {
         navigate('/commend');
         break;
       case 'cart':
+        if (!isLoggedIn) {
+          showToast('⚠️ 로그인이 필요한 서비스입니다.');
+          break;
+        }
         openModal('cart');
         break;
       case 'order':
+        if (!isLoggedIn) {
+          showToast('⚠️ 로그인이 필요한 서비스입니다.');
+          break;
+        }
         openModal('orderHistory');
         break;
     }

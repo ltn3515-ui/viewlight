@@ -2,12 +2,16 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useModal } from '../../context/ModalContext';
 import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
 
 export const BottomNav: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { openModal } = useModal();
   const { totalCount } = useCart();
+  const { isLoggedIn } = useAuth();
+  const { showToast } = useToast();
 
   return (
     <nav className="mobile-bottom-tabbar">
@@ -41,11 +45,17 @@ export const BottomNav: React.FC = () => {
       <button
         type="button"
         className="tab-item"
-        onClick={() => openModal('cart')}
+        onClick={() => {
+          if (!isLoggedIn) {
+            showToast('⚠️ 로그인이 필요한 서비스입니다.');
+            return;
+          }
+          openModal('cart');
+        }}
       >
         <span className="tab-icon-wrap" style={{ position: 'relative' }}>
           <span className="material-symbols-outlined">shopping_bag</span>
-          {totalCount > 0 && (
+          {isLoggedIn && totalCount > 0 && (
             <span
               className="cart-badge"
               style={{
