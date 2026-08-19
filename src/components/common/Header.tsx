@@ -59,8 +59,8 @@ export const Header: React.FC = () => {
           )}
         </button>
 
-        {/* 로그인 / 로그아웃 버튼 배치 */}
-        {!isLoggedIn ? (
+        {/* 로그인 버튼 배치 (로그인 완료 시에는 로그아웃 버튼 숨김) */}
+        {!isLoggedIn && (
           <button
             type="button"
             className="btn-header-auth"
@@ -80,30 +80,6 @@ export const Header: React.FC = () => {
             }}
           >
             로그인
-          </button>
-        ) : (
-          <button
-            type="button"
-            className="btn-header-auth"
-            onClick={() => {
-              logout();
-              showToast('로그아웃 되었습니다.');
-            }}
-            style={{
-              padding: '7px 16px',
-              borderRadius: '20px',
-              fontSize: '0.8rem',
-              fontWeight: 800,
-              background: '#FEE2E2',
-              color: '#EF4444',
-              border: '1px solid #FCA5A5',
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              transition: 'all 0.2s ease',
-              boxShadow: '0 2px 8px rgba(239, 68, 68, 0.08)'
-            }}
-          >
-            로그아웃
           </button>
         )}
       </div>

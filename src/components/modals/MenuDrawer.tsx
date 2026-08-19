@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useModal } from '../../context/ModalContext';
 import { useToast } from '../../context/ToastContext';
+import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const Overlay = styled.div<{ $isOpen: boolean }>`
@@ -159,6 +160,7 @@ const AuthBtn = styled.button<{ $isLogout?: boolean }>`
 
 export const MenuDrawer: React.FC = () => {
   const { activeModal, openModal, closeModal } = useModal();
+  const { isLoggedIn, user, logout } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
 
@@ -223,6 +225,28 @@ export const MenuDrawer: React.FC = () => {
             </MenuItemSub>
           </SubMenuList>
         </NavContainer>
+
+        {/* 로그인 완료 상태일 때만 하단 프로필 및 로그아웃 버튼 노출 */}
+        {isLoggedIn && user && (
+          <FooterSection>
+            <UserProfile>
+              <AvatarImg src={user.photoURL || 'img/Stand01.jpg'} alt="User Avatar" />
+              <UserName>
+                <strong>'{user.name || user.email.split('@')[0] || '김뷰라이트'}'</strong>님 환영합니다
+              </UserName>
+            </UserProfile>
+            <AuthBtn
+              $isLogout={true}
+              onClick={() => {
+                closeModal();
+                logout();
+                showToast('로그아웃 되었습니다.');
+              }}
+            >
+              로그아웃
+            </AuthBtn>
+          </FooterSection>
+        )}
       </DrawerCard>
     </Overlay>
   );
