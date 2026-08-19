@@ -205,7 +205,7 @@ export const MenuDrawer: React.FC = () => {
               Curation Report
             </MenuItemMain>
 
-            <MenuItemMain onClick={() => handleNav(() => navigate('/splash'))}>
+            <MenuItemMain onClick={() => handleNav(() => navigate('/story'))}>
               Viewlight Story
             </MenuItemMain>
           </MainMenuList>

@@ -55,8 +55,7 @@ export const AiTechModal: React.FC = () => {
             className="btn-tech-modal-bna"
             onClick={() => {
               closeModal();
-              const el = document.querySelector('.section-bna');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
+              navigate('/bna-all');
             }}
           >
             <span className="material-symbols-outlined">compare</span>

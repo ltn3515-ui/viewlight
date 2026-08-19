@@ -15,6 +15,7 @@ import { CategoryAllPage } from './pages/CategoryAllPage';
 import { FeaturedMorePage } from './pages/FeaturedMorePage';
 import { MyPage } from './pages/MyPage';
 import { BnaAllPage } from './pages/BnaAllPage';
+import { StoryPage } from './pages/StoryPage';
 
 import { AuthModal } from './components/modals/AuthModal';
 import { CartDrawer } from './components/modals/CartDrawer';
@@ -51,6 +52,7 @@ export const App: React.FC = () => {
                   <Route path="/featured-more" element={<FeaturedMorePage />} />
                   <Route path="/mypage" element={<MyPage />} />
                   <Route path="/bna-all" element={<BnaAllPage />} />
+                  <Route path="/story" element={<StoryPage />} />
                 </Routes>
 
                 {/* Modals & Drawers must be inside BrowserRouter for useNavigate to work! */}
