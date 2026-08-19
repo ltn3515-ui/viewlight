@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useModal } from '../../context/ModalContext';
 import { useToast } from '../../context/ToastContext';
+import { useAuth } from '../../context/AuthContext';
 
 const Overlay = styled.div<{ $isOpen: boolean }>`
   position: fixed;
@@ -66,13 +67,20 @@ const ClaimBtn = styled.button<{ $claimed: boolean }>`
 `;
 
 export const CouponModal: React.FC = () => {
-  const { activeModal, closeModal } = useModal();
+  const { activeModal, closeModal, openModal } = useModal();
   const { showToast } = useToast();
+  const { isLoggedIn } = useAuth();
   const [claimed, setClaimed] = useState(false);
 
   if (activeModal !== 'coupon') return null;
 
   const handleClaim = () => {
+    if (!isLoggedIn) {
+      showToast('신규회원이시군요. 회원가입 후 쿠폰팩을 받으실 수 있습니다.');
+      closeModal();
+      openModal('login');
+      return;
+    }
     setClaimed(true);
     showToast('✨ 15% 세트 할인 쿠폰팩 3종이 정상 발급되었습니다!');
   };
