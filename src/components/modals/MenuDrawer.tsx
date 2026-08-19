@@ -145,12 +145,16 @@ const AuthBtn = styled.button<{ $isLogout?: boolean }>`
   border-radius: 20px;
   font-weight: 800;
   font-size: 0.85rem;
-  background: ${props => (props.$isLogout ? '#FDE68A' : 'var(--color-accent, #FFAB40)')};
-  color: #121826;
-  transition: transform 0.2s ease;
+  background: ${props => (props.$isLogout ? '#FEE2E2' : 'var(--color-accent, #FFAB40)')};
+  color: ${props => (props.$isLogout ? '#EF4444' : '#121826')};
+  border: 1px solid ${props => (props.$isLogout ? '#FCA5A5' : 'transparent')};
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
 
   &:hover {
     transform: scale(1.05);
+    background: ${props => (props.$isLogout ? '#FCA5A5' : '#E69528')};
   }
 `;
 
@@ -245,7 +249,7 @@ export const MenuDrawer: React.FC = () => {
                   showToast('로그아웃 되었습니다.');
                 }}
               >
-                [로그아웃]
+                로그아웃
               </AuthBtn>
             </>
           ) : (
@@ -255,7 +259,7 @@ export const MenuDrawer: React.FC = () => {
                 <UserName>로그인이 필요합니다</UserName>
               </UserProfile>
               <AuthBtn onClick={() => handleNav(() => openModal('login'))}>
-                [로그인]
+                로그인
               </AuthBtn>
             </>
           )}
