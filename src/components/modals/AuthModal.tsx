@@ -5,7 +5,7 @@ import { useToast } from '../../context/ToastContext';
 
 export const AuthModal: React.FC = () => {
   const { activeModal, closeModal } = useModal();
-  const { login, loginWithGoogle } = useAuth();
+  const { login, loginWithGoogle, loginWithKakao } = useAuth();
   const { showToast } = useToast();
 
   const [mode, setMode] = useState<'login' | 'signup'>('login');
@@ -23,6 +23,15 @@ export const AuthModal: React.FC = () => {
         closeModal();
       } catch (error) {
         showToast('⚠️ Google 로그인에 실패했습니다. 다시 시도해주세요.');
+      }
+    } else if (provider === 'Kakao') {
+      try {
+        await loginWithKakao();
+        showToast('🎉 카카오 계정으로 로그인 되었습니다!');
+        closeModal();
+      } catch (error: any) {
+        const errorMsg = error?.message || '카카오 로그인에 실패했습니다. 다시 시도해주세요.';
+        showToast(`⚠️ ${errorMsg}`);
       }
     } else {
       login(`user_${provider.toLowerCase()}@viewlight.com`, `${provider} 사용자`);
