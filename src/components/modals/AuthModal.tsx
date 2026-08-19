@@ -5,7 +5,7 @@ import { useToast } from '../../context/ToastContext';
 
 export const AuthModal: React.FC = () => {
   const { activeModal, closeModal } = useModal();
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const { showToast } = useToast();
 
   const [mode, setMode] = useState<'login' | 'signup'>('login');
@@ -15,10 +15,20 @@ export const AuthModal: React.FC = () => {
 
   if (activeModal !== 'login') return null;
 
-  const handleSocialLogin = (provider: string) => {
-    login(`user_${provider.toLowerCase()}@viewlight.com`, `${provider} 사용자`);
-    showToast(`🎉 ${provider} 계정으로 로그인 되었습니다!`);
-    closeModal();
+  const handleSocialLogin = async (provider: string) => {
+    if (provider === 'Google') {
+      try {
+        await loginWithGoogle();
+        showToast('🎉 Google 계정으로 로그인 되었습니다!');
+        closeModal();
+      } catch (error) {
+        showToast('⚠️ Google 로그인에 실패했습니다. 다시 시도해주세요.');
+      }
+    } else {
+      login(`user_${provider.toLowerCase()}@viewlight.com`, `${provider} 사용자`);
+      showToast(`🎉 ${provider} 계정으로 로그인 되었습니다!`);
+      closeModal();
+    }
   };
 
   const handleEmailSubmit = (e: React.FormEvent) => {

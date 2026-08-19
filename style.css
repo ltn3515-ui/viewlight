@@ -8506,5 +8506,240 @@ body.dark-mode .bna-card {
   overflow: hidden !important;
 }
 
+/* ==========================================
+   마이페이지 — 스크린샷 매칭 전용 스타일
+   ========================================== */
+#view-mypage .mypage-content {
+  gap: 24px;
+  padding-bottom: 100px;
+}
+
+#view-mypage .header-noti-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #EF4444;
+  color: #FFF;
+  font-size: 0.65rem;
+  font-weight: 800;
+  border-radius: 50%;
+  padding: 2px 5px;
+  line-height: 1;
+}
+
+/* 프로필 — 카드 없이 플랫 레이아웃 */
+#view-mypage .mypage-profile-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+#view-mypage .mypage-avatar-btn {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+#view-mypage .mypage-avatar-img {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: block;
+}
+
+#view-mypage .profile-username {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+#view-mypage .profile-member-badge .material-symbols-outlined {
+  font-size: 11px;
+}
+
+/* 섹션 타이틀 */
+#view-mypage .mypage-section-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-sub);
+  margin: 0 0 10px 0;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+#view-mypage .mypage-section-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+#view-mypage .mypage-section-title-row .mypage-section-title {
+  margin: 0;
+}
+
+#view-mypage .mypage-section-icon {
+  font-size: 18px;
+  color: var(--color-text-sub);
+}
+
+/* Ambient Profile 배너 */
+#view-mypage .ambient-profile-banner {
+  background: linear-gradient(135deg, #FFF9F0 0%, #FFF3E0 100%);
+  border: 1px solid #FFE0B2;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+#view-mypage .banner-headline {
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+}
+
+#view-mypage .banner-description {
+  font-size: 0.82rem;
+  margin-bottom: 12px;
+}
+
+#view-mypage .btn-view-report {
+  height: 38px;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+/* Smart Control — 세로 카드 레이아웃 */
+#view-mypage .mypage-smart-devices {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#view-mypage .mypage-device-card {
+  background: var(--color-bg-card);
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  padding: 18px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: opacity 0.25s;
+}
+
+#view-mypage .mypage-device-card.is-on {
+  background: #FFFCF7;
+}
+
+#view-mypage .mypage-device-card.offline {
+  background: #F5F5F5;
+  opacity: 0.75;
+}
+
+#view-mypage .mypage-device-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#view-mypage .mypage-device-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #FFF3E0;
+  color: #FF9100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#view-mypage .mypage-device-card.offline .mypage-device-icon {
+  background: #F1F5F9;
+  color: #94A3B8;
+}
+
+#view-mypage .mypage-device-icon .material-symbols-outlined {
+  font-size: 20px;
+}
+
+#view-mypage .mypage-device-toggle {
+  border: none;
+  border-radius: 12px;
+  padding: 4px 12px;
+  font-size: 0.72rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#view-mypage .mypage-device-toggle.on {
+  background: var(--color-primary);
+  color: var(--color-dark-navy);
+}
+
+#view-mypage .mypage-device-toggle.off {
+  background: #E2E8F0;
+  color: #64748B;
+}
+
+#view-mypage .mypage-device-name {
+  font-size: 1rem;
+  font-weight: 800;
+  margin: 4px 0 0;
+  color: var(--color-text-main);
+}
+
+#view-mypage .mypage-device-card.offline .mypage-device-name {
+  color: #64748B;
+}
+
+#view-mypage .mypage-device-meta {
+  font-size: 0.78rem;
+  color: var(--color-text-sub);
+  margin: 0;
+}
+
+#view-mypage .mypage-device-card.offline .mypage-device-meta {
+  color: #94A3B8;
+}
+
+#view-mypage .mypage-device-slider {
+  width: 100%;
+  height: 8px;
+  background: #F0EDE6;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+#view-mypage .mypage-device-card.offline .mypage-device-slider {
+  background: #F1F5F9;
+}
+
+#view-mypage .mypage-device-slider-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FFAB40 0%, #FF9100 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+#view-mypage .mypage-device-card.offline .mypage-device-slider-fill {
+  background: #94A3B8;
+}
+
+/* 메뉴 목록 — button 리셋 */
+#view-mypage .mypage-menu-list .menu-list-row {
+  width: 100%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+}
+
 
 
