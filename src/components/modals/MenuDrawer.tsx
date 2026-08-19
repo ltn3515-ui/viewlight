@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useModal } from '../../context/ModalContext';
-import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -160,7 +159,6 @@ const AuthBtn = styled.button<{ $isLogout?: boolean }>`
 
 export const MenuDrawer: React.FC = () => {
   const { activeModal, openModal, closeModal } = useModal();
-  const { isLoggedIn, user, logout } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
 
@@ -174,17 +172,11 @@ export const MenuDrawer: React.FC = () => {
   return (
     <Overlay $isOpen={true} onClick={closeModal}>
       <DrawerCard onClick={e => e.stopPropagation()}>
-        {/* 상단 닫기 및 로그인 버튼 */}
+        {/* 상단 닫기 버튼 */}
         <HeaderRow>
           <CloseBtn onClick={closeModal} title="닫기">
             <span className="material-symbols-outlined">close</span>
           </CloseBtn>
-
-          {!isLoggedIn && (
-            <HeaderLoginBtn onClick={() => handleNav(() => openModal('login'))}>
-              로그인
-            </HeaderLoginBtn>
-          )}
         </HeaderRow>
 
         {/* 내비게이션 메뉴 */}
@@ -231,39 +223,6 @@ export const MenuDrawer: React.FC = () => {
             </MenuItemSub>
           </SubMenuList>
         </NavContainer>
-
-        {/* 하단 로그인/프로필 상태 바 */}
-        <FooterSection>
-          {isLoggedIn ? (
-            <>
-              <UserProfile>
-                <AvatarImg src="img/Stand01.jpg" alt="User Avatar" />
-                <UserName>
-                  <strong>'{user?.name || user?.email?.split('@')[0] || '김뷰라이트'}'</strong>님 환영합니다
-                </UserName>
-              </UserProfile>
-              <AuthBtn
-                $isLogout={true}
-                onClick={() => {
-                  logout();
-                  showToast('로그아웃 되었습니다.');
-                }}
-              >
-                로그아웃
-              </AuthBtn>
-            </>
-          ) : (
-            <>
-              <UserProfile>
-                <AvatarImg src="img/Stand01.jpg" alt="Default Avatar" />
-                <UserName>로그인이 필요합니다</UserName>
-              </UserProfile>
-              <AuthBtn onClick={() => handleNav(() => openModal('login'))}>
-                로그인
-              </AuthBtn>
-            </>
-          )}
-        </FooterSection>
       </DrawerCard>
     </Overlay>
   );
