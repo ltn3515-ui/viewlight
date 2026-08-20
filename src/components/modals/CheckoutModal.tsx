@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useModal } from '../../context/ModalContext';
 import { useCart } from '../../context/CartContext';
 import { useToast } from '../../context/ToastContext';
+import { loadTossPayments } from '@tosspayments/tosspayments-sdk';
 
 export const CheckoutModal: React.FC = () => {
   const { activeModal, closeModal } = useModal();
@@ -16,11 +17,67 @@ export const CheckoutModal: React.FC = () => {
 
   if (activeModal !== 'checkout') return null;
 
-  const handleSubmitPayment = (e: React.FormEvent) => {
+  const handleSubmitPayment = async (e: React.FormEvent) => {
     e.preventDefault();
-    showToast(`💳 [${totalPrice.toLocaleString()}원] 주문 결제가 정상 완료되었습니다! (주문번호: VL-${Date.now().toString().slice(-6)})`);
-    clearCart();
-    closeModal();
+    try {
+      // 1. Initialize Toss Payments SDK
+      const tossPayments = await loadTossPayments('test_ck_LkKEypNArW9wbL9OkeKl3lmeaxYG');
+      
+      // 2. Generate unique order ID
+      const orderId = `VL-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+      
+      // 3. Generate orderName
+      let orderName = '';
+      if (cartItems.length > 0) {
+        const firstItemName = cartItems[0].name;
+        orderName = cartItems.length > 1 
+          ? `${firstItemName} 외 ${cartItems.length - 1}개`
+          : firstItemName;
+      } else {
+        orderName = '뷰라이트 조명 상품';
+      }
+
+      // 4. Initialize payment instance
+      const payment = tossPayments.payment({
+        customerKey: 'ANONYMOUS'
+      });
+
+      // 5. Request payment based on paymentMethod selection
+      if (paymentMethod === 'transfer') {
+        await payment.requestPayment({
+          method: 'TRANSFER',
+          amount: {
+            currency: 'KRW',
+            value: totalPrice,
+          },
+          orderId,
+          orderName,
+          successUrl: `${window.location.origin}/payment/success`,
+          failUrl: `${window.location.origin}/payment/fail`,
+          customerName: receiver,
+          customerMobilePhone: phone.replace(/[^0-9]/g, ''),
+        });
+      } else {
+        // 'easy' and 'card' both launch the Card/EasyPay payment flow
+        await payment.requestPayment({
+          method: 'CARD',
+          amount: {
+            currency: 'KRW',
+            value: totalPrice,
+          },
+          orderId,
+          orderName,
+          successUrl: `${window.location.origin}/payment/success`,
+          failUrl: `${window.location.origin}/payment/fail`,
+          customerName: receiver,
+          customerMobilePhone: phone.replace(/[^0-9]/g, ''),
+        });
+      }
+
+    } catch (err: any) {
+      console.error('Toss Payments Error: ', err);
+      showToast(`❌ 결제 진행 중 오류가 발생했습니다: ${err.message || err}`);
+    }
   };
 
   return (
