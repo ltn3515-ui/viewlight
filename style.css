@@ -153,6 +153,12 @@ img {
   box-shadow: var(--shadow-glow);
   word-break: keep-all;
   letter-spacing: -0.2px;
+  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.25s ease;
+}
+
+.quick-cta-badge:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(255, 171, 64, 0.55);
 }
 
 .quick-cta-badge .material-symbols-outlined {
@@ -1854,6 +1860,11 @@ img {
     align-items: center;
     justify-content: center;
     gap: 8px;
+    transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.25s ease, background-color 0.2s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-4px);
   }
 
   .btn-primary {
@@ -1862,10 +1873,21 @@ img {
     box-shadow: var(--shadow-glow);
   }
 
+  .btn-primary:hover {
+    background-color: var(--color-primary-hover);
+    box-shadow: 0 10px 25px rgba(255, 171, 64, 0.55);
+  }
+
   .btn-secondary {
     background-color: rgba(255, 255, 255, 0.1);
     color: #FFFFFF;
     border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   }
 
   .brand-event-info {
