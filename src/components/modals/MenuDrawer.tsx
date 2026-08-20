@@ -192,12 +192,7 @@ export const MenuDrawer: React.FC = () => {
               AI 무드등 공간 분석
             </MenuItemMain>
 
-            <MenuItemMain
-              onClick={() => handleNav(() => {
-                const el = document.querySelector('.section-categories');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              })}
-            >
+            <MenuItemMain onClick={() => handleNav(() => navigate('/category-all'))}>
               무드등 둘러보기
             </MenuItemMain>
 
