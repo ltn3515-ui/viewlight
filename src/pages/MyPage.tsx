@@ -170,7 +170,11 @@ export const MyPage: React.FC = () => {
   const handleMenuClick = (menu: string) => {
     switch (menu) {
       case 'like':
-        showToast('❤️ 아직 찜한 상품이 없습니다. 마음에 드는 조명을 찾아보세요!');
+        if (!isLoggedIn) {
+          showToast('⚠️ 로그인이 필요한 서비스입니다.');
+          break;
+        }
+        openModal('wishlist');
         break;
       case 'analysis':
         navigate('/commend');

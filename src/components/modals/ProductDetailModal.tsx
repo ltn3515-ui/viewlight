@@ -3,16 +3,34 @@ import { useModal } from '../../context/ModalContext';
 import { useCart } from '../../context/CartContext';
 import { useToast } from '../../context/ToastContext';
 import { useAuth } from '../../context/AuthContext';
+import { useWishlist } from '../../context/WishlistContext';
 
 export const ProductDetailModal: React.FC = () => {
   const { activeModal, selectedProduct, closeModal, openModal } = useModal();
   const { addToCart } = useCart();
   const { showToast } = useToast();
   const { isLoggedIn } = useAuth();
-  const [isLiked, setIsLiked] = useState(false);
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const [selectedColor, setSelectedColor] = useState(0);
 
   if (activeModal !== 'productDetail' || !selectedProduct) return null;
+
+  const isLiked = isInWishlist(selectedProduct.id);
+
+  const handleLikeClick = () => {
+    if (!isLoggedIn) {
+      showToast('⚠️ 로그인이 필요한 서비스입니다.');
+      return;
+    }
+    const alreadyLiked = isInWishlist(selectedProduct.id);
+    toggleWishlist(selectedProduct);
+    if (alreadyLiked) {
+      showToast(`💔 [${selectedProduct.name}]를 찜한 무드등에서 제외했습니다.`);
+    } else {
+      showToast(`❤️ [${selectedProduct.name}]를 찜한 무드등에 추가했습니다!`);
+    }
+  };
+
 
   const handleAddToCart = () => {
     if (!isLoggedIn) {
@@ -123,7 +141,7 @@ export const ProductDetailModal: React.FC = () => {
           <button
             type="button"
             className="header-icon-btn"
-            onClick={() => setIsLiked(!isLiked)}
+            onClick={handleLikeClick}
             style={{ border: 'none', background: 'none', cursor: 'pointer', padding: '6px' }}
             title="찜하기"
           >

@@ -7,6 +7,8 @@ import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { ModalProvider } from './context/ModalContext';
 import { CustomCursor } from './components/common/CustomCursor';
+import { WishlistProvider } from './context/WishlistContext';
+
 
 import { HomePage } from './pages/HomePage';
 import { CommendPage } from './pages/CommendPage';
@@ -35,17 +37,20 @@ import { EditProfileModal } from './components/modals/EditProfileModal';
 import { OrderHistoryModal } from './components/modals/OrderHistoryModal';
 import { MyReviewsModal } from './components/modals/MyReviewsModal';
 import { ImageViewerModal } from './components/modals/ImageViewerModal';
+import { WishlistModal } from './components/modals/WishlistModal';
+
 
 export const App: React.FC = () => {
   return (
     <ThemeProvider>
       <ToastProvider>
         <CartProvider>
-          <AuthProvider>
-            <ModalProvider>
-              <GlobalStyle />
-              <CustomCursor />
-              <BrowserRouter>
+          <WishlistProvider>
+            <AuthProvider>
+              <ModalProvider>
+                <GlobalStyle />
+                <CustomCursor />
+                <BrowserRouter>
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/commend" element={<CommendPage />} />
@@ -76,9 +81,11 @@ export const App: React.FC = () => {
                 <OrderHistoryModal />
                 <MyReviewsModal />
                 <ImageViewerModal />
+                <WishlistModal />
               </BrowserRouter>
             </ModalProvider>
           </AuthProvider>
+          </WishlistProvider>
         </CartProvider>
       </ToastProvider>
     </ThemeProvider>

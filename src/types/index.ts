@@ -45,4 +45,5 @@ export type ModalType =
   | 'orderHistory'
   | 'myReviews'
   | 'imageViewer'
+  | 'wishlist'
   | null;
