@@ -78,8 +78,46 @@ const TagGroup = styled.div`
   }
 `;
 
+const tagProductMap: Record<string, any> = {
+  '원목 탁상등': {
+    id: 'explore-wood-hexa',
+    name: '원목 감성 무드등',
+    price: 150000,
+    img: 'img/light001.jpg',
+    category: 'table',
+  },
+  '아우라 플로어': {
+    id: 'aura-floor',
+    name: '아우라 플로어 램프',
+    price: 180000,
+    img: 'img/img002.png',
+    category: 'floor',
+  },
+  '스마트 스트립': {
+    id: 'ambient-strip',
+    name: '엠비언트 스트립',
+    price: 62000,
+    img: 'img/Stand04.png',
+    category: 'ambient',
+  },
+  '침실 무드등': {
+    id: 'explore-cozy-acrylic',
+    name: '포근한 아크릴 무드등',
+    price: 120000,
+    img: 'img/light002.jpg',
+    category: 'table',
+  },
+  'RGB 조도 조절': {
+    id: 'explore-smart-cube',
+    name: '스마트 IoT 무드등',
+    price: 62000,
+    img: 'img/light004.jpg',
+    category: 'smart',
+  },
+};
+
 export const SearchModal: React.FC = () => {
-  const { activeModal, closeModal } = useModal();
+  const { activeModal, closeModal, openModal } = useModal();
   const { showToast } = useToast();
   const [query, setQuery] = useState('');
 
@@ -90,6 +128,18 @@ export const SearchModal: React.FC = () => {
     if (!query.trim()) return;
     showToast(`🔍 [${query}] 검색 결과를 찾기 위해 무드등 목록으로 이동합니다.`);
     closeModal();
+  };
+
+  const handleTagClick = (tag: string) => {
+    const product = tagProductMap[tag];
+    if (product) {
+      openModal('productDetail', product);
+      showToast(`✨ [${product.name}] 상세 페이지로 이동합니다.`);
+    } else {
+      setQuery(tag);
+      showToast(`🔍 [${tag}] 검색 결과를 조회합니다.`);
+      closeModal();
+    }
   };
 
   return (
@@ -108,7 +158,7 @@ export const SearchModal: React.FC = () => {
         <TagTitle>인기 추천 검색어</TagTitle>
         <TagGroup>
           {['원목 탁상등', '아우라 플로어', '스마트 스트립', '침실 무드등', 'RGB 조도 조절'].map(tag => (
-            <span key={tag} onClick={() => { setQuery(tag); showToast(`🔍 [${tag}] 검색 결과를 조회합니다.`); closeModal(); }}>
+            <span key={tag} onClick={() => handleTagClick(tag)}>
               #{tag}
             </span>
           ))}
