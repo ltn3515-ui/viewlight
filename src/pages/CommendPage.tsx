@@ -246,23 +246,6 @@ export const CommendPage: React.FC = () => {
                 <h4 className="report-rec-title" style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--color-text-main)' }}>
                   추천 무드등
                 </h4>
-                <button
-                  type="button"
-                  className="report-more-icon"
-                  onClick={() =>
-                    openModal('productDetail', {
-                      id: 'explore-brass-pendant',
-                      name: '황동 미니멀 펜던트 무드등',
-                      price: 490000,
-                      img: 'img/light009.jpg',
-                      category: 'pendant',
-                      badge: 'AI 추천 1위',
-                    })
-                  }
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-sub)' }}
-                >
-                  <span className="material-symbols-outlined">more_horiz</span>
-                </button>
               </div>
 
               <div
