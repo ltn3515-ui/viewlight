@@ -144,9 +144,26 @@ const EmptyCart = styled.div`
   color: var(--color-text-sub);
 `;
 
+const ClearAllBtn = styled.button`
+  background: none;
+  border: none;
+  font-size: 0.82rem;
+  color: var(--color-text-sub, #64748B);
+  cursor: pointer;
+  text-decoration: underline;
+  align-self: flex-end;
+  padding: 0 4px;
+  font-weight: 700;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #EF4444; /* hover color to light red for danger signaling */
+  }
+`;
+
 export const CartDrawer: React.FC = () => {
   const { activeModal, closeModal, openModal } = useModal();
-  const { cartItems, updateQuantity, totalPrice } = useCart();
+  const { cartItems, updateQuantity, totalPrice, clearCart } = useCart();
   const { showToast } = useToast();
 
   const isOpen = activeModal === 'cart';
@@ -174,20 +191,28 @@ export const CartDrawer: React.FC = () => {
           {cartItems.length === 0 ? (
             <EmptyCart>장바구니에 담긴 제품이 없습니다.</EmptyCart>
           ) : (
-            cartItems.map(item => (
-              <CartItemRow key={item.id}>
-                <ItemImg src={item.img} alt={item.name} />
-                <ItemInfo>
-                  <h4>{item.name}</h4>
-                  <p>{item.price.toLocaleString()}원</p>
-                </ItemInfo>
-                <QtyControls>
-                  <button onClick={() => updateQuantity(item.id, -1)}>-</button>
-                  <span>{item.qty}</span>
-                  <button onClick={() => updateQuantity(item.id, 1)}>+</button>
-                </QtyControls>
-              </CartItemRow>
-            ))
+            <>
+              <ClearAllBtn onClick={() => {
+                clearCart();
+                showToast('🛒 장바구니를 모두 비웠습니다.');
+              }}>
+                모두 비우기
+              </ClearAllBtn>
+              {cartItems.map(item => (
+                <CartItemRow key={item.id}>
+                  <ItemImg src={item.img} alt={item.name} />
+                  <ItemInfo>
+                    <h4>{item.name}</h4>
+                    <p>{item.price.toLocaleString()}원</p>
+                  </ItemInfo>
+                  <QtyControls>
+                    <button onClick={() => updateQuantity(item.id, -1)}>-</button>
+                    <span>{item.qty}</span>
+                    <button onClick={() => updateQuantity(item.id, 1)}>+</button>
+                  </QtyControls>
+                </CartItemRow>
+              ))}
+            </>
           )}
         </CartList>
 

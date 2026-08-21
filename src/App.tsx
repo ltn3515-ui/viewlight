@@ -38,16 +38,17 @@ import { OrderHistoryModal } from './components/modals/OrderHistoryModal';
 import { MyReviewsModal } from './components/modals/MyReviewsModal';
 import { ImageViewerModal } from './components/modals/ImageViewerModal';
 import { WishlistModal } from './components/modals/WishlistModal';
+import { LoginGuideModal } from './components/modals/LoginGuideModal';
 
 
 export const App: React.FC = () => {
   return (
     <ThemeProvider>
       <ToastProvider>
-        <CartProvider>
-          <WishlistProvider>
-            <AuthProvider>
-              <ModalProvider>
+        <AuthProvider>
+          <ModalProvider>
+            <CartProvider>
+              <WishlistProvider>
                 <GlobalStyle />
                 <CustomCursor />
                 <BrowserRouter>
@@ -82,11 +83,12 @@ export const App: React.FC = () => {
                 <MyReviewsModal />
                 <ImageViewerModal />
                 <WishlistModal />
+                <LoginGuideModal />
               </BrowserRouter>
-            </ModalProvider>
-          </AuthProvider>
-          </WishlistProvider>
-        </CartProvider>
+            </WishlistProvider>
+          </CartProvider>
+        </ModalProvider>
+      </AuthProvider>
       </ToastProvider>
     </ThemeProvider>
   );

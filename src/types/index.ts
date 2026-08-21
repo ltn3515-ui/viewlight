@@ -46,4 +46,5 @@ export type ModalType =
   | 'myReviews'
   | 'imageViewer'
   | 'wishlist'
+  | 'loginGuide'
   | null;

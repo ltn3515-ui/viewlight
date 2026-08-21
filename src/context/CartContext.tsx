@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { CartItem } from '../types';
+import { useAuth } from './AuthContext';
+import { useModal } from './ModalContext';
 
 interface CartContextType {
   cartItems: CartItem[];
@@ -22,6 +24,9 @@ const CartContext = createContext<CartContextType>({
 });
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isLoggedIn } = useAuth();
+  const { openModal } = useModal();
+
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem('viewlight_cart');
@@ -36,6 +41,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [cartItems]);
 
   const addToCart = (name: string, price: number, img: string, customId?: string) => {
+    if (!isLoggedIn) {
+      openModal('loginGuide');
+      return;
+    }
     const id = customId || `cart-item-${Date.now()}`;
     setCartItems(prev => {
       const existing = prev.find(item => item.name === name || item.id === id);
