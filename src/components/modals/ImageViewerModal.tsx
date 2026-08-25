@@ -8,14 +8,27 @@ export const ImageViewerModal: React.FC = () => {
   const isDragging = useRef(false);
   const hasDragged = useRef(false);
   const sliderRef = useRef<HTMLDivElement>(null);
+  const hiddenImgRef = useRef<HTMLImageElement>(null);
 
-  // Reset states when the modal is opened/changed
+  // Reset states when the modal is opened/changed, and immediately check if image is complete
   useEffect(() => {
     if (activeModal === 'imageViewer') {
       setSliderPos(50);
       setAspectRatio(null);
       isDragging.current = false;
       hasDragged.current = false;
+
+      // Handle cached images immediately
+      setTimeout(() => {
+        if (hiddenImgRef.current && hiddenImgRef.current.complete) {
+          const { naturalWidth, naturalHeight } = hiddenImgRef.current;
+          if (selectedProduct?.id === 'bna-home-zoom') {
+            setAspectRatio((naturalWidth / 2) / naturalHeight);
+          } else {
+            setAspectRatio(naturalWidth / naturalHeight);
+          }
+        }
+      }, 50);
     }
   }, [activeModal, selectedProduct]);
 
@@ -31,11 +44,18 @@ export const ImageViewerModal: React.FC = () => {
     setSliderPos(percentage);
   };
 
-  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+  const handleMouseDown = (e: React.MouseEvent) => {
     isDragging.current = true;
     hasDragged.current = false;
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    handleSliderMove(clientX);
+    handleSliderMove(e.clientX);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    isDragging.current = true;
+    hasDragged.current = false;
+    if (e.touches.length > 0) {
+      handleSliderMove(e.touches[0].clientX);
+    }
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -98,6 +118,7 @@ export const ImageViewerModal: React.FC = () => {
 
         {/* Hidden image loader to detect natural dimensions and compute aspect ratio */}
         <img
+          ref={hiddenImgRef}
           src={selectedProduct.img}
           onLoad={handleImageLoad}
           style={{ display: 'none' }}
@@ -111,7 +132,7 @@ export const ImageViewerModal: React.FC = () => {
             style={{
               position: 'relative',
               width: '100%',
-              aspectRatio: aspectRatio ? `${aspectRatio}` : '1 / 1',
+              aspectRatio: aspectRatio ? `${aspectRatio}` : '1.5 / 1',
               maxHeight: '65vh',
               overflow: 'hidden',
               cursor: 'ew-resize',
@@ -122,12 +143,12 @@ export const ImageViewerModal: React.FC = () => {
               backgroundColor: '#111318',
             }}
             onMouseDown={handleMouseDown}
-            onTouchStart={handleMouseDown}
+            onTouchStart={handleTouchStart}
           >
             {selectedProduct.id === 'bna-home-zoom' ? (
               // Case 1: Side-by-side split image
               <>
-                {/* Before layer (left half of the combined image, scaled 200% and aligned left) */}
+                {/* Before layer - Base (left half of the combined image, B&W/dark, shown on the right side) */}
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
                   <img
                     src={selectedProduct.img}
@@ -142,10 +163,10 @@ export const ImageViewerModal: React.FC = () => {
                       pointerEvents: 'none',
                     }}
                   />
-                  <span className="bna-tag-badge before-badge" style={{ pointerEvents: 'none' }}>Before</span>
+                  <span className="bna-tag-badge before-badge" style={{ pointerEvents: 'none', right: '12px', left: 'auto' }}>Before</span>
                 </div>
 
-                {/* After layer (right half of the combined image, scaled 200% and aligned right, clipped by slider position) */}
+                {/* After layer - Overlay (right half of the combined image, warm/bright, shown on the left side, clipped from the right) */}
                 <div
                   style={{
                     position: 'absolute',
@@ -154,8 +175,8 @@ export const ImageViewerModal: React.FC = () => {
                     width: '100%',
                     height: '100%',
                     overflow: 'hidden',
-                    clipPath: `inset(0 0 0 ${sliderPos}%)`,
-                    WebkitClipPath: `inset(0 0 0 ${sliderPos}%)`,
+                    clipPath: `inset(0 ${100 - sliderPos}% 0 0)`,
+                    WebkitClipPath: `inset(0 ${100 - sliderPos}% 0 0)`,
                     transition: isDragging.current ? 'none' : 'clip-path 0.1s ease-out, -webkit-clip-path 0.1s ease-out',
                   }}
                 >
@@ -172,13 +193,13 @@ export const ImageViewerModal: React.FC = () => {
                       pointerEvents: 'none',
                     }}
                   />
-                  <span className="bna-tag-badge after-badge" style={{ pointerEvents: 'none', right: '12px', left: 'auto' }}>After</span>
+                  <span className="bna-tag-badge after-badge" style={{ pointerEvents: 'none', left: '12px', right: 'auto' }}>After</span>
                 </div>
               </>
             ) : (
               // Case 2: Single image with dark/warm contrast filters
               <>
-                {/* Before layer (dark filter applied) */}
+                {/* Before layer - Base (dark filter applied, shown on the right side) */}
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
                   <img
                     src={selectedProduct.img}
@@ -191,10 +212,10 @@ export const ImageViewerModal: React.FC = () => {
                       pointerEvents: 'none',
                     }}
                   />
-                  <span className="bna-tag-badge before-badge" style={{ pointerEvents: 'none' }}>Before</span>
+                  <span className="bna-tag-badge before-badge" style={{ pointerEvents: 'none', right: '12px', left: 'auto' }}>Before</span>
                 </div>
 
-                {/* After layer (warm filter applied, clipped by slider position) */}
+                {/* After layer - Overlay (warm filter applied, shown on the left side, clipped from the right) */}
                 <div
                   style={{
                     position: 'absolute',
@@ -203,8 +224,8 @@ export const ImageViewerModal: React.FC = () => {
                     width: '100%',
                     height: '100%',
                     overflow: 'hidden',
-                    clipPath: `inset(0 0 0 ${sliderPos}%)`,
-                    WebkitClipPath: `inset(0 0 0 ${sliderPos}%)`,
+                    clipPath: `inset(0 ${100 - sliderPos}% 0 0)`,
+                    WebkitClipPath: `inset(0 ${100 - sliderPos}% 0 0)`,
                     transition: isDragging.current ? 'none' : 'clip-path 0.1s ease-out, -webkit-clip-path 0.1s ease-out',
                   }}
                 >
@@ -219,7 +240,7 @@ export const ImageViewerModal: React.FC = () => {
                       pointerEvents: 'none',
                     }}
                   />
-                  <span className="bna-tag-badge after-badge" style={{ pointerEvents: 'none', right: '12px', left: 'auto' }}>After</span>
+                  <span className="bna-tag-badge after-badge" style={{ pointerEvents: 'none', left: '12px', right: 'auto' }}>After</span>
                 </div>
               </>
             )}
@@ -254,4 +275,3 @@ export const ImageViewerModal: React.FC = () => {
     </div>
   );
 };
-
