@@ -21,8 +21,10 @@ export const BnaAllPage: React.FC = () => {
     setSliderPos(percentage);
   };
 
-  const handleMouseDown = () => {
+  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     isDragging.current = true;
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    handleSliderMove(clientX);
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -34,7 +36,18 @@ export const BnaAllPage: React.FC = () => {
     isDragging.current = false;
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    isDragging.current = true;
+    if (e.touches.length > 0) {
+      handleSliderMove(e.touches[0].clientX);
+    }
+  };
+
   const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging.current) return;
+    if (e.cancelable) {
+      e.preventDefault();
+    }
     if (e.touches.length > 0) {
       handleSliderMove(e.touches[0].clientX);
     }
@@ -51,7 +64,14 @@ export const BnaAllPage: React.FC = () => {
   };
 
   return (
-    <div className="app-container" onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}>
+    <div
+      className="app-container"
+      onMouseMove={handleMouseMove}
+      onTouchMove={handleTouchMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      onTouchEnd={handleMouseUp}
+    >
       <DesktopBrand />
       <main className="mobile-service-section">
         <div id="view-bna-all" className="mobile-view active">
@@ -117,20 +137,20 @@ export const BnaAllPage: React.FC = () => {
                 className="bna-comparison-slider"
                 id="main-bna-slider"
                 ref={sliderRef}
-                onMouseMove={handleMouseMove}
-                onTouchMove={handleTouchMove}
+                onMouseDown={handleMouseDown}
+                onTouchStart={handleTouchStart}
                 style={{ position: 'relative', overflow: 'hidden', cursor: 'ew-resize', userSelect: 'none' }}
               >
-                {/* Before 이미지 (어두운 기본 배경) */}
-                <div className="bna-image-before" style={{ width: '100%', height: '100%' }}>
-                  <img src="img/livingroom.jpg" alt="거실 비포" style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} />
-                  <span className="bna-tag-badge before-badge">Before</span>
+                {/* After 이미지 (밝은 기본 배경 - 100% width) */}
+                <div className="bna-image-after" style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, borderRight: 'none', zIndex: 1 }}>
+                  <img src="img/livingroom.jpg" alt="거실 애프터" style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} />
+                  <span className="bna-tag-badge after-badge" style={{ right: '12px', left: 'auto' }}>After</span>
                 </div>
                 
-                {/* After 이미지 (밝은 아프터 오버레이 - width 조절 가능) */}
+                {/* Before 이미지 (어두운 오버레이 - width 조절 가능) */}
                 <div
-                  className="bna-image-after"
-                  id="bna-after-overlay"
+                  className="bna-image-before"
+                  id="bna-before-overlay"
                   style={{
                     position: 'absolute',
                     top: 0,
@@ -138,11 +158,12 @@ export const BnaAllPage: React.FC = () => {
                     width: `${sliderPos}%`,
                     height: '100%',
                     overflow: 'hidden',
+                    zIndex: 2,
                     transition: isDragging.current ? 'none' : 'width 0.1s ease-out',
                   }}
                 >
-                  <img src="img/livingroom.jpg" alt="거실 애프터" style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover', maxWidth: 'none' }} />
-                  <span className="bna-tag-badge after-badge" style={{ right: '16px', left: 'auto' }}>After</span>
+                  <img src="img/livingroom.jpg" alt="거실 비포" style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover', maxWidth: 'none' }} />
+                  <span className="bna-tag-badge before-badge" style={{ left: '12px' }}>Before</span>
                 </div>
                 
                 {/* 슬라이더 컨트롤러 핸들 */}
@@ -150,7 +171,7 @@ export const BnaAllPage: React.FC = () => {
                   className="bna-slider-handle"
                   id="bna-slider-handle"
                   onMouseDown={handleMouseDown}
-                  onTouchStart={handleMouseDown}
+                  onTouchStart={handleTouchStart}
                   style={{
                     position: 'absolute',
                     top: 0,
@@ -159,12 +180,14 @@ export const BnaAllPage: React.FC = () => {
                     height: '100%',
                     cursor: 'ew-resize',
                     zIndex: 10,
+                    pointerEvents: 'none',
                     transition: isDragging.current ? 'none' : 'left 0.1s ease-out',
                   }}
                 >
                   <div className="bna-handle-line"></div>
-                  <div className="bna-handle-knob">
-                    <span className="material-symbols-outlined">unfold_more</span>
+                  <div className="bna-handle-knob" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0px' }}>
+                    <span className="material-symbols-outlined" style={{ fontSize: '18px', fontWeight: 'bold', color: 'var(--color-dark-navy)', transform: 'none', width: 'auto', height: 'auto' }}>chevron_left</span>
+                    <span className="material-symbols-outlined" style={{ fontSize: '18px', fontWeight: 'bold', color: 'var(--color-dark-navy)', transform: 'none', width: 'auto', height: 'auto' }}>chevron_right</span>
                   </div>
                 </div>
               </div>
