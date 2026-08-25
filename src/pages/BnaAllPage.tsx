@@ -10,6 +10,12 @@ export const BnaAllPage: React.FC = () => {
   const [sliderPos, setSliderPos] = useState(50); // 0% ~ 100%
   const sliderRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
+  const [aspectRatio, setAspectRatio] = useState<number | null>(null);
+
+  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const { naturalWidth, naturalHeight } = e.currentTarget;
+    setAspectRatio(naturalWidth / naturalHeight);
+  };
 
   const handleSliderMove = (clientX: number) => {
     if (!sliderRef.current) return;
@@ -139,11 +145,18 @@ export const BnaAllPage: React.FC = () => {
                 ref={sliderRef}
                 onMouseDown={handleMouseDown}
                 onTouchStart={handleTouchStart}
-                style={{ position: 'relative', overflow: 'hidden', cursor: 'ew-resize', userSelect: 'none' }}
+                style={{
+                  position: 'relative',
+                  overflow: 'hidden',
+                  cursor: 'ew-resize',
+                  userSelect: 'none',
+                  height: 'auto',
+                  aspectRatio: aspectRatio ? `${aspectRatio}` : '1.5 / 1'
+                }}
               >
                 {/* After 이미지 (밝은 기본 배경 - 100% width) */}
                 <div className="bna-image-after" style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, borderRight: 'none', zIndex: 1 }}>
-                  <img src="img/livingroom.jpg" alt="거실 애프터" style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} />
+                  <img src="img/livingroom.jpg" alt="거실 애프터" onLoad={handleImageLoad} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} />
                   <span className="bna-tag-badge after-badge" style={{ right: '12px', left: 'auto' }}>After</span>
                 </div>
                 
