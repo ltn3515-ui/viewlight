@@ -630,8 +630,8 @@ img {
   width: 100%;
   max-width: 420px;
   height: 60px;
-  background-color: var(--color-bg-card);
-  border-top: 1px solid var(--color-border);
+  background-color: #232731; /* 회색에 가깝게 어두운 색상 */
+  border-top: 1px solid rgba(255, 255, 255, 0.08); /* 어두운 경계선 */
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -645,11 +645,18 @@ img {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  color: var(--color-text-sub);
+  color: rgba(255, 255, 255, 0.5); /* 희색계열 비활성 */
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.tab-item:hover:not(.active) {
+  color: rgba(255, 255, 255, 0.85); /* 희색계열 호버 */
 }
 
 .tab-item.active {
-  color: var(--color-primary);
+  color: #FFFFFF; /* 희색계열 활성 */
 }
 
 .tab-item .material-symbols-outlined {
