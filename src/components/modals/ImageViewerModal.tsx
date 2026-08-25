@@ -161,6 +161,7 @@ export const ImageViewerModal: React.FC = () => {
                       height: '100%',
                       objectFit: 'cover',
                       pointerEvents: 'none',
+                      maxWidth: 'none',
                     }}
                   />
                   <span className="bna-tag-badge before-badge" style={{ pointerEvents: 'none', right: '12px', left: 'auto' }}>Before</span>
@@ -191,6 +192,7 @@ export const ImageViewerModal: React.FC = () => {
                       height: '100%',
                       objectFit: 'cover',
                       pointerEvents: 'none',
+                      maxWidth: 'none',
                     }}
                   />
                   <span className="bna-tag-badge after-badge" style={{ pointerEvents: 'none', left: '12px', right: 'auto' }}>After</span>
