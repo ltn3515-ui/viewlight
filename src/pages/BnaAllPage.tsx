@@ -154,32 +154,29 @@ export const BnaAllPage: React.FC = () => {
                   aspectRatio: aspectRatio ? `${aspectRatio}` : '1.5 / 1'
                 }}
               >
-                {/* Before 이미지 (어두운 기본 배경 - 100% width) */}
-                <div className="bna-image-before" style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, zIndex: 1 }}>
-                  <img src="img/livingroom.jpg" alt="거실 비포" style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} />
-                  <span className="bna-tag-badge before-badge" style={{ right: '12px', left: 'auto' }}>Before</span>
+                {/* After 이미지 (밝은 기본 배경 - 100% width) */}
+                <div className="bna-image-after" style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, borderRight: 'none', zIndex: 1 }}>
+                  <img src="img/livingroom.jpg" alt="거실 애프터" onLoad={handleImageLoad} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} />
+                  <span className="bna-tag-badge after-badge" style={{ right: '12px', left: 'auto' }}>After</span>
                 </div>
                 
-                {/* After 이미지 (밝은 아프터 오버레이 - width 조절 가능) */}
+                {/* Before 이미지 (어두운 오버레이 - width 조절 가능) */}
                 <div
-                  className="bna-image-after"
-                  id="bna-after-overlay"
+                  className="bna-image-before"
+                  id="bna-before-overlay"
                   style={{
                     position: 'absolute',
                     top: 0,
                     left: 0,
-                    width: '100%',
+                    width: `${sliderPos}%`,
                     height: '100%',
                     overflow: 'hidden',
                     zIndex: 2,
-                    borderRight: 'none',
-                    clipPath: `inset(0 ${100 - sliderPos}% 0 0)`,
-                    WebkitClipPath: `inset(0 ${100 - sliderPos}% 0 0)`,
-                    transition: isDragging.current ? 'none' : 'clip-path 0.1s ease-out, -webkit-clip-path 0.1s ease-out',
+                    transition: isDragging.current ? 'none' : 'width 0.1s ease-out',
                   }}
                 >
-                  <img src="img/livingroom.jpg" alt="거실 애프터" onLoad={handleImageLoad} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover', maxWidth: 'none' }} />
-                  <span className="bna-tag-badge after-badge" style={{ left: '12px', right: 'auto' }}>After</span>
+                  <img src="img/livingroom.jpg" alt="거실 비포" style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover', maxWidth: 'none' }} />
+                  <span className="bna-tag-badge before-badge" style={{ left: '12px', right: 'auto' }}>Before</span>
                 </div>
                 
                 {/* 슬라이더 컨트롤러 핸들 */}
