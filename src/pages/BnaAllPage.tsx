@@ -168,16 +168,18 @@ export const BnaAllPage: React.FC = () => {
                     position: 'absolute',
                     top: 0,
                     left: 0,
-                    width: `${sliderPos}%`,
+                    width: '100%',
                     height: '100%',
                     overflow: 'hidden',
                     zIndex: 2,
                     borderRight: 'none',
-                    transition: isDragging.current ? 'none' : 'width 0.1s ease-out',
+                    clipPath: `inset(0 ${100 - sliderPos}% 0 0)`,
+                    WebkitClipPath: `inset(0 ${100 - sliderPos}% 0 0)`,
+                    transition: isDragging.current ? 'none' : 'clip-path 0.1s ease-out, -webkit-clip-path 0.1s ease-out',
                   }}
                 >
                   <img src="img/livingroom.jpg" alt="거실 애프터" onLoad={handleImageLoad} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover', maxWidth: 'none' }} />
-                  <span className="bna-tag-badge after-badge" style={{ left: '12px' }}>After</span>
+                  <span className="bna-tag-badge after-badge" style={{ left: '12px', right: 'auto' }}>After</span>
                 </div>
                 
                 {/* 슬라이더 컨트롤러 핸들 */}
