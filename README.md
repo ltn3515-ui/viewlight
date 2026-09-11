@@ -29,9 +29,9 @@
     <th>AI 큐레이션 리포트</th>
   </tr>
   <tr>
-    <td><img src="./docs/images/viewlight-overview.jpg" alt="ViewLight 프로젝트 소개 화면" width="260" /></td>
-    <td><img src="./docs/images/viewlight-before-after.jpg" alt="ViewLight 조명 Before After 비교 화면" width="260" /></td>
-    <td><img src="./docs/images/viewlight-ai-curation.jpg" alt="ViewLight AI 공간 분석 및 큐레이션 화면" width="260" /></td>
+    <td><img src="./viewlight-overview.jpg" alt="ViewLight 프로젝트 소개 화면" width="260" /></td>
+    <td><img src="./viewlight-before-after.jpg" alt="ViewLight 조명 Before After 비교 화면" width="260" /></td>
+    <td><img src="./viewlight-ai-curation.jpg" alt="ViewLight AI 공간 분석 및 큐레이션 화면" width="260" /></td>
   </tr>
 </table>
 
@@ -184,7 +184,7 @@ viewlight/
 <details>
   <summary><strong>GitHub 저장소 구조 캡처 보기</strong></summary>
   <br />
-  <img src="./docs/images/repository-structure.png" alt="ViewLight GitHub 저장소 폴더 구조" width="730" />
+  <img src="./repository-structure.png" alt="ViewLight GitHub 저장소 폴더 구조" width="730" />
 </details>
 
 ## 🛠️ 기술 스택
